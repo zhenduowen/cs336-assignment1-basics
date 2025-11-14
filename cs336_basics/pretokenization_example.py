@@ -1,7 +1,7 @@
 import os
 from typing import BinaryIO
 
-
+# Function to find chunk boundaries based on a special token
 def find_chunk_boundaries(
     file: BinaryIO,
     desired_num_chunks: int,
