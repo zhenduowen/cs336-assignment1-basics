@@ -1,0 +1,69 @@
+Sorted by cumulative time (nested rows overlap):
+         1682838513 function calls (1682838512 primitive calls) in 239.484 seconds
+
+   Ordered by: cumulative time
+   List reduced from 53 to 25 due to restriction <25>
+
+   ncalls  tottime  percall  cumtime  percall filename:lineno(function)
+        1   47.510   47.510  239.484  239.484 /home/stratocumulus/documents/github/stanford_cs336/cs336-assignment1-basics/benchmarks/bpe_profile/naive_source.py:8(train_bpe)
+127740473   75.876    0.000  117.521    0.000 /home/stratocumulus/documents/github/stanford_cs336/cs336-assignment1-basics/benchmarks/bpe_profile/naive_source.py:80(merge_pair)
+     9743   43.951    0.005   53.152    0.005 /home/stratocumulus/documents/github/stanford_cs336/cs336-assignment1-basics/benchmarks/bpe_profile/naive_source.py:71(get_pair_counts)
+877629149   30.241    0.000   30.241    0.000 {built-in method builtins.len}
+311083858   16.086    0.000   16.086    0.000 {method 'append' of 'list' objects}
+227410752   12.191    0.000   12.191    0.000 /home/stratocumulus/miniconda3/envs/dlenv/lib/python3.12/collections/__init__.py:609(__missing__)
+     9743    6.265    0.001   10.019    0.001 {built-in method builtins.max}
+ 99657168    3.754    0.000    3.754    0.000 /home/stratocumulus/documents/github/stanford_cs336/cs336-assignment1-basics/benchmarks/bpe_profile/naive_source.py:104(<lambda>)
+ 27562412    2.448    0.000    2.448    0.000 /home/stratocumulus/documents/github/stanford_cs336/cs336-assignment1-basics/benchmarks/bpe_profile/naive_source.py:68(<genexpr>)
+  5419001    0.425    0.000    0.425    0.000 {method 'group' of '_regex.Match' objects}
+  5419002    0.414    0.000    0.414    0.000 {method 'encode' of 'str' objects}
+    27631    0.017    0.000    0.226    0.000 /home/stratocumulus/documents/github/stanford_cs336/cs336-assignment1-basics/.venv/lib/python3.12/site-packages/regex/regex.py:340(finditer)
+    27632    0.054    0.000    0.198    0.000 /home/stratocumulus/documents/github/stanford_cs336/cs336-assignment1-basics/.venv/lib/python3.12/site-packages/regex/regex.py:449(_compile)
+    55264    0.041    0.000    0.115    0.000 /home/stratocumulus/miniconda3/envs/dlenv/lib/python3.12/enum.py:1561(__and__)
+   165792    0.033    0.000    0.051    0.000 /home/stratocumulus/miniconda3/envs/dlenv/lib/python3.12/enum.py:1543(_get_value)
+    19487    0.043    0.000    0.048    0.000 /home/stratocumulus/miniconda3/envs/dlenv/lib/python3.12/collections/__init__.py:595(__init__)
+        1    0.003    0.003    0.031    0.031 {method 'read' of '_io.TextIOWrapper' objects}
+        1    0.000    0.000    0.027    0.027 <frozen codecs>:319(decode)
+        1    0.027    0.027    0.027    0.027 {built-in method _codecs.utf_8_decode}
+    55264    0.014    0.000    0.023    0.000 /home/stratocumulus/miniconda3/envs/dlenv/lib/python3.12/enum.py:720(__call__)
+   303955    0.020    0.000    0.020    0.000 {built-in method builtins.isinstance}
+    27632    0.010    0.000    0.015    0.000 <frozen importlib._bootstrap>:1390(_handle_fromlist)
+    27631    0.012    0.000    0.012    0.000 {method 'finditer' of '_regex.Pattern' objects}
+    27632    0.010    0.000    0.010    0.000 /home/stratocumulus/documents/github/stanford_cs336/cs336-assignment1-basics/.venv/lib/python3.12/site-packages/regex/regex.py:471(complain_unused_args)
+        1    0.000    0.000    0.010    0.010 /home/stratocumulus/documents/github/stanford_cs336/cs336-assignment1-basics/.venv/lib/python3.12/site-packages/regex/regex.py:314(split)
+
+
+
+Sorted by self time (excludes time in callees):
+         1682838513 function calls (1682838512 primitive calls) in 239.484 seconds
+
+   Ordered by: internal time
+   List reduced from 53 to 25 due to restriction <25>
+
+   ncalls  tottime  percall  cumtime  percall filename:lineno(function)
+127740473   75.876    0.000  117.521    0.000 /home/stratocumulus/documents/github/stanford_cs336/cs336-assignment1-basics/benchmarks/bpe_profile/naive_source.py:80(merge_pair)
+        1   47.510   47.510  239.484  239.484 /home/stratocumulus/documents/github/stanford_cs336/cs336-assignment1-basics/benchmarks/bpe_profile/naive_source.py:8(train_bpe)
+     9743   43.951    0.005   53.152    0.005 /home/stratocumulus/documents/github/stanford_cs336/cs336-assignment1-basics/benchmarks/bpe_profile/naive_source.py:71(get_pair_counts)
+877629149   30.241    0.000   30.241    0.000 {built-in method builtins.len}
+311083858   16.086    0.000   16.086    0.000 {method 'append' of 'list' objects}
+227410752   12.191    0.000   12.191    0.000 /home/stratocumulus/miniconda3/envs/dlenv/lib/python3.12/collections/__init__.py:609(__missing__)
+     9743    6.265    0.001   10.019    0.001 {built-in method builtins.max}
+ 99657168    3.754    0.000    3.754    0.000 /home/stratocumulus/documents/github/stanford_cs336/cs336-assignment1-basics/benchmarks/bpe_profile/naive_source.py:104(<lambda>)
+ 27562412    2.448    0.000    2.448    0.000 /home/stratocumulus/documents/github/stanford_cs336/cs336-assignment1-basics/benchmarks/bpe_profile/naive_source.py:68(<genexpr>)
+  5419001    0.425    0.000    0.425    0.000 {method 'group' of '_regex.Match' objects}
+  5419002    0.414    0.000    0.414    0.000 {method 'encode' of 'str' objects}
+    27632    0.054    0.000    0.198    0.000 /home/stratocumulus/documents/github/stanford_cs336/cs336-assignment1-basics/.venv/lib/python3.12/site-packages/regex/regex.py:449(_compile)
+    19487    0.043    0.000    0.048    0.000 /home/stratocumulus/miniconda3/envs/dlenv/lib/python3.12/collections/__init__.py:595(__init__)
+    55264    0.041    0.000    0.115    0.000 /home/stratocumulus/miniconda3/envs/dlenv/lib/python3.12/enum.py:1561(__and__)
+   165792    0.033    0.000    0.051    0.000 /home/stratocumulus/miniconda3/envs/dlenv/lib/python3.12/enum.py:1543(_get_value)
+        1    0.027    0.027    0.027    0.027 {built-in method _codecs.utf_8_decode}
+   303955    0.020    0.000    0.020    0.000 {built-in method builtins.isinstance}
+    27631    0.017    0.000    0.226    0.000 /home/stratocumulus/documents/github/stanford_cs336/cs336-assignment1-basics/.venv/lib/python3.12/site-packages/regex/regex.py:340(finditer)
+    55264    0.014    0.000    0.023    0.000 /home/stratocumulus/miniconda3/envs/dlenv/lib/python3.12/enum.py:720(__call__)
+    27631    0.012    0.000    0.012    0.000 {method 'finditer' of '_regex.Pattern' objects}
+    27632    0.010    0.000    0.010    0.000 /home/stratocumulus/documents/github/stanford_cs336/cs336-assignment1-basics/.venv/lib/python3.12/site-packages/regex/regex.py:471(complain_unused_args)
+    27632    0.010    0.000    0.015    0.000 <frozen importlib._bootstrap>:1390(_handle_fromlist)
+        1    0.010    0.010    0.010    0.010 {method 'split' of '_regex.Pattern' objects}
+    55264    0.009    0.000    0.009    0.000 /home/stratocumulus/miniconda3/envs/dlenv/lib/python3.12/enum.py:1128(__new__)
+    29229    0.008    0.000    0.008    0.000 {method 'items' of 'dict' objects}
+
+

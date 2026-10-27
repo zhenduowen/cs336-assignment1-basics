@@ -1,0 +1,69 @@
+Sorted by cumulative time (nested rows overlap):
+         762127 function calls (762126 primitive calls) in 0.187 seconds
+
+   Ordered by: cumulative time
+   List reduced from 72 to 25 due to restriction <25>
+
+   ncalls  tottime  percall  cumtime  percall filename:lineno(function)
+        1    0.079    0.079    0.187    0.187 /home/stratocumulus/documents/github/stanford_cs336/cs336-assignment1-basics/cs336_basics/bpe_tokenizer.py:135(train_bpe)
+    30810    0.015    0.000    0.044    0.000 /home/stratocumulus/miniconda3/envs/dlenv/lib/python3.12/collections/__init__.py:595(__init__)
+    30812    0.007    0.000    0.041    0.000 /home/stratocumulus/miniconda3/envs/dlenv/lib/python3.12/collections/__init__.py:669(update)
+    30809    0.013    0.000    0.022    0.000 {built-in method _collections._count_elements}
+    15404    0.012    0.000    0.019    0.000 /home/stratocumulus/documents/github/stanford_cs336/cs336-assignment1-basics/cs336_basics/bpe_tokenizer.py:121(_merge_word)
+        1    0.000    0.000    0.012    0.012 /home/stratocumulus/documents/github/stanford_cs336/cs336-assignment1-basics/cs336_basics/bpe_tokenizer.py:94(_pretokenize)
+        1    0.000    0.000    0.012    0.012 /home/stratocumulus/documents/github/stanford_cs336/cs336-assignment1-basics/cs336_basics/bpe_tokenizer.py:74(_count_pretokens)
+    30835    0.005    0.000    0.012    0.000 {built-in method builtins.isinstance}
+    27759    0.007    0.000    0.009    0.000 /home/stratocumulus/documents/github/stanford_cs336/cs336-assignment1-basics/cs336_basics/bpe_tokenizer.py:90(<genexpr>)
+   112980    0.009    0.000    0.009    0.000 {method 'add' of 'set' objects}
+    72016    0.007    0.000    0.007    0.000 {method 'get' of 'dict' objects}
+    30810    0.004    0.000    0.007    0.000 <frozen abc>:117(__instancecheck__)
+   101184    0.007    0.000    0.007    0.000 {method 'append' of 'list' objects}
+    30810    0.003    0.000    0.003    0.000 {built-in method _abc._abc_instancecheck}
+    37826    0.003    0.000    0.003    0.000 {method 'remove' of 'set' objects}
+     8925    0.002    0.000    0.003    0.000 {built-in method _heapq.heappush}
+    30808    0.003    0.000    0.003    0.000 {method 'keys' of 'dict' objects}
+    60363    0.003    0.000    0.003    0.000 /home/stratocumulus/miniconda3/envs/dlenv/lib/python3.12/collections/__init__.py:609(__missing__)
+     1465    0.001    0.000    0.002    0.000 {built-in method _heapq.heappop}
+    27758    0.002    0.000    0.002    0.000 {method 'group' of '_regex.Match' objects}
+    38586    0.002    0.000    0.002    0.000 /home/stratocumulus/documents/github/stanford_cs336/cs336-assignment1-basics/cs336_basics/bpe_tokenizer.py:24(__lt__)
+     9994    0.002    0.000    0.002    0.000 /home/stratocumulus/documents/github/stanford_cs336/cs336-assignment1-basics/cs336_basics/bpe_tokenizer.py:19(__init__)
+    20902    0.001    0.000    0.001    0.000 {built-in method builtins.len}
+     4764    0.000    0.000    0.000    0.000 {method 'encode' of 'str' objects}
+     4763    0.000    0.000    0.000    0.000 {method 'popitem' of 'dict' objects}
+
+
+
+Sorted by self time (excludes time in callees):
+         762127 function calls (762126 primitive calls) in 0.187 seconds
+
+   Ordered by: internal time
+   List reduced from 72 to 25 due to restriction <25>
+
+   ncalls  tottime  percall  cumtime  percall filename:lineno(function)
+        1    0.079    0.079    0.187    0.187 /home/stratocumulus/documents/github/stanford_cs336/cs336-assignment1-basics/cs336_basics/bpe_tokenizer.py:135(train_bpe)
+    30810    0.015    0.000    0.044    0.000 /home/stratocumulus/miniconda3/envs/dlenv/lib/python3.12/collections/__init__.py:595(__init__)
+    30809    0.013    0.000    0.022    0.000 {built-in method _collections._count_elements}
+    15404    0.012    0.000    0.019    0.000 /home/stratocumulus/documents/github/stanford_cs336/cs336-assignment1-basics/cs336_basics/bpe_tokenizer.py:121(_merge_word)
+   112980    0.009    0.000    0.009    0.000 {method 'add' of 'set' objects}
+    27759    0.007    0.000    0.009    0.000 /home/stratocumulus/documents/github/stanford_cs336/cs336-assignment1-basics/cs336_basics/bpe_tokenizer.py:90(<genexpr>)
+    72016    0.007    0.000    0.007    0.000 {method 'get' of 'dict' objects}
+    30812    0.007    0.000    0.041    0.000 /home/stratocumulus/miniconda3/envs/dlenv/lib/python3.12/collections/__init__.py:669(update)
+   101184    0.007    0.000    0.007    0.000 {method 'append' of 'list' objects}
+    30835    0.005    0.000    0.012    0.000 {built-in method builtins.isinstance}
+    30810    0.004    0.000    0.007    0.000 <frozen abc>:117(__instancecheck__)
+    30810    0.003    0.000    0.003    0.000 {built-in method _abc._abc_instancecheck}
+    37826    0.003    0.000    0.003    0.000 {method 'remove' of 'set' objects}
+    30808    0.003    0.000    0.003    0.000 {method 'keys' of 'dict' objects}
+    60363    0.003    0.000    0.003    0.000 /home/stratocumulus/miniconda3/envs/dlenv/lib/python3.12/collections/__init__.py:609(__missing__)
+    27758    0.002    0.000    0.002    0.000 {method 'group' of '_regex.Match' objects}
+    38586    0.002    0.000    0.002    0.000 /home/stratocumulus/documents/github/stanford_cs336/cs336-assignment1-basics/cs336_basics/bpe_tokenizer.py:24(__lt__)
+     9994    0.002    0.000    0.002    0.000 /home/stratocumulus/documents/github/stanford_cs336/cs336-assignment1-basics/cs336_basics/bpe_tokenizer.py:19(__init__)
+     8925    0.002    0.000    0.003    0.000 {built-in method _heapq.heappush}
+    20902    0.001    0.000    0.001    0.000 {built-in method builtins.len}
+     1465    0.001    0.000    0.002    0.000 {built-in method _heapq.heappop}
+     4764    0.000    0.000    0.000    0.000 {method 'encode' of 'str' objects}
+     4763    0.000    0.000    0.000    0.000 {method 'popitem' of 'dict' objects}
+     1157    0.000    0.000    0.000    0.000 {method 'pop' of 'dict' objects}
+        1    0.000    0.000    0.000    0.000 {built-in method _heapq.heapify}
+
+

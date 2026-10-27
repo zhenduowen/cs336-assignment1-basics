@@ -1,0 +1,3726 @@
+{
+  "metadata": {
+    "python": "3.12.12 | packaged by Anaconda, Inc. | (main, Oct 21 2025, 20:16:04) [GCC 11.2.0]",
+    "platform": "Linux-6.6.87.2-microsoft-standard-WSL2-x86_64-with-glibc2.39",
+    "cpu_count": 16,
+    "baseline_original_path": "/tmp/cs336_bpe_baseline.py",
+    "baseline_snapshot": "/home/stratocumulus/documents/github/stanford_cs336/cs336-assignment1-basics/benchmarks/bpe_profile/naive_source.py",
+    "baseline_sha256": "ca066c0e4a208cfcdf8b227c562f42ca406df562d673282a1dee65223425d691",
+    "optimized_original_path": "/home/stratocumulus/documents/github/stanford_cs336/cs336-assignment1-basics/cs336_basics/bpe_tokenizer.py",
+    "optimized_snapshot": "/home/stratocumulus/documents/github/stanford_cs336/cs336-assignment1-basics/benchmarks/bpe_profile/optimized_source.py",
+    "optimized_sha256": "2340cf336456c77413ebce4a97dd0e3cdda6ce07926d845070ebf08fc6d605ca",
+    "repeats": 3,
+    "no_heap_snapshot": "/home/stratocumulus/documents/github/stanford_cs336/cs336-assignment1-basics/benchmarks/bpe_profile/no_heap_source.py",
+    "no_heap_sha256": "347131cde30ebb74cdb3b82ca8484b2f9f51a994b081184294d10c5b04313ae4",
+    "git_head_trainer_sha256": "ca066c0e4a208cfcdf8b227c562f42ca406df562d673282a1dee65223425d691",
+    "baseline_matches_git_head": true
+  },
+  "methodology": {
+    "timing": "perf_counter around train_bpe only; median of alternating-order runs",
+    "warmup": "Both trainers run once on the small corpus; each input is hashed before timing",
+    "profile": "Separate cProfile runs, both single process; profiler overhead is not production speedup",
+    "parallel": "Four-worker wall time only; parent cProfile would omit child-process work",
+    "equality": "Exact vocabulary dictionary and ordered merge list comparison after every measured call",
+    "memory": "Peak memory is not measured"
+  },
+  "workloads": [
+    {
+      "name": "corpus",
+      "path": "/home/stratocumulus/documents/github/stanford_cs336/cs336-assignment1-basics/tests/fixtures/corpus.en",
+      "file_bytes": 133027,
+      "sha256": "617f603a49eeb8a20de9d922d11a5d70e1d362327b9e91718bea2cdcdf9816ff",
+      "vocab_size": 500,
+      "special_tokens": [
+        "<|endoftext|>"
+      ],
+      "timings": {
+        "naive": {
+          "samples_seconds": [
+            1.139925764000509,
+            1.140128465998714,
+            1.13376767400041
+          ],
+          "median_seconds": 1.139925764000509
+        },
+        "optimized": {
+          "samples_seconds": [
+            0.0800466709988541,
+            0.07578587000170955,
+            0.07985222700153827
+          ],
+          "median_seconds": 0.07985222700153827
+        }
+      },
+      "profiles": {
+        "naive": {
+          "profile_path": "/home/stratocumulus/documents/github/stanford_cs336/cs336-assignment1-basics/benchmarks/bpe_profile/corpus_naive.prof",
+          "text_path": "/home/stratocumulus/documents/github/stanford_cs336/cs336-assignment1-basics/benchmarks/bpe_profile/corpus_naive.txt",
+          "wall_seconds": 3.261177497999597,
+          "total_tt": 3.260906326,
+          "total_calls": 23446474,
+          "primitive_calls": 23446473,
+          "functions": [
+            {
+              "filename": "/home/stratocumulus/documents/github/stanford_cs336/cs336-assignment1-basics/benchmarks/bpe_profile/naive_source.py",
+              "line": 8,
+              "function": "train_bpe",
+              "cc": 1,
+              "nc": 1,
+              "tt": 0.449430315,
+              "ct": 3.2608871830000004
+            },
+            {
+              "filename": "/home/stratocumulus/documents/github/stanford_cs336/cs336-assignment1-basics/benchmarks/bpe_profile/naive_source.py",
+              "line": 80,
+              "function": "merge_pair",
+              "cc": 1157409,
+              "nc": 1157409,
+              "tt": 1.1746493880000002,
+              "ct": 1.885163154
+            },
+            {
+              "filename": "/home/stratocumulus/documents/github/stanford_cs336/cs336-assignment1-basics/benchmarks/bpe_profile/naive_source.py",
+              "line": 71,
+              "function": "get_pair_counts",
+              "cc": 243,
+              "nc": 243,
+              "tt": 0.667448161,
+              "ct": 0.78388391
+            },
+            {
+              "filename": "~",
+              "line": 0,
+              "function": "<built-in method builtins.len>",
+              "cc": 13594743,
+              "nc": 13594743,
+              "tt": 0.46411021,
+              "ct": 0.46411021
+            },
+            {
+              "filename": "~",
+              "line": 0,
+              "function": "<method 'append' of 'list' objects>",
+              "cc": 5640219,
+              "nc": 5640219,
+              "tt": 0.289696125,
+              "ct": 0.289696125
+            },
+            {
+              "filename": "/home/stratocumulus/miniconda3/envs/dlenv/lib/python3.12/collections/__init__.py",
+              "line": 609,
+              "function": "__missing__",
+              "cc": 1998837,
+              "nc": 1998837,
+              "tt": 0.110640897,
+              "ct": 0.110640897
+            },
+            {
+              "filename": "~",
+              "line": 0,
+              "function": "<built-in method builtins.max>",
+              "cc": 243,
+              "nc": 243,
+              "tt": 0.052014245,
+              "ct": 0.083541723
+            },
+            {
+              "filename": "/home/stratocumulus/documents/github/stanford_cs336/cs336-assignment1-basics/benchmarks/bpe_profile/naive_source.py",
+              "line": 104,
+              "function": "<lambda>",
+              "cc": 836665,
+              "nc": 836665,
+              "tt": 0.031527478000000005,
+              "ct": 0.031527478000000005
+            },
+            {
+              "filename": "/home/stratocumulus/documents/github/stanford_cs336/cs336-assignment1-basics/benchmarks/bpe_profile/naive_source.py",
+              "line": 68,
+              "function": "<genexpr>",
+              "cc": 160785,
+              "nc": 160785,
+              "tt": 0.015052625000000002,
+              "ct": 0.015052625000000002
+            },
+            {
+              "filename": "~",
+              "line": 0,
+              "function": "<method 'group' of '_regex.Match' objects>",
+              "cc": 27758,
+              "nc": 27758,
+              "tt": 0.002631694,
+              "ct": 0.002631694
+            },
+            {
+              "filename": "~",
+              "line": 0,
+              "function": "<method 'encode' of 'str' objects>",
+              "cc": 27759,
+              "nc": 27759,
+              "tt": 0.002223954,
+              "ct": 0.002223954
+            },
+            {
+              "filename": "/home/stratocumulus/miniconda3/envs/dlenv/lib/python3.12/collections/__init__.py",
+              "line": 595,
+              "function": "__init__",
+              "cc": 487,
+              "nc": 487,
+              "tt": 0.0009820780000000002,
+              "ct": 0.001085718
+            },
+            {
+              "filename": "~",
+              "line": 0,
+              "function": "<method 'items' of 'dict' objects>",
+              "cc": 729,
+              "nc": 729,
+              "tt": 0.000195603,
+              "ct": 0.000195603
+            },
+            {
+              "filename": "/home/stratocumulus/miniconda3/envs/dlenv/lib/python3.12/collections/__init__.py",
+              "line": 669,
+              "function": "update",
+              "cc": 487,
+              "nc": 487,
+              "tt": 0.00010364,
+              "ct": 0.00010364
+            },
+            {
+              "filename": "/home/stratocumulus/documents/github/stanford_cs336/cs336-assignment1-basics/.venv/lib/python3.12/site-packages/regex/regex.py",
+              "line": 314,
+              "function": "split",
+              "cc": 1,
+              "nc": 1,
+              "tt": 6.656e-06,
+              "ct": 6.1491e-05
+            },
+            {
+              "filename": "~",
+              "line": 0,
+              "function": "<built-in method _io.open>",
+              "cc": 1,
+              "nc": 1,
+              "tt": 1.9331000000000002e-05,
+              "ct": 5.8567000000000004e-05
+            },
+            {
+              "filename": "/home/stratocumulus/miniconda3/envs/dlenv/lib/python3.12/pathlib.py",
+              "line": 447,
+              "function": "__fspath__",
+              "cc": 1,
+              "nc": 1,
+              "tt": 1.664e-06,
+              "ct": 3.8006e-05
+            },
+            {
+              "filename": "~",
+              "line": 0,
+              "function": "<method 'read' of '_io.TextIOWrapper' objects>",
+              "cc": 1,
+              "nc": 1,
+              "tt": 1.1808000000000001e-05,
+              "ct": 3.6634e-05
+            },
+            {
+              "filename": "/home/stratocumulus/miniconda3/envs/dlenv/lib/python3.12/pathlib.py",
+              "line": 437,
+              "function": "__str__",
+              "cc": 1,
+              "nc": 1,
+              "tt": 1.561e-05,
+              "ct": 3.6342000000000005e-05
+            },
+            {
+              "filename": "/home/stratocumulus/documents/github/stanford_cs336/cs336-assignment1-basics/.venv/lib/python3.12/site-packages/regex/regex.py",
+              "line": 449,
+              "function": "_compile",
+              "cc": 2,
+              "nc": 2,
+              "tt": 1.1497e-05,
+              "ct": 3.1915e-05
+            },
+            {
+              "filename": "~",
+              "line": 0,
+              "function": "<method 'split' of '_regex.Pattern' objects>",
+              "cc": 1,
+              "nc": 1,
+              "tt": 3.1239000000000004e-05,
+              "ct": 3.1239000000000004e-05
+            },
+            {
+              "filename": "<frozen codecs>",
+              "line": 319,
+              "function": "decode",
+              "cc": 1,
+              "nc": 1,
+              "tt": 1.6340000000000002e-06,
+              "ct": 2.4826000000000003e-05
+            },
+            {
+              "filename": "~",
+              "line": 0,
+              "function": "<built-in method _codecs.utf_8_decode>",
+              "cc": 1,
+              "nc": 1,
+              "tt": 2.3192e-05,
+              "ct": 2.3192e-05
+            },
+            {
+              "filename": "~",
+              "line": 0,
+              "function": "<method 'disable' of '_lsprof.Profiler' objects>",
+              "cc": 1,
+              "nc": 1,
+              "tt": 1.9143e-05,
+              "ct": 1.9143e-05
+            },
+            {
+              "filename": "/home/stratocumulus/miniconda3/envs/dlenv/lib/python3.12/pathlib.py",
+              "line": 551,
+              "function": "drive",
+              "cc": 1,
+              "nc": 1,
+              "tt": 2.843e-06,
+              "ct": 1.8856e-05
+            },
+            {
+              "filename": "/home/stratocumulus/miniconda3/envs/dlenv/lib/python3.12/pathlib.py",
+              "line": 407,
+              "function": "_load_parts",
+              "cc": 1,
+              "nc": 1,
+              "tt": 2.481e-06,
+              "ct": 1.6013e-05
+            },
+            {
+              "filename": "/home/stratocumulus/miniconda3/envs/dlenv/lib/python3.12/enum.py",
+              "line": 1561,
+              "function": "__and__",
+              "cc": 4,
+              "nc": 4,
+              "tt": 5.555e-06,
+              "ct": 1.5477e-05
+            },
+            {
+              "filename": "/home/stratocumulus/miniconda3/envs/dlenv/lib/python3.12/pathlib.py",
+              "line": 387,
+              "function": "_parse_path",
+              "cc": 1,
+              "nc": 1,
+              "tt": 5.738e-06,
+              "ct": 1.32e-05
+            },
+            {
+              "filename": "~",
+              "line": 0,
+              "function": "<method 'join' of 'str' objects>",
+              "cc": 2,
+              "nc": 3,
+              "tt": 2.228e-06,
+              "ct": 1.2121000000000001e-05
+            },
+            {
+              "filename": "/home/stratocumulus/documents/github/stanford_cs336/cs336-assignment1-basics/.venv/lib/python3.12/site-packages/regex/regex.py",
+              "line": 340,
+              "function": "finditer",
+              "cc": 1,
+              "nc": 1,
+              "tt": 1.433e-06,
+              "ct": 1.1042e-05
+            },
+            {
+              "filename": "/home/stratocumulus/documents/github/stanford_cs336/cs336-assignment1-basics/benchmarks/bpe_profile/naive_source.py",
+              "line": 57,
+              "function": "<genexpr>",
+              "cc": 2,
+              "nc": 2,
+              "tt": 1.8960000000000001e-06,
+              "ct": 1.0165e-05
+            },
+            {
+              "filename": "/home/stratocumulus/documents/github/stanford_cs336/cs336-assignment1-basics/.venv/lib/python3.12/site-packages/regex/regex.py",
+              "line": 377,
+              "function": "escape",
+              "cc": 1,
+              "nc": 1,
+              "tt": 5.7560000000000005e-06,
+              "ct": 8.269e-06
+            },
+            {
+              "filename": "/home/stratocumulus/miniconda3/envs/dlenv/lib/python3.12/enum.py",
+              "line": 1543,
+              "function": "_get_value",
+              "cc": 12,
+              "nc": 12,
+              "tt": 3.5280000000000004e-06,
+              "ct": 5.4740000000000004e-06
+            },
+            {
+              "filename": "/home/stratocumulus/miniconda3/envs/dlenv/lib/python3.12/enum.py",
+              "line": 720,
+              "function": "__call__",
+              "cc": 4,
+              "nc": 4,
+              "tt": 3.199e-06,
+              "ct": 4.4480000000000004e-06
+            },
+            {
+              "filename": "<frozen posixpath>",
+              "line": 138,
+              "function": "splitroot",
+              "cc": 1,
+              "nc": 1,
+              "tt": 2.8340000000000003e-06,
+              "ct": 3.247e-06
+            },
+            {
+              "filename": "~",
+              "line": 0,
+              "function": "<built-in method sys.intern>",
+              "cc": 9,
+              "nc": 9,
+              "tt": 3.0550000000000004e-06,
+              "ct": 3.0550000000000004e-06
+            },
+            {
+              "filename": "~",
+              "line": 0,
+              "function": "<method '__exit__' of '_io._IOBase' objects>",
+              "cc": 1,
+              "nc": 1,
+              "tt": 2.672e-06,
+              "ct": 2.672e-06
+            },
+            {
+              "filename": "<frozen importlib._bootstrap>",
+              "line": 1390,
+              "function": "_handle_fromlist",
+              "cc": 2,
+              "nc": 2,
+              "tt": 1.8850000000000002e-06,
+              "ct": 2.652e-06
+            },
+            {
+              "filename": "~",
+              "line": 0,
+              "function": "<built-in method builtins.isinstance>",
+              "cc": 25,
+              "nc": 25,
+              "tt": 2.622e-06,
+              "ct": 2.622e-06
+            },
+            {
+              "filename": "/home/stratocumulus/miniconda3/envs/dlenv/lib/python3.12/pathlib.py",
+              "line": 429,
+              "function": "_format_parsed_parts",
+              "cc": 1,
+              "nc": 1,
+              "tt": 1.219e-06,
+              "ct": 1.714e-06
+            },
+            {
+              "filename": "/home/stratocumulus/documents/github/stanford_cs336/cs336-assignment1-basics/.venv/lib/python3.12/site-packages/regex/regex.py",
+              "line": 471,
+              "function": "complain_unused_args",
+              "cc": 2,
+              "nc": 2,
+              "tt": 1.694e-06,
+              "ct": 1.694e-06
+            },
+            {
+              "filename": "~",
+              "line": 0,
+              "function": "<method 'finditer' of '_regex.Pattern' objects>",
+              "cc": 1,
+              "nc": 1,
+              "tt": 1.2900000000000001e-06,
+              "ct": 1.2900000000000001e-06
+            },
+            {
+              "filename": "/home/stratocumulus/miniconda3/envs/dlenv/lib/python3.12/enum.py",
+              "line": 1128,
+              "function": "__new__",
+              "cc": 4,
+              "nc": 4,
+              "tt": 1.249e-06,
+              "ct": 1.249e-06
+            },
+            {
+              "filename": "<frozen codecs>",
+              "line": 309,
+              "function": "__init__",
+              "cc": 1,
+              "nc": 1,
+              "tt": 1.099e-06,
+              "ct": 1.23e-06
+            },
+            {
+              "filename": "~",
+              "line": 0,
+              "function": "<method 'split' of 'str' objects>",
+              "cc": 1,
+              "nc": 1,
+              "tt": 1.1600000000000001e-06,
+              "ct": 1.1600000000000001e-06
+            },
+            {
+              "filename": "~",
+              "line": 0,
+              "function": "<method 'isspace' of 'str' objects>",
+              "cc": 11,
+              "nc": 11,
+              "tt": 8.480000000000001e-07,
+              "ct": 8.480000000000001e-07
+            },
+            {
+              "filename": "~",
+              "line": 0,
+              "function": "<built-in method builtins.hasattr>",
+              "cc": 2,
+              "nc": 2,
+              "tt": 6.05e-07,
+              "ct": 6.05e-07
+            },
+            {
+              "filename": "~",
+              "line": 0,
+              "function": "<method 'get' of 'dict' objects>",
+              "cc": 2,
+              "nc": 2,
+              "tt": 5.95e-07,
+              "ct": 5.95e-07
+            },
+            {
+              "filename": "~",
+              "line": 0,
+              "function": "<method 'values' of 'dict' objects>",
+              "cc": 1,
+              "nc": 1,
+              "tt": 1.91e-07,
+              "ct": 1.91e-07
+            },
+            {
+              "filename": "~",
+              "line": 0,
+              "function": "<built-in method posix.fspath>",
+              "cc": 1,
+              "nc": 1,
+              "tt": 1.71e-07,
+              "ct": 1.71e-07
+            },
+            {
+              "filename": "<frozen codecs>",
+              "line": 260,
+              "function": "__init__",
+              "cc": 1,
+              "nc": 1,
+              "tt": 1.31e-07,
+              "ct": 1.31e-07
+            },
+            {
+              "filename": "/home/stratocumulus/miniconda3/envs/dlenv/lib/python3.12/pathlib.py",
+              "line": 560,
+              "function": "root",
+              "cc": 1,
+              "nc": 1,
+              "tt": 1.01e-07,
+              "ct": 1.01e-07
+            },
+            {
+              "filename": "/home/stratocumulus/miniconda3/envs/dlenv/lib/python3.12/pathlib.py",
+              "line": 569,
+              "function": "_tail",
+              "cc": 1,
+              "nc": 1,
+              "tt": 6.1e-08,
+              "ct": 6.1e-08
+            }
+          ]
+        },
+        "optimized": {
+          "profile_path": "/home/stratocumulus/documents/github/stanford_cs336/cs336-assignment1-basics/benchmarks/bpe_profile/corpus_optimized.prof",
+          "text_path": "/home/stratocumulus/documents/github/stanford_cs336/cs336-assignment1-basics/benchmarks/bpe_profile/corpus_optimized.txt",
+          "wall_seconds": 0.18803605300126947,
+          "total_tt": 0.18713117200000004,
+          "total_calls": 762127,
+          "primitive_calls": 762126,
+          "functions": [
+            {
+              "filename": "/home/stratocumulus/documents/github/stanford_cs336/cs336-assignment1-basics/cs336_basics/bpe_tokenizer.py",
+              "line": 135,
+              "function": "train_bpe",
+              "cc": 1,
+              "nc": 1,
+              "tt": 0.07899259800000001,
+              "ct": 0.18711437900000003
+            },
+            {
+              "filename": "/home/stratocumulus/miniconda3/envs/dlenv/lib/python3.12/collections/__init__.py",
+              "line": 595,
+              "function": "__init__",
+              "cc": 30810,
+              "nc": 30810,
+              "tt": 0.015264809,
+              "ct": 0.044228113
+            },
+            {
+              "filename": "/home/stratocumulus/miniconda3/envs/dlenv/lib/python3.12/collections/__init__.py",
+              "line": 669,
+              "function": "update",
+              "cc": 30812,
+              "nc": 30812,
+              "tt": 0.006898560000000001,
+              "ct": 0.040815537000000006
+            },
+            {
+              "filename": "~",
+              "line": 0,
+              "function": "<built-in method _collections._count_elements>",
+              "cc": 30809,
+              "nc": 30809,
+              "tt": 0.013086699,
+              "ct": 0.022344063
+            },
+            {
+              "filename": "/home/stratocumulus/documents/github/stanford_cs336/cs336-assignment1-basics/cs336_basics/bpe_tokenizer.py",
+              "line": 121,
+              "function": "_merge_word",
+              "cc": 15404,
+              "nc": 15404,
+              "tt": 0.012176629000000001,
+              "ct": 0.019243261
+            },
+            {
+              "filename": "/home/stratocumulus/documents/github/stanford_cs336/cs336-assignment1-basics/cs336_basics/bpe_tokenizer.py",
+              "line": 94,
+              "function": "_pretokenize",
+              "cc": 1,
+              "nc": 1,
+              "tt": 1.0069000000000001e-05,
+              "ct": 0.012056543000000001
+            },
+            {
+              "filename": "/home/stratocumulus/documents/github/stanford_cs336/cs336-assignment1-basics/cs336_basics/bpe_tokenizer.py",
+              "line": 74,
+              "function": "_count_pretokens",
+              "cc": 1,
+              "nc": 1,
+              "tt": 4.0213e-05,
+              "ct": 0.012001057
+            },
+            {
+              "filename": "~",
+              "line": 0,
+              "function": "<built-in method builtins.isinstance>",
+              "cc": 30835,
+              "nc": 30835,
+              "tt": 0.0046876190000000005,
+              "ct": 0.011569083
+            },
+            {
+              "filename": "/home/stratocumulus/documents/github/stanford_cs336/cs336-assignment1-basics/cs336_basics/bpe_tokenizer.py",
+              "line": 90,
+              "function": "<genexpr>",
+              "cc": 27759,
+              "nc": 27759,
+              "tt": 0.007194624,
+              "ct": 0.009257364
+            },
+            {
+              "filename": "~",
+              "line": 0,
+              "function": "<method 'add' of 'set' objects>",
+              "cc": 112980,
+              "nc": 112980,
+              "tt": 0.008521057,
+              "ct": 0.008521057
+            },
+            {
+              "filename": "~",
+              "line": 0,
+              "function": "<method 'get' of 'dict' objects>",
+              "cc": 72016,
+              "nc": 72016,
+              "tt": 0.0070579810000000005,
+              "ct": 0.0070579810000000005
+            },
+            {
+              "filename": "<frozen abc>",
+              "line": 117,
+              "function": "__instancecheck__",
+              "cc": 30810,
+              "nc": 30810,
+              "tt": 0.0035003490000000003,
+              "ct": 0.006881464
+            },
+            {
+              "filename": "~",
+              "line": 0,
+              "function": "<method 'append' of 'list' objects>",
+              "cc": 101184,
+              "nc": 101184,
+              "tt": 0.006598474,
+              "ct": 0.006598474
+            },
+            {
+              "filename": "~",
+              "line": 0,
+              "function": "<built-in method _abc._abc_instancecheck>",
+              "cc": 30810,
+              "nc": 30810,
+              "tt": 0.003381115,
+              "ct": 0.003381115
+            },
+            {
+              "filename": "~",
+              "line": 0,
+              "function": "<method 'remove' of 'set' objects>",
+              "cc": 37826,
+              "nc": 37826,
+              "tt": 0.003151346,
+              "ct": 0.003151346
+            },
+            {
+              "filename": "~",
+              "line": 0,
+              "function": "<built-in method _heapq.heappush>",
+              "cc": 8925,
+              "nc": 8925,
+              "tt": 0.0017129920000000002,
+              "ct": 0.002668395
+            },
+            {
+              "filename": "~",
+              "line": 0,
+              "function": "<method 'keys' of 'dict' objects>",
+              "cc": 30808,
+              "nc": 30808,
+              "tt": 0.00258675,
+              "ct": 0.00258675
+            },
+            {
+              "filename": "/home/stratocumulus/miniconda3/envs/dlenv/lib/python3.12/collections/__init__.py",
+              "line": 609,
+              "function": "__missing__",
+              "cc": 60363,
+              "nc": 60363,
+              "tt": 0.0025843010000000002,
+              "ct": 0.0025843010000000002
+            },
+            {
+              "filename": "~",
+              "line": 0,
+              "function": "<built-in method _heapq.heappop>",
+              "cc": 1465,
+              "nc": 1465,
+              "tt": 0.001194563,
+              "ct": 0.002103825
+            },
+            {
+              "filename": "~",
+              "line": 0,
+              "function": "<method 'group' of '_regex.Match' objects>",
+              "cc": 27758,
+              "nc": 27758,
+              "tt": 0.00206274,
+              "ct": 0.00206274
+            },
+            {
+              "filename": "/home/stratocumulus/documents/github/stanford_cs336/cs336-assignment1-basics/cs336_basics/bpe_tokenizer.py",
+              "line": 24,
+              "function": "__lt__",
+              "cc": 38586,
+              "nc": 38586,
+              "tt": 0.001950902,
+              "ct": 0.001950902
+            },
+            {
+              "filename": "/home/stratocumulus/documents/github/stanford_cs336/cs336-assignment1-basics/cs336_basics/bpe_tokenizer.py",
+              "line": 19,
+              "function": "__init__",
+              "cc": 9994,
+              "nc": 9994,
+              "tt": 0.0017722830000000001,
+              "ct": 0.0017722830000000001
+            },
+            {
+              "filename": "~",
+              "line": 0,
+              "function": "<built-in method builtins.len>",
+              "cc": 20902,
+              "nc": 20902,
+              "tt": 0.001392381,
+              "ct": 0.001392381
+            },
+            {
+              "filename": "~",
+              "line": 0,
+              "function": "<method 'encode' of 'str' objects>",
+              "cc": 4764,
+              "nc": 4764,
+              "tt": 0.00039168300000000004,
+              "ct": 0.00039168300000000004
+            },
+            {
+              "filename": "~",
+              "line": 0,
+              "function": "<method 'popitem' of 'dict' objects>",
+              "cc": 4763,
+              "nc": 4763,
+              "tt": 0.000368975,
+              "ct": 0.000368975
+            },
+            {
+              "filename": "~",
+              "line": 0,
+              "function": "<built-in method _heapq.heapify>",
+              "cc": 1,
+              "nc": 1,
+              "tt": 9.938400000000001e-05,
+              "ct": 0.00018562100000000002
+            },
+            {
+              "filename": "~",
+              "line": 0,
+              "function": "<method 'pop' of 'dict' objects>",
+              "cc": 1157,
+              "nc": 1157,
+              "tt": 0.00015247,
+              "ct": 0.00015247
+            },
+            {
+              "filename": "~",
+              "line": 0,
+              "function": "<built-in method builtins.max>",
+              "cc": 243,
+              "nc": 243,
+              "tt": 6.550700000000001e-05,
+              "ct": 6.550700000000001e-05
+            },
+            {
+              "filename": "~",
+              "line": 0,
+              "function": "<method 'setdefault' of 'dict' objects>",
+              "cc": 243,
+              "nc": 243,
+              "tt": 5.9883e-05,
+              "ct": 5.9883e-05
+            },
+            {
+              "filename": "/home/stratocumulus/documents/github/stanford_cs336/cs336-assignment1-basics/.venv/lib/python3.12/site-packages/regex/regex.py",
+              "line": 349,
+              "function": "compile",
+              "cc": 2,
+              "nc": 2,
+              "tt": 2.352e-06,
+              "ct": 3.7389000000000004e-05
+            },
+            {
+              "filename": "/home/stratocumulus/documents/github/stanford_cs336/cs336-assignment1-basics/.venv/lib/python3.12/site-packages/regex/regex.py",
+              "line": 449,
+              "function": "_compile",
+              "cc": 2,
+              "nc": 2,
+              "tt": 1.1587000000000001e-05,
+              "ct": 3.5037000000000004e-05
+            },
+            {
+              "filename": "/home/stratocumulus/documents/github/stanford_cs336/cs336-assignment1-basics/cs336_basics/bpe_tokenizer.py",
+              "line": 97,
+              "function": "<genexpr>",
+              "cc": 2,
+              "nc": 2,
+              "tt": 2.42e-06,
+              "ct": 3.0897e-05
+            },
+            {
+              "filename": "/home/stratocumulus/documents/github/stanford_cs336/cs336-assignment1-basics/cs336_basics/bpe_tokenizer.py",
+              "line": 30,
+              "function": "_file_ranges",
+              "cc": 2,
+              "nc": 2,
+              "tt": 1.45e-06,
+              "ct": 2.8477000000000002e-05
+            },
+            {
+              "filename": "<frozen genericpath>",
+              "line": 60,
+              "function": "getsize",
+              "cc": 1,
+              "nc": 1,
+              "tt": 2.128e-06,
+              "ct": 2.7027e-05
+            },
+            {
+              "filename": "~",
+              "line": 0,
+              "function": "<method 'replace' of 'str' objects>",
+              "cc": 2,
+              "nc": 2,
+              "tt": 2.5605000000000003e-05,
+              "ct": 2.5605000000000003e-05
+            },
+            {
+              "filename": "~",
+              "line": 0,
+              "function": "<built-in method posix.stat>",
+              "cc": 1,
+              "nc": 1,
+              "tt": 7.235e-06,
+              "ct": 2.4899e-05
+            },
+            {
+              "filename": "~",
+              "line": 0,
+              "function": "<method 'decode' of 'bytes' objects>",
+              "cc": 1,
+              "nc": 1,
+              "tt": 2.459e-05,
+              "ct": 2.459e-05
+            },
+            {
+              "filename": "/home/stratocumulus/miniconda3/envs/dlenv/lib/python3.12/pathlib.py",
+              "line": 447,
+              "function": "__fspath__",
+              "cc": 2,
+              "nc": 2,
+              "tt": 1.113e-06,
+              "ct": 1.7993000000000002e-05
+            },
+            {
+              "filename": "/home/stratocumulus/miniconda3/envs/dlenv/lib/python3.12/enum.py",
+              "line": 1561,
+              "function": "__and__",
+              "cc": 4,
+              "nc": 4,
+              "tt": 7.701000000000001e-06,
+              "ct": 1.7751e-05
+            },
+            {
+              "filename": "/home/stratocumulus/miniconda3/envs/dlenv/lib/python3.12/pathlib.py",
+              "line": 437,
+              "function": "__str__",
+              "cc": 2,
+              "nc": 2,
+              "tt": 3.887e-06,
+              "ct": 1.688e-05
+            },
+            {
+              "filename": "~",
+              "line": 0,
+              "function": "<method 'disable' of '_lsprof.Profiler' objects>",
+              "cc": 1,
+              "nc": 1,
+              "tt": 1.6793e-05,
+              "ct": 1.6793e-05
+            },
+            {
+              "filename": "~",
+              "line": 0,
+              "function": "<method 'join' of 'str' objects>",
+              "cc": 2,
+              "nc": 3,
+              "tt": 2.7670000000000004e-06,
+              "ct": 1.2672e-05
+            },
+            {
+              "filename": "/home/stratocumulus/miniconda3/envs/dlenv/lib/python3.12/pathlib.py",
+              "line": 551,
+              "function": "drive",
+              "cc": 1,
+              "nc": 1,
+              "tt": 1.2480000000000002e-06,
+              "ct": 1.1405e-05
+            },
+            {
+              "filename": "/home/stratocumulus/documents/github/stanford_cs336/cs336-assignment1-basics/cs336_basics/bpe_tokenizer.py",
+              "line": 86,
+              "function": "<genexpr>",
+              "cc": 2,
+              "nc": 2,
+              "tt": 8.6e-07,
+              "ct": 1.0205000000000001e-05
+            },
+            {
+              "filename": "/home/stratocumulus/miniconda3/envs/dlenv/lib/python3.12/pathlib.py",
+              "line": 407,
+              "function": "_load_parts",
+              "cc": 1,
+              "nc": 1,
+              "tt": 1.655e-06,
+              "ct": 1.0157000000000001e-05
+            },
+            {
+              "filename": "/home/stratocumulus/documents/github/stanford_cs336/cs336-assignment1-basics/.venv/lib/python3.12/site-packages/regex/regex.py",
+              "line": 377,
+              "function": "escape",
+              "cc": 1,
+              "nc": 1,
+              "tt": 6.241e-06,
+              "ct": 9.345000000000001e-06
+            },
+            {
+              "filename": "/home/stratocumulus/miniconda3/envs/dlenv/lib/python3.12/pathlib.py",
+              "line": 387,
+              "function": "_parse_path",
+              "cc": 1,
+              "nc": 1,
+              "tt": 4.013e-06,
+              "ct": 8.328e-06
+            },
+            {
+              "filename": "~",
+              "line": 0,
+              "function": "<built-in method _io.open>",
+              "cc": 1,
+              "nc": 1,
+              "tt": 7.661e-06,
+              "ct": 7.99e-06
+            },
+            {
+              "filename": "~",
+              "line": 0,
+              "function": "<method 'read' of '_io.BufferedReader' objects>",
+              "cc": 1,
+              "nc": 1,
+              "tt": 7.109e-06,
+              "ct": 7.109e-06
+            },
+            {
+              "filename": "~",
+              "line": 0,
+              "function": "<function Counter.update at 0x7dbabeb80220>",
+              "cc": 1,
+              "nc": 1,
+              "tt": 6.326e-06,
+              "ct": 6.326e-06
+            },
+            {
+              "filename": "/home/stratocumulus/miniconda3/envs/dlenv/lib/python3.12/enum.py",
+              "line": 1543,
+              "function": "_get_value",
+              "cc": 12,
+              "nc": 12,
+              "tt": 3.995e-06,
+              "ct": 5.871e-06
+            },
+            {
+              "filename": "/home/stratocumulus/miniconda3/envs/dlenv/lib/python3.12/enum.py",
+              "line": 720,
+              "function": "__call__",
+              "cc": 4,
+              "nc": 4,
+              "tt": 2.932e-06,
+              "ct": 4.179e-06
+            },
+            {
+              "filename": "<frozen importlib._bootstrap>",
+              "line": 1390,
+              "function": "_handle_fromlist",
+              "cc": 2,
+              "nc": 2,
+              "tt": 1.887e-06,
+              "ct": 2.7770000000000003e-06
+            },
+            {
+              "filename": "~",
+              "line": 0,
+              "function": "<built-in method builtins.sorted>",
+              "cc": 1,
+              "nc": 1,
+              "tt": 2.263e-06,
+              "ct": 2.6600000000000004e-06
+            },
+            {
+              "filename": "~",
+              "line": 0,
+              "function": "<method '__exit__' of '_io._IOBase' objects>",
+              "cc": 1,
+              "nc": 1,
+              "tt": 2.515e-06,
+              "ct": 2.515e-06
+            },
+            {
+              "filename": "~",
+              "line": 0,
+              "function": "<method 'finditer' of '_regex.Pattern' objects>",
+              "cc": 2,
+              "nc": 2,
+              "tt": 2.34e-06,
+              "ct": 2.34e-06
+            },
+            {
+              "filename": "<frozen posixpath>",
+              "line": 138,
+              "function": "splitroot",
+              "cc": 1,
+              "nc": 1,
+              "tt": 1.79e-06,
+              "ct": 2.08e-06
+            },
+            {
+              "filename": "/home/stratocumulus/documents/github/stanford_cs336/cs336-assignment1-basics/.venv/lib/python3.12/site-packages/regex/regex.py",
+              "line": 471,
+              "function": "complain_unused_args",
+              "cc": 2,
+              "nc": 2,
+              "tt": 1.945e-06,
+              "ct": 1.945e-06
+            },
+            {
+              "filename": "~",
+              "line": 0,
+              "function": "<built-in method sys.intern>",
+              "cc": 9,
+              "nc": 9,
+              "tt": 1.664e-06,
+              "ct": 1.664e-06
+            },
+            {
+              "filename": "~",
+              "line": 0,
+              "function": "<built-in method builtins.any>",
+              "cc": 1,
+              "nc": 1,
+              "tt": 1.257e-06,
+              "ct": 1.6540000000000002e-06
+            },
+            {
+              "filename": "/home/stratocumulus/miniconda3/envs/dlenv/lib/python3.12/pathlib.py",
+              "line": 429,
+              "function": "_format_parsed_parts",
+              "cc": 1,
+              "nc": 1,
+              "tt": 9.000000000000001e-07,
+              "ct": 1.4710000000000002e-06
+            },
+            {
+              "filename": "~",
+              "line": 0,
+              "function": "<method 'isspace' of 'str' objects>",
+              "cc": 11,
+              "nc": 11,
+              "tt": 1.314e-06,
+              "ct": 1.314e-06
+            },
+            {
+              "filename": "/home/stratocumulus/miniconda3/envs/dlenv/lib/python3.12/enum.py",
+              "line": 1128,
+              "function": "__new__",
+              "cc": 4,
+              "nc": 4,
+              "tt": 1.247e-06,
+              "ct": 1.247e-06
+            },
+            {
+              "filename": "~",
+              "line": 0,
+              "function": "<method 'seek' of '_io.BufferedReader' objects>",
+              "cc": 1,
+              "nc": 1,
+              "tt": 9.480000000000001e-07,
+              "ct": 9.480000000000001e-07
+            },
+            {
+              "filename": "~",
+              "line": 0,
+              "function": "<built-in method builtins.hasattr>",
+              "cc": 2,
+              "nc": 2,
+              "tt": 6.87e-07,
+              "ct": 6.87e-07
+            },
+            {
+              "filename": "~",
+              "line": 0,
+              "function": "<method 'split' of 'str' objects>",
+              "cc": 1,
+              "nc": 1,
+              "tt": 5.71e-07,
+              "ct": 5.71e-07
+            },
+            {
+              "filename": "/home/stratocumulus/documents/github/stanford_cs336/cs336-assignment1-basics/cs336_basics/bpe_tokenizer.py",
+              "line": 163,
+              "function": "<genexpr>",
+              "cc": 2,
+              "nc": 2,
+              "tt": 3.97e-07,
+              "ct": 3.97e-07
+            },
+            {
+              "filename": "/home/stratocumulus/documents/github/stanford_cs336/cs336-assignment1-basics/cs336_basics/bpe_tokenizer.py",
+              "line": 178,
+              "function": "<lambda>",
+              "cc": 1,
+              "nc": 1,
+              "tt": 2.9000000000000003e-07,
+              "ct": 3.97e-07
+            },
+            {
+              "filename": "~",
+              "line": 0,
+              "function": "<method 'items' of 'dict' objects>",
+              "cc": 2,
+              "nc": 2,
+              "tt": 3.0000000000000004e-07,
+              "ct": 3.0000000000000004e-07
+            },
+            {
+              "filename": "~",
+              "line": 0,
+              "function": "<built-in method posix.fspath>",
+              "cc": 1,
+              "nc": 1,
+              "tt": 1.16e-07,
+              "ct": 1.16e-07
+            },
+            {
+              "filename": "/home/stratocumulus/miniconda3/envs/dlenv/lib/python3.12/pathlib.py",
+              "line": 560,
+              "function": "root",
+              "cc": 1,
+              "nc": 1,
+              "tt": 6.8e-08,
+              "ct": 6.8e-08
+            },
+            {
+              "filename": "/home/stratocumulus/miniconda3/envs/dlenv/lib/python3.12/pathlib.py",
+              "line": 569,
+              "function": "_tail",
+              "cc": 1,
+              "nc": 1,
+              "tt": 4.9e-08,
+              "ct": 4.9e-08
+            }
+          ]
+        }
+      },
+      "checks": {
+        "equal_all_completed_runs": true,
+        "completed_comparisons": 7
+      },
+      "actual_vocab_size": 500,
+      "merge_count": 243,
+      "speedup": 14.275441109219777,
+      "complete": true
+    },
+    {
+      "name": "tinystories_5m",
+      "path": "/home/stratocumulus/documents/github/stanford_cs336/cs336-assignment1-basics/tests/fixtures/tinystories_sample_5M.txt",
+      "file_bytes": 5242880,
+      "sha256": "7cc2577b9e1f9ed703b13ca651103bf421c91912fcbcb2d024213858e0981d87",
+      "vocab_size": 1000,
+      "special_tokens": [
+        "<|endoftext|>"
+      ],
+      "timings": {
+        "naive": {
+          "samples_seconds": [
+            6.0048204220001935,
+            6.1555826229996455,
+            6.241751593999652
+          ],
+          "median_seconds": 6.1555826229996455
+        },
+        "optimized": {
+          "samples_seconds": [
+            0.38735526200252934,
+            0.39304145200003404,
+            0.4039871880013379
+          ],
+          "median_seconds": 0.39304145200003404
+        },
+        "optimized_heap_control": {
+          "samples_seconds": [
+            0.4048738979981863,
+            0.3915739069998381,
+            0.3983064390013169
+          ],
+          "median_seconds": 0.3983064390013169
+        },
+        "optimized_no_heap": {
+          "samples_seconds": [
+            0.6656132159987465,
+            0.6588529709988507,
+            0.6624546540006122
+          ],
+          "median_seconds": 0.6624546540006122
+        }
+      },
+      "profiles": {
+        "naive": {
+          "profile_path": "/home/stratocumulus/documents/github/stanford_cs336/cs336-assignment1-basics/benchmarks/bpe_profile/tinystories_5m_naive.prof",
+          "text_path": "/home/stratocumulus/documents/github/stanford_cs336/cs336-assignment1-basics/benchmarks/bpe_profile/tinystories_5m_naive.txt",
+          "wall_seconds": 16.72715795499971,
+          "total_tt": 16.725934452999994,
+          "total_calls": 113374476,
+          "primitive_calls": 113374475,
+          "functions": [
+            {
+              "filename": "/home/stratocumulus/documents/github/stanford_cs336/cs336-assignment1-basics/benchmarks/bpe_profile/naive_source.py",
+              "line": 8,
+              "function": "train_bpe",
+              "cc": 1,
+              "nc": 1,
+              "tt": 3.298656057,
+              "ct": 16.725915093
+            },
+            {
+              "filename": "/home/stratocumulus/documents/github/stanford_cs336/cs336-assignment1-basics/benchmarks/bpe_profile/naive_source.py",
+              "line": 80,
+              "function": "merge_pair",
+              "cc": 6037618,
+              "nc": 6037618,
+              "tt": 5.255439025,
+              "ct": 8.323666208
+            },
+            {
+              "filename": "/home/stratocumulus/documents/github/stanford_cs336/cs336-assignment1-basics/benchmarks/bpe_profile/naive_source.py",
+              "line": 71,
+              "function": "get_pair_counts",
+              "cc": 743,
+              "nc": 743,
+              "tt": 3.0965720830000003,
+              "ct": 3.590666461
+            },
+            {
+              "filename": "~",
+              "line": 0,
+              "function": "<built-in method builtins.len>",
+              "cc": 60562041,
+              "nc": 60562041,
+              "tt": 2.056077687,
+              "ct": 2.056077687
+            },
+            {
+              "filename": "~",
+              "line": 0,
+              "function": "<method 'append' of 'list' objects>",
+              "cc": 24244159,
+              "nc": 24244159,
+              "tt": 1.2382460940000002,
+              "ct": 1.2382460940000002
+            },
+            {
+              "filename": "/home/stratocumulus/documents/github/stanford_cs336/cs336-assignment1-basics/benchmarks/bpe_profile/naive_source.py",
+              "line": 68,
+              "function": "<genexpr>",
+              "cc": 6422070,
+              "nc": 6422070,
+              "tt": 0.577212882,
+              "ct": 0.577212882
+            },
+            {
+              "filename": "/home/stratocumulus/miniconda3/envs/dlenv/lib/python3.12/collections/__init__.py",
+              "line": 609,
+              "function": "__missing__",
+              "cc": 9713780,
+              "nc": 9713780,
+              "tt": 0.56775556,
+              "ct": 0.56775556
+            },
+            {
+              "filename": "~",
+              "line": 0,
+              "function": "<built-in method builtins.max>",
+              "cc": 743,
+              "nc": 743,
+              "tt": 0.23305334000000003,
+              "ct": 0.37613396200000004
+            },
+            {
+              "filename": "/home/stratocumulus/documents/github/stanford_cs336/cs336-assignment1-basics/benchmarks/bpe_profile/naive_source.py",
+              "line": 104,
+              "function": "<lambda>",
+              "cc": 3668036,
+              "nc": 3668036,
+              "tt": 0.14308062200000002,
+              "ct": 0.14308062200000002
+            },
+            {
+              "filename": "~",
+              "line": 0,
+              "function": "<method 'group' of '_regex.Match' objects>",
+              "cc": 1263131,
+              "nc": 1263131,
+              "tt": 0.098733157,
+              "ct": 0.098733157
+            },
+            {
+              "filename": "~",
+              "line": 0,
+              "function": "<method 'encode' of 'str' objects>",
+              "cc": 1263132,
+              "nc": 1263132,
+              "tt": 0.097375791,
+              "ct": 0.097375791
+            },
+            {
+              "filename": "/home/stratocumulus/documents/github/stanford_cs336/cs336-assignment1-basics/.venv/lib/python3.12/site-packages/regex/regex.py",
+              "line": 340,
+              "function": "finditer",
+              "cc": 6458,
+              "nc": 6458,
+              "tt": 0.003940631,
+              "ct": 0.05312845
+            },
+            {
+              "filename": "/home/stratocumulus/documents/github/stanford_cs336/cs336-assignment1-basics/.venv/lib/python3.12/site-packages/regex/regex.py",
+              "line": 449,
+              "function": "_compile",
+              "cc": 6459,
+              "nc": 6459,
+              "tt": 0.012643437,
+              "ct": 0.046617615
+            },
+            {
+              "filename": "/home/stratocumulus/miniconda3/envs/dlenv/lib/python3.12/enum.py",
+              "line": 1561,
+              "function": "__and__",
+              "cc": 12918,
+              "nc": 12918,
+              "tt": 0.00967833,
+              "ct": 0.026962083
+            },
+            {
+              "filename": "/home/stratocumulus/miniconda3/envs/dlenv/lib/python3.12/enum.py",
+              "line": 1543,
+              "function": "_get_value",
+              "cc": 38754,
+              "nc": 38754,
+              "tt": 0.007711454,
+              "ct": 0.012002605000000001
+            },
+            {
+              "filename": "/home/stratocumulus/miniconda3/envs/dlenv/lib/python3.12/enum.py",
+              "line": 720,
+              "function": "__call__",
+              "cc": 12918,
+              "nc": 12918,
+              "tt": 0.003168564,
+              "ct": 0.005281148
+            },
+            {
+              "filename": "~",
+              "line": 0,
+              "function": "<built-in method builtins.isinstance>",
+              "cc": 71052,
+              "nc": 71052,
+              "tt": 0.004786423000000001,
+              "ct": 0.004786423000000001
+            },
+            {
+              "filename": "~",
+              "line": 0,
+              "function": "<method 'read' of '_io.TextIOWrapper' objects>",
+              "cc": 1,
+              "nc": 1,
+              "tt": 0.0013689280000000002,
+              "ct": 0.004095757
+            },
+            {
+              "filename": "<frozen importlib._bootstrap>",
+              "line": 1390,
+              "function": "_handle_fromlist",
+              "cc": 6459,
+              "nc": 6459,
+              "tt": 0.002349351,
+              "ct": 0.0035214630000000003
+            },
+            {
+              "filename": "/home/stratocumulus/miniconda3/envs/dlenv/lib/python3.12/collections/__init__.py",
+              "line": 595,
+              "function": "__init__",
+              "cc": 1487,
+              "nc": 1487,
+              "tt": 0.00311371,
+              "ct": 0.0034431460000000002
+            },
+            {
+              "filename": "<frozen codecs>",
+              "line": 319,
+              "function": "decode",
+              "cc": 1,
+              "nc": 1,
+              "tt": 4.513000000000001e-06,
+              "ct": 0.002726829
+            },
+            {
+              "filename": "~",
+              "line": 0,
+              "function": "<built-in method _codecs.utf_8_decode>",
+              "cc": 1,
+              "nc": 1,
+              "tt": 0.0027223160000000002,
+              "ct": 0.0027223160000000002
+            },
+            {
+              "filename": "~",
+              "line": 0,
+              "function": "<method 'finditer' of '_regex.Pattern' objects>",
+              "cc": 6458,
+              "nc": 6458,
+              "tt": 0.0026012400000000003,
+              "ct": 0.0026012400000000003
+            },
+            {
+              "filename": "/home/stratocumulus/documents/github/stanford_cs336/cs336-assignment1-basics/.venv/lib/python3.12/site-packages/regex/regex.py",
+              "line": 471,
+              "function": "complain_unused_args",
+              "cc": 6459,
+              "nc": 6459,
+              "tt": 0.0024851260000000003,
+              "ct": 0.0024851260000000003
+            },
+            {
+              "filename": "/home/stratocumulus/documents/github/stanford_cs336/cs336-assignment1-basics/.venv/lib/python3.12/site-packages/regex/regex.py",
+              "line": 314,
+              "function": "split",
+              "cc": 1,
+              "nc": 1,
+              "tt": 7.112000000000001e-06,
+              "ct": 0.0024070600000000004
+            },
+            {
+              "filename": "~",
+              "line": 0,
+              "function": "<method 'split' of '_regex.Pattern' objects>",
+              "cc": 1,
+              "nc": 1,
+              "tt": 0.0023689120000000004,
+              "ct": 0.0023689120000000004
+            },
+            {
+              "filename": "/home/stratocumulus/miniconda3/envs/dlenv/lib/python3.12/enum.py",
+              "line": 1128,
+              "function": "__new__",
+              "cc": 12918,
+              "nc": 12918,
+              "tt": 0.0021125840000000002,
+              "ct": 0.0021125840000000002
+            },
+            {
+              "filename": "~",
+              "line": 0,
+              "function": "<method 'get' of 'dict' objects>",
+              "cc": 6459,
+              "nc": 6459,
+              "tt": 0.001005506,
+              "ct": 0.001005506
+            },
+            {
+              "filename": "~",
+              "line": 0,
+              "function": "<built-in method builtins.hasattr>",
+              "cc": 6459,
+              "nc": 6459,
+              "tt": 0.000677411,
+              "ct": 0.000677411
+            },
+            {
+              "filename": "~",
+              "line": 0,
+              "function": "<method 'items' of 'dict' objects>",
+              "cc": 2229,
+              "nc": 2229,
+              "tt": 0.0005700760000000001,
+              "ct": 0.0005700760000000001
+            },
+            {
+              "filename": "/home/stratocumulus/miniconda3/envs/dlenv/lib/python3.12/collections/__init__.py",
+              "line": 669,
+              "function": "update",
+              "cc": 1487,
+              "nc": 1487,
+              "tt": 0.000329436,
+              "ct": 0.000329436
+            },
+            {
+              "filename": "~",
+              "line": 0,
+              "function": "<built-in method _io.open>",
+              "cc": 1,
+              "nc": 1,
+              "tt": 1.7586e-05,
+              "ct": 4.4933000000000005e-05
+            },
+            {
+              "filename": "/home/stratocumulus/miniconda3/envs/dlenv/lib/python3.12/pathlib.py",
+              "line": 447,
+              "function": "__fspath__",
+              "cc": 1,
+              "nc": 1,
+              "tt": 1.0190000000000001e-06,
+              "ct": 2.5819e-05
+            },
+            {
+              "filename": "/home/stratocumulus/miniconda3/envs/dlenv/lib/python3.12/pathlib.py",
+              "line": 437,
+              "function": "__str__",
+              "cc": 1,
+              "nc": 1,
+              "tt": 5.776e-06,
+              "ct": 2.4800000000000003e-05
+            },
+            {
+              "filename": "~",
+              "line": 0,
+              "function": "<method 'disable' of '_lsprof.Profiler' objects>",
+              "cc": 1,
+              "nc": 1,
+              "tt": 1.936e-05,
+              "ct": 1.936e-05
+            },
+            {
+              "filename": "~",
+              "line": 0,
+              "function": "<method 'join' of 'str' objects>",
+              "cc": 2,
+              "nc": 3,
+              "tt": 3.597e-06,
+              "ct": 1.8024000000000002e-05
+            },
+            {
+              "filename": "/home/stratocumulus/miniconda3/envs/dlenv/lib/python3.12/pathlib.py",
+              "line": 551,
+              "function": "drive",
+              "cc": 1,
+              "nc": 1,
+              "tt": 2.3430000000000003e-06,
+              "ct": 1.7199000000000003e-05
+            },
+            {
+              "filename": "/home/stratocumulus/miniconda3/envs/dlenv/lib/python3.12/pathlib.py",
+              "line": 407,
+              "function": "_load_parts",
+              "cc": 1,
+              "nc": 1,
+              "tt": 2.3540000000000002e-06,
+              "ct": 1.4856000000000001e-05
+            },
+            {
+              "filename": "/home/stratocumulus/documents/github/stanford_cs336/cs336-assignment1-basics/benchmarks/bpe_profile/naive_source.py",
+              "line": 57,
+              "function": "<genexpr>",
+              "cc": 2,
+              "nc": 2,
+              "tt": 2.466e-06,
+              "ct": 1.4774000000000001e-05
+            },
+            {
+              "filename": "/home/stratocumulus/documents/github/stanford_cs336/cs336-assignment1-basics/.venv/lib/python3.12/site-packages/regex/regex.py",
+              "line": 377,
+              "function": "escape",
+              "cc": 1,
+              "nc": 1,
+              "tt": 8.404000000000001e-06,
+              "ct": 1.2308000000000001e-05
+            },
+            {
+              "filename": "/home/stratocumulus/miniconda3/envs/dlenv/lib/python3.12/pathlib.py",
+              "line": 387,
+              "function": "_parse_path",
+              "cc": 1,
+              "nc": 1,
+              "tt": 5.635e-06,
+              "ct": 1.2298000000000002e-05
+            },
+            {
+              "filename": "~",
+              "line": 0,
+              "function": "<method '__exit__' of '_io._IOBase' objects>",
+              "cc": 1,
+              "nc": 1,
+              "tt": 7.458e-06,
+              "ct": 7.458e-06
+            },
+            {
+              "filename": "~",
+              "line": 0,
+              "function": "<built-in method sys.intern>",
+              "cc": 9,
+              "nc": 9,
+              "tt": 3.0660000000000004e-06,
+              "ct": 3.0660000000000004e-06
+            },
+            {
+              "filename": "<frozen posixpath>",
+              "line": 138,
+              "function": "splitroot",
+              "cc": 1,
+              "nc": 1,
+              "tt": 2.0380000000000002e-06,
+              "ct": 2.273e-06
+            },
+            {
+              "filename": "/home/stratocumulus/miniconda3/envs/dlenv/lib/python3.12/pathlib.py",
+              "line": 429,
+              "function": "_format_parsed_parts",
+              "cc": 1,
+              "nc": 1,
+              "tt": 1.1720000000000002e-06,
+              "ct": 1.661e-06
+            },
+            {
+              "filename": "<frozen codecs>",
+              "line": 309,
+              "function": "__init__",
+              "cc": 1,
+              "nc": 1,
+              "tt": 1.385e-06,
+              "ct": 1.528e-06
+            },
+            {
+              "filename": "~",
+              "line": 0,
+              "function": "<method 'split' of 'str' objects>",
+              "cc": 1,
+              "nc": 1,
+              "tt": 1.3240000000000002e-06,
+              "ct": 1.3240000000000002e-06
+            },
+            {
+              "filename": "~",
+              "line": 0,
+              "function": "<method 'isspace' of 'str' objects>",
+              "cc": 11,
+              "nc": 11,
+              "tt": 1.213e-06,
+              "ct": 1.213e-06
+            },
+            {
+              "filename": "~",
+              "line": 0,
+              "function": "<method 'values' of 'dict' objects>",
+              "cc": 1,
+              "nc": 1,
+              "tt": 4.900000000000001e-07,
+              "ct": 4.900000000000001e-07
+            },
+            {
+              "filename": "<frozen codecs>",
+              "line": 260,
+              "function": "__init__",
+              "cc": 1,
+              "nc": 1,
+              "tt": 1.43e-07,
+              "ct": 1.43e-07
+            },
+            {
+              "filename": "~",
+              "line": 0,
+              "function": "<built-in method posix.fspath>",
+              "cc": 1,
+              "nc": 1,
+              "tt": 1.02e-07,
+              "ct": 1.02e-07
+            },
+            {
+              "filename": "/home/stratocumulus/miniconda3/envs/dlenv/lib/python3.12/pathlib.py",
+              "line": 560,
+              "function": "root",
+              "cc": 1,
+              "nc": 1,
+              "tt": 1.02e-07,
+              "ct": 1.02e-07
+            },
+            {
+              "filename": "/home/stratocumulus/miniconda3/envs/dlenv/lib/python3.12/pathlib.py",
+              "line": 569,
+              "function": "_tail",
+              "cc": 1,
+              "nc": 1,
+              "tt": 6.2e-08,
+              "ct": 6.2e-08
+            }
+          ]
+        },
+        "optimized": {
+          "profile_path": "/home/stratocumulus/documents/github/stanford_cs336/cs336-assignment1-basics/benchmarks/bpe_profile/tinystories_5m_optimized.prof",
+          "text_path": "/home/stratocumulus/documents/github/stanford_cs336/cs336-assignment1-basics/benchmarks/bpe_profile/tinystories_5m_optimized.txt",
+          "wall_seconds": 0.8746990670006198,
+          "total_tt": 0.8733260899999999,
+          "total_calls": 3859443,
+          "primitive_calls": 3859441,
+          "functions": [
+            {
+              "filename": "/home/stratocumulus/documents/github/stanford_cs336/cs336-assignment1-basics/cs336_basics/bpe_tokenizer.py",
+              "line": 135,
+              "function": "train_bpe",
+              "cc": 1,
+              "nc": 1,
+              "tt": 0.14737542,
+              "ct": 0.8733075770000001
+            },
+            {
+              "filename": "/home/stratocumulus/miniconda3/envs/dlenv/lib/python3.12/collections/__init__.py",
+              "line": 669,
+              "function": "update",
+              "cc": 62962,
+              "nc": 62962,
+              "tt": 0.014460971000000001,
+              "ct": 0.590965943
+            },
+            {
+              "filename": "/home/stratocumulus/documents/github/stanford_cs336/cs336-assignment1-basics/cs336_basics/bpe_tokenizer.py",
+              "line": 94,
+              "function": "_pretokenize",
+              "cc": 1,
+              "nc": 1,
+              "tt": 4.6413000000000004e-05,
+              "ct": 0.5590758570000001
+            },
+            {
+              "filename": "/home/stratocumulus/documents/github/stanford_cs336/cs336-assignment1-basics/cs336_basics/bpe_tokenizer.py",
+              "line": 74,
+              "function": "_count_pretokens",
+              "cc": 2,
+              "nc": 2,
+              "tt": 0.006000070000000001,
+              "ct": 0.5514136190000001
+            },
+            {
+              "filename": "~",
+              "line": 0,
+              "function": "<built-in method _collections._count_elements>",
+              "cc": 62957,
+              "nc": 62957,
+              "tt": 0.137986826,
+              "ct": 0.5506604
+            },
+            {
+              "filename": "/home/stratocumulus/documents/github/stanford_cs336/cs336-assignment1-basics/cs336_basics/bpe_tokenizer.py",
+              "line": 88,
+              "function": "<genexpr>",
+              "cc": 1269462,
+              "nc": 1269462,
+              "tt": 0.32374222,
+              "ct": 0.412632567
+            },
+            {
+              "filename": "~",
+              "line": 0,
+              "function": "<method 'group' of '_regex.Match' objects>",
+              "cc": 1263131,
+              "nc": 1263131,
+              "tt": 0.088899038,
+              "ct": 0.088899038
+            },
+            {
+              "filename": "/home/stratocumulus/miniconda3/envs/dlenv/lib/python3.12/collections/__init__.py",
+              "line": 595,
+              "function": "__init__",
+              "cc": 56501,
+              "nc": 56501,
+              "tt": 0.021702829,
+              "ct": 0.073833881
+            },
+            {
+              "filename": "/home/stratocumulus/documents/github/stanford_cs336/cs336-assignment1-basics/cs336_basics/bpe_tokenizer.py",
+              "line": 121,
+              "function": "_merge_word",
+              "cc": 28249,
+              "nc": 28249,
+              "tt": 0.020606939,
+              "ct": 0.032213200000000004
+            },
+            {
+              "filename": "~",
+              "line": 0,
+              "function": "<built-in method builtins.isinstance>",
+              "cc": 63021,
+              "nc": 63021,
+              "tt": 0.01004897,
+              "ct": 0.025425282
+            },
+            {
+              "filename": "<frozen abc>",
+              "line": 117,
+              "function": "__instancecheck__",
+              "cc": 62959,
+              "nc": 62959,
+              "tt": 0.007958605,
+              "ct": 0.015376312000000001
+            },
+            {
+              "filename": "~",
+              "line": 0,
+              "function": "<method 'add' of 'set' objects>",
+              "cc": 191724,
+              "nc": 191724,
+              "tt": 0.015047237000000002,
+              "ct": 0.015047237000000002
+            },
+            {
+              "filename": "~",
+              "line": 0,
+              "function": "<method 'get' of 'dict' objects>",
+              "cc": 131029,
+              "nc": 131029,
+              "tt": 0.013615576,
+              "ct": 0.013615576
+            },
+            {
+              "filename": "~",
+              "line": 0,
+              "function": "<method 'append' of 'list' objects>",
+              "cc": 158181,
+              "nc": 158181,
+              "tt": 0.010723147,
+              "ct": 0.010723147
+            },
+            {
+              "filename": "~",
+              "line": 0,
+              "function": "<built-in method _abc._abc_instancecheck>",
+              "cc": 62959,
+              "nc": 62959,
+              "tt": 0.007417707000000001,
+              "ct": 0.007417707000000001
+            },
+            {
+              "filename": "/home/stratocumulus/documents/github/stanford_cs336/cs336-assignment1-basics/cs336_basics/bpe_tokenizer.py",
+              "line": 97,
+              "function": "<genexpr>",
+              "cc": 3,
+              "nc": 3,
+              "tt": 0.0006870180000000001,
+              "ct": 0.006772483
+            },
+            {
+              "filename": "~",
+              "line": 0,
+              "function": "<method 'remove' of 'set' objects>",
+              "cc": 66885,
+              "nc": 66885,
+              "tt": 0.006301129000000001,
+              "ct": 0.006301129000000001
+            },
+            {
+              "filename": "/home/stratocumulus/documents/github/stanford_cs336/cs336-assignment1-basics/cs336_basics/bpe_tokenizer.py",
+              "line": 30,
+              "function": "_file_ranges",
+              "cc": 3,
+              "nc": 3,
+              "tt": 0.0038978830000000004,
+              "ct": 0.006085465
+            },
+            {
+              "filename": "~",
+              "line": 0,
+              "function": "<built-in method _heapq.heappop>",
+              "cc": 3668,
+              "nc": 3668,
+              "tt": 0.003270007,
+              "ct": 0.005786341
+            },
+            {
+              "filename": "~",
+              "line": 0,
+              "function": "<method 'keys' of 'dict' objects>",
+              "cc": 56498,
+              "nc": 56498,
+              "tt": 0.004869607000000001,
+              "ct": 0.004869607000000001
+            },
+            {
+              "filename": "/home/stratocumulus/miniconda3/envs/dlenv/lib/python3.12/collections/__init__.py",
+              "line": 609,
+              "function": "__missing__",
+              "cc": 105644,
+              "nc": 105644,
+              "tt": 0.004664383,
+              "ct": 0.004664383
+            },
+            {
+              "filename": "~",
+              "line": 0,
+              "function": "<built-in method _heapq.heappush>",
+              "cc": 14765,
+              "nc": 14765,
+              "tt": 0.002830291,
+              "ct": 0.004533426
+            },
+            {
+              "filename": "/home/stratocumulus/documents/github/stanford_cs336/cs336-assignment1-basics/cs336_basics/bpe_tokenizer.py",
+              "line": 24,
+              "function": "__lt__",
+              "cc": 79329,
+              "nc": 79329,
+              "tt": 0.004285499,
+              "ct": 0.004285499
+            },
+            {
+              "filename": "~",
+              "line": 0,
+              "function": "<method 'decode' of 'bytes' objects>",
+              "cc": 3,
+              "nc": 3,
+              "tt": 0.0029182440000000004,
+              "ct": 0.0029182440000000004
+            },
+            {
+              "filename": "~",
+              "line": 0,
+              "function": "<built-in method builtins.len>",
+              "cc": 38613,
+              "nc": 38613,
+              "tt": 0.002630627,
+              "ct": 0.002630627
+            },
+            {
+              "filename": "/home/stratocumulus/documents/github/stanford_cs336/cs336-assignment1-basics/cs336_basics/bpe_tokenizer.py",
+              "line": 19,
+              "function": "__init__",
+              "cc": 15561,
+              "nc": 15561,
+              "tt": 0.002458395,
+              "ct": 0.002458395
+            },
+            {
+              "filename": "~",
+              "line": 0,
+              "function": "<method 'end' of '_regex.Match' objects>",
+              "cc": 19371,
+              "nc": 19371,
+              "tt": 0.0014040880000000002,
+              "ct": 0.0014040880000000002
+            },
+            {
+              "filename": "~",
+              "line": 0,
+              "function": "<method 'finditer' of '_regex.Pattern' objects>",
+              "cc": 6464,
+              "nc": 6464,
+              "tt": 0.0012830110000000001,
+              "ct": 0.0012830110000000001
+            },
+            {
+              "filename": "~",
+              "line": 0,
+              "function": "<method 'read' of '_io.BufferedReader' objects>",
+              "cc": 5,
+              "nc": 5,
+              "tt": 0.001258715,
+              "ct": 0.001258715
+            },
+            {
+              "filename": "~",
+              "line": 0,
+              "function": "<method 'start' of '_regex.Match' objects>",
+              "cc": 12914,
+              "nc": 12914,
+              "tt": 0.000997889,
+              "ct": 0.000997889
+            },
+            {
+              "filename": "~",
+              "line": 0,
+              "function": "<method 'replace' of 'str' objects>",
+              "cc": 4,
+              "nc": 4,
+              "tt": 0.0009476310000000001,
+              "ct": 0.0009476310000000001
+            },
+            {
+              "filename": "~",
+              "line": 0,
+              "function": "<method 'popitem' of 'dict' objects>",
+              "cc": 8126,
+              "nc": 8126,
+              "tt": 0.00074474,
+              "ct": 0.00074474
+            },
+            {
+              "filename": "~",
+              "line": 0,
+              "function": "<method 'encode' of 'str' objects>",
+              "cc": 8129,
+              "nc": 8129,
+              "tt": 0.0007025250000000001,
+              "ct": 0.0007025250000000001
+            },
+            {
+              "filename": "~",
+              "line": 0,
+              "function": "<built-in method builtins.max>",
+              "cc": 7204,
+              "nc": 7204,
+              "tt": 0.0006936090000000001,
+              "ct": 0.0006936090000000001
+            },
+            {
+              "filename": "~",
+              "line": 0,
+              "function": "<method 'pop' of 'dict' objects>",
+              "cc": 2060,
+              "nc": 2060,
+              "tt": 0.00028967500000000003,
+              "ct": 0.00028967500000000003
+            },
+            {
+              "filename": "~",
+              "line": 0,
+              "function": "<method 'setdefault' of 'dict' objects>",
+              "cc": 743,
+              "nc": 743,
+              "tt": 0.000154337,
+              "ct": 0.000154337
+            },
+            {
+              "filename": "~",
+              "line": 0,
+              "function": "<built-in method _heapq.heapify>",
+              "cc": 1,
+              "nc": 1,
+              "tt": 7.615000000000001e-05,
+              "ct": 0.00014218
+            },
+            {
+              "filename": "/home/stratocumulus/documents/github/stanford_cs336/cs336-assignment1-basics/.venv/lib/python3.12/site-packages/regex/regex.py",
+              "line": 349,
+              "function": "compile",
+              "cc": 5,
+              "nc": 5,
+              "tt": 6.6360000000000005e-06,
+              "ct": 0.000127927
+            },
+            {
+              "filename": "/home/stratocumulus/documents/github/stanford_cs336/cs336-assignment1-basics/.venv/lib/python3.12/site-packages/regex/regex.py",
+              "line": 449,
+              "function": "_compile",
+              "cc": 5,
+              "nc": 5,
+              "tt": 5.9282000000000006e-05,
+              "ct": 0.000121291
+            },
+            {
+              "filename": "~",
+              "line": 0,
+              "function": "<built-in method _io.open>",
+              "cc": 3,
+              "nc": 3,
+              "tt": 4.3671e-05,
+              "ct": 4.6852000000000005e-05
+            },
+            {
+              "filename": "/home/stratocumulus/miniconda3/envs/dlenv/lib/python3.12/enum.py",
+              "line": 1561,
+              "function": "__and__",
+              "cc": 10,
+              "nc": 10,
+              "tt": 1.7424e-05,
+              "ct": 4.3451e-05
+            },
+            {
+              "filename": "/home/stratocumulus/documents/github/stanford_cs336/cs336-assignment1-basics/cs336_basics/bpe_tokenizer.py",
+              "line": 90,
+              "function": "<genexpr>",
+              "cc": 128,
+              "nc": 128,
+              "tt": 3.2316e-05,
+              "ct": 4.1007e-05
+            },
+            {
+              "filename": "~",
+              "line": 0,
+              "function": "<function Counter.update at 0x7dbabeb80220>",
+              "cc": 1,
+              "nc": 1,
+              "tt": 3.2352000000000005e-05,
+              "ct": 3.2352000000000005e-05
+            },
+            {
+              "filename": "<frozen genericpath>",
+              "line": 60,
+              "function": "getsize",
+              "cc": 1,
+              "nc": 1,
+              "tt": 1.8090000000000002e-06,
+              "ct": 2.8297e-05
+            },
+            {
+              "filename": "/home/stratocumulus/documents/github/stanford_cs336/cs336-assignment1-basics/.venv/lib/python3.12/site-packages/regex/regex.py",
+              "line": 377,
+              "function": "escape",
+              "cc": 3,
+              "nc": 3,
+              "tt": 1.6973e-05,
+              "ct": 2.7192000000000003e-05
+            },
+            {
+              "filename": "~",
+              "line": 0,
+              "function": "<built-in method posix.stat>",
+              "cc": 1,
+              "nc": 1,
+              "tt": 7.541e-06,
+              "ct": 2.6488e-05
+            },
+            {
+              "filename": "~",
+              "line": 0,
+              "function": "<method 'join' of 'str' objects>",
+              "cc": 4,
+              "nc": 6,
+              "tt": 5.288e-06,
+              "ct": 2.2471000000000002e-05
+            },
+            {
+              "filename": "/home/stratocumulus/miniconda3/envs/dlenv/lib/python3.12/pathlib.py",
+              "line": 447,
+              "function": "__fspath__",
+              "cc": 4,
+              "nc": 4,
+              "tt": 3.7420000000000003e-06,
+              "ct": 2.2128000000000002e-05
+            },
+            {
+              "filename": "~",
+              "line": 0,
+              "function": "<method 'disable' of '_lsprof.Profiler' objects>",
+              "cc": 1,
+              "nc": 1,
+              "tt": 1.8513e-05,
+              "ct": 1.8513e-05
+            },
+            {
+              "filename": "/home/stratocumulus/miniconda3/envs/dlenv/lib/python3.12/pathlib.py",
+              "line": 437,
+              "function": "__str__",
+              "cc": 4,
+              "nc": 4,
+              "tt": 4.541e-06,
+              "ct": 1.8386e-05
+            },
+            {
+              "filename": "/home/stratocumulus/documents/github/stanford_cs336/cs336-assignment1-basics/cs336_basics/bpe_tokenizer.py",
+              "line": 86,
+              "function": "<genexpr>",
+              "cc": 4,
+              "nc": 4,
+              "tt": 1.841e-06,
+              "ct": 1.7932e-05
+            },
+            {
+              "filename": "/home/stratocumulus/miniconda3/envs/dlenv/lib/python3.12/enum.py",
+              "line": 1543,
+              "function": "_get_value",
+              "cc": 30,
+              "nc": 30,
+              "tt": 1.0203e-05,
+              "ct": 1.5898000000000003e-05
+            },
+            {
+              "filename": "~",
+              "line": 0,
+              "function": "<method '__exit__' of '_io._IOBase' objects>",
+              "cc": 3,
+              "nc": 3,
+              "tt": 1.5683000000000002e-05,
+              "ct": 1.5683000000000002e-05
+            },
+            {
+              "filename": "~",
+              "line": 0,
+              "function": "<method 'join' of 'bytes' objects>",
+              "cc": 1,
+              "nc": 1,
+              "tt": 1.554e-06,
+              "ct": 1.3549e-05
+            },
+            {
+              "filename": "/home/stratocumulus/miniconda3/envs/dlenv/lib/python3.12/pathlib.py",
+              "line": 551,
+              "function": "drive",
+              "cc": 1,
+              "nc": 1,
+              "tt": 1.288e-06,
+              "ct": 1.2163e-05
+            },
+            {
+              "filename": "/home/stratocumulus/documents/github/stanford_cs336/cs336-assignment1-basics/cs336_basics/bpe_tokenizer.py",
+              "line": 46,
+              "function": "<genexpr>",
+              "cc": 2,
+              "nc": 2,
+              "tt": 8.94e-07,
+              "ct": 1.1995000000000001e-05
+            },
+            {
+              "filename": "/home/stratocumulus/miniconda3/envs/dlenv/lib/python3.12/pathlib.py",
+              "line": 407,
+              "function": "_load_parts",
+              "cc": 1,
+              "nc": 1,
+              "tt": 1.6030000000000002e-06,
+              "ct": 1.0875e-05
+            },
+            {
+              "filename": "/home/stratocumulus/miniconda3/envs/dlenv/lib/python3.12/enum.py",
+              "line": 720,
+              "function": "__call__",
+              "cc": 10,
+              "nc": 10,
+              "tt": 6.379e-06,
+              "ct": 1.0129e-05
+            },
+            {
+              "filename": "/home/stratocumulus/miniconda3/envs/dlenv/lib/python3.12/pathlib.py",
+              "line": 387,
+              "function": "_parse_path",
+              "cc": 1,
+              "nc": 1,
+              "tt": 4.395e-06,
+              "ct": 9.075e-06
+            },
+            {
+              "filename": "/home/stratocumulus/documents/github/stanford_cs336/cs336-assignment1-basics/.venv/lib/python3.12/site-packages/regex/regex.py",
+              "line": 471,
+              "function": "complain_unused_args",
+              "cc": 5,
+              "nc": 5,
+              "tt": 7.297000000000001e-06,
+              "ct": 7.297000000000001e-06
+            },
+            {
+              "filename": "<frozen importlib._bootstrap>",
+              "line": 1390,
+              "function": "_handle_fromlist",
+              "cc": 5,
+              "nc": 5,
+              "tt": 4.461e-06,
+              "ct": 6.567000000000001e-06
+            },
+            {
+              "filename": "/home/stratocumulus/miniconda3/envs/dlenv/lib/python3.12/enum.py",
+              "line": 1128,
+              "function": "__new__",
+              "cc": 10,
+              "nc": 10,
+              "tt": 3.75e-06,
+              "ct": 3.75e-06
+            },
+            {
+              "filename": "~",
+              "line": 0,
+              "function": "<method 'isspace' of 'str' objects>",
+              "cc": 33,
+              "nc": 33,
+              "tt": 3.452e-06,
+              "ct": 3.452e-06
+            },
+            {
+              "filename": "~",
+              "line": 0,
+              "function": "<built-in method builtins.any>",
+              "cc": 2,
+              "nc": 2,
+              "tt": 2.407e-06,
+              "ct": 3.146e-06
+            },
+            {
+              "filename": "~",
+              "line": 0,
+              "function": "<built-in method builtins.sorted>",
+              "cc": 1,
+              "nc": 1,
+              "tt": 2.094e-06,
+              "ct": 2.645e-06
+            },
+            {
+              "filename": "~",
+              "line": 0,
+              "function": "<method 'seek' of '_io.BufferedReader' objects>",
+              "cc": 2,
+              "nc": 2,
+              "tt": 2.296e-06,
+              "ct": 2.296e-06
+            },
+            {
+              "filename": "<frozen posixpath>",
+              "line": 138,
+              "function": "splitroot",
+              "cc": 1,
+              "nc": 1,
+              "tt": 1.9490000000000003e-06,
+              "ct": 2.2820000000000003e-06
+            },
+            {
+              "filename": "~",
+              "line": 0,
+              "function": "<built-in method sys.intern>",
+              "cc": 9,
+              "nc": 9,
+              "tt": 1.779e-06,
+              "ct": 1.779e-06
+            },
+            {
+              "filename": "/home/stratocumulus/miniconda3/envs/dlenv/lib/python3.12/pathlib.py",
+              "line": 429,
+              "function": "_format_parsed_parts",
+              "cc": 1,
+              "nc": 1,
+              "tt": 1.072e-06,
+              "ct": 1.5440000000000002e-06
+            },
+            {
+              "filename": "~",
+              "line": 0,
+              "function": "<built-in method builtins.hasattr>",
+              "cc": 5,
+              "nc": 5,
+              "tt": 1.388e-06,
+              "ct": 1.388e-06
+            },
+            {
+              "filename": "~",
+              "line": 0,
+              "function": "<method 'items' of 'dict' objects>",
+              "cc": 3,
+              "nc": 3,
+              "tt": 7.49e-07,
+              "ct": 7.49e-07
+            },
+            {
+              "filename": "~",
+              "line": 0,
+              "function": "<method 'split' of 'str' objects>",
+              "cc": 1,
+              "nc": 1,
+              "tt": 6.19e-07,
+              "ct": 6.19e-07
+            },
+            {
+              "filename": "/home/stratocumulus/documents/github/stanford_cs336/cs336-assignment1-basics/cs336_basics/bpe_tokenizer.py",
+              "line": 178,
+              "function": "<lambda>",
+              "cc": 1,
+              "nc": 1,
+              "tt": 4.04e-07,
+              "ct": 5.51e-07
+            },
+            {
+              "filename": "/home/stratocumulus/documents/github/stanford_cs336/cs336-assignment1-basics/cs336_basics/bpe_tokenizer.py",
+              "line": 163,
+              "function": "<genexpr>",
+              "cc": 2,
+              "nc": 2,
+              "tt": 3.94e-07,
+              "ct": 3.94e-07
+            },
+            {
+              "filename": "/home/stratocumulus/documents/github/stanford_cs336/cs336-assignment1-basics/cs336_basics/bpe_tokenizer.py",
+              "line": 40,
+              "function": "<genexpr>",
+              "cc": 2,
+              "nc": 2,
+              "tt": 3.4500000000000003e-07,
+              "ct": 3.4500000000000003e-07
+            },
+            {
+              "filename": "~",
+              "line": 0,
+              "function": "<built-in method posix.fspath>",
+              "cc": 1,
+              "nc": 1,
+              "tt": 1.47e-07,
+              "ct": 1.47e-07
+            },
+            {
+              "filename": "/home/stratocumulus/miniconda3/envs/dlenv/lib/python3.12/pathlib.py",
+              "line": 560,
+              "function": "root",
+              "cc": 1,
+              "nc": 1,
+              "tt": 7.9e-08,
+              "ct": 7.9e-08
+            },
+            {
+              "filename": "/home/stratocumulus/miniconda3/envs/dlenv/lib/python3.12/pathlib.py",
+              "line": 569,
+              "function": "_tail",
+              "cc": 1,
+              "nc": 1,
+              "tt": 5.9000000000000006e-08,
+              "ct": 5.9000000000000006e-08
+            }
+          ]
+        }
+      },
+      "checks": {
+        "equal_all_completed_runs": true,
+        "completed_comparisons": 13
+      },
+      "actual_vocab_size": 1000,
+      "merge_count": 743,
+      "speedup": 15.661408209430064,
+      "complete": true
+    },
+    {
+      "name": "tinystories_valid_10k",
+      "path": "/home/stratocumulus/documents/github/stanford_cs336/cs336-assignment1-basics/data/TinyStoriesV2-GPT4-valid.txt",
+      "file_bytes": 22502601,
+      "sha256": "6874bae9a4c1a4e7edcf0e53b86c17817e9cf881fc75ff2368da457b80c0585d",
+      "vocab_size": 10000,
+      "special_tokens": [
+        "<|endoftext|>"
+      ],
+      "timings": {
+        "naive": {
+          "samples_seconds": [
+            80.49328028300079,
+            80.739897888001,
+            81.70061354900099
+          ],
+          "median_seconds": 80.739897888001
+        },
+        "optimized": {
+          "samples_seconds": [
+            1.4733678350021364,
+            1.4674810760006949,
+            1.5924531710006704
+          ],
+          "median_seconds": 1.4733678350021364
+        },
+        "optimized_heap_control": {
+          "samples_seconds": [
+            1.4413277249987004,
+            1.4070416439972178,
+            1.4141340539972589
+          ],
+          "median_seconds": 1.4141340539972589
+        },
+        "optimized_no_heap": {
+          "samples_seconds": [
+            9.670955408000736,
+            9.678740610001114,
+            9.50008950100164
+          ],
+          "median_seconds": 9.670955408000736
+        },
+        "optimized_4_workers": {
+          "samples_seconds": [
+            0.7833879470017564,
+            0.7851831299994956,
+            0.8245091889984906
+          ],
+          "median_seconds": 0.7851831299994956
+        }
+      },
+      "profiles": {
+        "naive": {
+          "profile_path": "/home/stratocumulus/documents/github/stanford_cs336/cs336-assignment1-basics/benchmarks/bpe_profile/tinystories_valid_10k_naive.prof",
+          "text_path": "/home/stratocumulus/documents/github/stanford_cs336/cs336-assignment1-basics/benchmarks/bpe_profile/tinystories_valid_10k_naive.txt",
+          "wall_seconds": 239.48715361300128,
+          "total_tt": 239.484176694,
+          "total_calls": 1682838513,
+          "primitive_calls": 1682838512,
+          "functions": [
+            {
+              "filename": "/home/stratocumulus/documents/github/stanford_cs336/cs336-assignment1-basics/benchmarks/bpe_profile/naive_source.py",
+              "line": 8,
+              "function": "train_bpe",
+              "cc": 1,
+              "nc": 1,
+              "tt": 47.510128684,
+              "ct": 239.48415523900002
+            },
+            {
+              "filename": "/home/stratocumulus/documents/github/stanford_cs336/cs336-assignment1-basics/benchmarks/bpe_profile/naive_source.py",
+              "line": 80,
+              "function": "merge_pair",
+              "cc": 127740473,
+              "nc": 127740473,
+              "tt": 75.87616344300001,
+              "ct": 117.52111995400001
+            },
+            {
+              "filename": "/home/stratocumulus/documents/github/stanford_cs336/cs336-assignment1-basics/benchmarks/bpe_profile/naive_source.py",
+              "line": 71,
+              "function": "get_pair_counts",
+              "cc": 9743,
+              "nc": 9743,
+              "tt": 43.950743447,
+              "ct": 53.152239767000005
+            },
+            {
+              "filename": "~",
+              "line": 0,
+              "function": "<built-in method builtins.len>",
+              "cc": 877629149,
+              "nc": 877629149,
+              "tt": 30.241271986,
+              "ct": 30.241271986
+            },
+            {
+              "filename": "~",
+              "line": 0,
+              "function": "<method 'append' of 'list' objects>",
+              "cc": 311083858,
+              "nc": 311083858,
+              "tt": 16.086050193000002,
+              "ct": 16.086050193000002
+            },
+            {
+              "filename": "/home/stratocumulus/miniconda3/envs/dlenv/lib/python3.12/collections/__init__.py",
+              "line": 609,
+              "function": "__missing__",
+              "cc": 227410752,
+              "nc": 227410752,
+              "tt": 12.19067751,
+              "ct": 12.19067751
+            },
+            {
+              "filename": "~",
+              "line": 0,
+              "function": "<built-in method builtins.max>",
+              "cc": 9743,
+              "nc": 9743,
+              "tt": 6.2652658290000005,
+              "ct": 10.018967005
+            },
+            {
+              "filename": "/home/stratocumulus/documents/github/stanford_cs336/cs336-assignment1-basics/benchmarks/bpe_profile/naive_source.py",
+              "line": 104,
+              "function": "<lambda>",
+              "cc": 99657168,
+              "nc": 99657168,
+              "tt": 3.7537011760000003,
+              "ct": 3.7537011760000003
+            },
+            {
+              "filename": "/home/stratocumulus/documents/github/stanford_cs336/cs336-assignment1-basics/benchmarks/bpe_profile/naive_source.py",
+              "line": 68,
+              "function": "<genexpr>",
+              "cc": 27562412,
+              "nc": 27562412,
+              "tt": 2.4483055460000003,
+              "ct": 2.4483055460000003
+            },
+            {
+              "filename": "~",
+              "line": 0,
+              "function": "<method 'group' of '_regex.Match' objects>",
+              "cc": 5419001,
+              "nc": 5419001,
+              "tt": 0.42523795900000005,
+              "ct": 0.42523795900000005
+            },
+            {
+              "filename": "~",
+              "line": 0,
+              "function": "<method 'encode' of 'str' objects>",
+              "cc": 5419002,
+              "nc": 5419002,
+              "tt": 0.413519968,
+              "ct": 0.413519968
+            },
+            {
+              "filename": "/home/stratocumulus/documents/github/stanford_cs336/cs336-assignment1-basics/.venv/lib/python3.12/site-packages/regex/regex.py",
+              "line": 340,
+              "function": "finditer",
+              "cc": 27631,
+              "nc": 27631,
+              "tt": 0.016831371,
+              "ct": 0.22630379900000003
+            },
+            {
+              "filename": "/home/stratocumulus/documents/github/stanford_cs336/cs336-assignment1-basics/.venv/lib/python3.12/site-packages/regex/regex.py",
+              "line": 449,
+              "function": "_compile",
+              "cc": 27632,
+              "nc": 27632,
+              "tt": 0.053836612000000006,
+              "ct": 0.197979338
+            },
+            {
+              "filename": "/home/stratocumulus/miniconda3/envs/dlenv/lib/python3.12/enum.py",
+              "line": 1561,
+              "function": "__and__",
+              "cc": 55264,
+              "nc": 55264,
+              "tt": 0.040911689,
+              "ct": 0.114546037
+            },
+            {
+              "filename": "/home/stratocumulus/miniconda3/envs/dlenv/lib/python3.12/enum.py",
+              "line": 1543,
+              "function": "_get_value",
+              "cc": 165792,
+              "nc": 165792,
+              "tt": 0.032531003,
+              "ct": 0.050841283
+            },
+            {
+              "filename": "/home/stratocumulus/miniconda3/envs/dlenv/lib/python3.12/collections/__init__.py",
+              "line": 595,
+              "function": "__init__",
+              "cc": 19487,
+              "nc": 19487,
+              "tt": 0.043149532000000004,
+              "ct": 0.047724968
+            },
+            {
+              "filename": "~",
+              "line": 0,
+              "function": "<method 'read' of '_io.TextIOWrapper' objects>",
+              "cc": 1,
+              "nc": 1,
+              "tt": 0.003205026,
+              "ct": 0.030625735
+            },
+            {
+              "filename": "<frozen codecs>",
+              "line": 319,
+              "function": "decode",
+              "cc": 1,
+              "nc": 1,
+              "tt": 6.6140000000000005e-06,
+              "ct": 0.027420709
+            },
+            {
+              "filename": "~",
+              "line": 0,
+              "function": "<built-in method _codecs.utf_8_decode>",
+              "cc": 1,
+              "nc": 1,
+              "tt": 0.027414095000000003,
+              "ct": 0.027414095000000003
+            },
+            {
+              "filename": "/home/stratocumulus/miniconda3/envs/dlenv/lib/python3.12/enum.py",
+              "line": 720,
+              "function": "__call__",
+              "cc": 55264,
+              "nc": 55264,
+              "tt": 0.013689213,
+              "ct": 0.022793065
+            },
+            {
+              "filename": "~",
+              "line": 0,
+              "function": "<built-in method builtins.isinstance>",
+              "cc": 303955,
+              "nc": 303955,
+              "tt": 0.020488586,
+              "ct": 0.020488586
+            },
+            {
+              "filename": "<frozen importlib._bootstrap>",
+              "line": 1390,
+              "function": "_handle_fromlist",
+              "cc": 27632,
+              "nc": 27632,
+              "tt": 0.010106353,
+              "ct": 0.015110827
+            },
+            {
+              "filename": "~",
+              "line": 0,
+              "function": "<method 'finditer' of '_regex.Pattern' objects>",
+              "cc": 27631,
+              "nc": 27631,
+              "tt": 0.011535306,
+              "ct": 0.011535306
+            },
+            {
+              "filename": "/home/stratocumulus/documents/github/stanford_cs336/cs336-assignment1-basics/.venv/lib/python3.12/site-packages/regex/regex.py",
+              "line": 471,
+              "function": "complain_unused_args",
+              "cc": 27632,
+              "nc": 27632,
+              "tt": 0.010240759,
+              "ct": 0.010240759
+            },
+            {
+              "filename": "/home/stratocumulus/documents/github/stanford_cs336/cs336-assignment1-basics/.venv/lib/python3.12/site-packages/regex/regex.py",
+              "line": 314,
+              "function": "split",
+              "cc": 1,
+              "nc": 1,
+              "tt": 8.573e-06,
+              "ct": 0.010134511
+            },
+            {
+              "filename": "~",
+              "line": 0,
+              "function": "<method 'split' of '_regex.Pattern' objects>",
+              "cc": 1,
+              "nc": 1,
+              "tt": 0.010083722,
+              "ct": 0.010083722
+            },
+            {
+              "filename": "/home/stratocumulus/miniconda3/envs/dlenv/lib/python3.12/enum.py",
+              "line": 1128,
+              "function": "__new__",
+              "cc": 55264,
+              "nc": 55264,
+              "tt": 0.009103852,
+              "ct": 0.009103852
+            },
+            {
+              "filename": "~",
+              "line": 0,
+              "function": "<method 'items' of 'dict' objects>",
+              "cc": 29229,
+              "nc": 29229,
+              "tt": 0.008186143,
+              "ct": 0.008186143
+            },
+            {
+              "filename": "/home/stratocumulus/miniconda3/envs/dlenv/lib/python3.12/collections/__init__.py",
+              "line": 669,
+              "function": "update",
+              "cc": 19487,
+              "nc": 19487,
+              "tt": 0.004575436,
+              "ct": 0.004575436
+            },
+            {
+              "filename": "~",
+              "line": 0,
+              "function": "<method 'get' of 'dict' objects>",
+              "cc": 27632,
+              "nc": 27632,
+              "tt": 0.004245103,
+              "ct": 0.004245103
+            },
+            {
+              "filename": "~",
+              "line": 0,
+              "function": "<built-in method builtins.hasattr>",
+              "cc": 27632,
+              "nc": 27632,
+              "tt": 0.0028274000000000003,
+              "ct": 0.0028274000000000003
+            },
+            {
+              "filename": "~",
+              "line": 0,
+              "function": "<built-in method _io.open>",
+              "cc": 1,
+              "nc": 1,
+              "tt": 2.5271000000000002e-05,
+              "ct": 7.9231e-05
+            },
+            {
+              "filename": "/home/stratocumulus/miniconda3/envs/dlenv/lib/python3.12/pathlib.py",
+              "line": 447,
+              "function": "__fspath__",
+              "cc": 1,
+              "nc": 1,
+              "tt": 1.1720000000000002e-06,
+              "ct": 5.1698000000000005e-05
+            },
+            {
+              "filename": "/home/stratocumulus/miniconda3/envs/dlenv/lib/python3.12/pathlib.py",
+              "line": 437,
+              "function": "__str__",
+              "cc": 1,
+              "nc": 1,
+              "tt": 7.168000000000001e-06,
+              "ct": 5.0526000000000004e-05
+            },
+            {
+              "filename": "/home/stratocumulus/miniconda3/envs/dlenv/lib/python3.12/pathlib.py",
+              "line": 551,
+              "function": "drive",
+              "cc": 1,
+              "nc": 1,
+              "tt": 2.3030000000000002e-06,
+              "ct": 4.0621e-05
+            },
+            {
+              "filename": "/home/stratocumulus/miniconda3/envs/dlenv/lib/python3.12/pathlib.py",
+              "line": 407,
+              "function": "_load_parts",
+              "cc": 1,
+              "nc": 1,
+              "tt": 2.362e-06,
+              "ct": 3.8318e-05
+            },
+            {
+              "filename": "/home/stratocumulus/miniconda3/envs/dlenv/lib/python3.12/pathlib.py",
+              "line": 387,
+              "function": "_parse_path",
+              "cc": 1,
+              "nc": 1,
+              "tt": 6.9060000000000005e-06,
+              "ct": 3.5794e-05
+            },
+            {
+              "filename": "~",
+              "line": 0,
+              "function": "<built-in method sys.intern>",
+              "cc": 8,
+              "nc": 8,
+              "tt": 2.5243000000000002e-05,
+              "ct": 2.5243000000000002e-05
+            },
+            {
+              "filename": "~",
+              "line": 0,
+              "function": "<method 'join' of 'str' objects>",
+              "cc": 2,
+              "nc": 3,
+              "tt": 6.786000000000001e-06,
+              "ct": 2.4567e-05
+            },
+            {
+              "filename": "~",
+              "line": 0,
+              "function": "<method 'disable' of '_lsprof.Profiler' objects>",
+              "cc": 1,
+              "nc": 1,
+              "tt": 2.1455e-05,
+              "ct": 2.1455e-05
+            },
+            {
+              "filename": "/home/stratocumulus/documents/github/stanford_cs336/cs336-assignment1-basics/benchmarks/bpe_profile/naive_source.py",
+              "line": 57,
+              "function": "<genexpr>",
+              "cc": 2,
+              "nc": 2,
+              "tt": 3.615e-06,
+              "ct": 1.8255e-05
+            },
+            {
+              "filename": "/home/stratocumulus/documents/github/stanford_cs336/cs336-assignment1-basics/.venv/lib/python3.12/site-packages/regex/regex.py",
+              "line": 377,
+              "function": "escape",
+              "cc": 1,
+              "nc": 1,
+              "tt": 9.858000000000001e-06,
+              "ct": 1.464e-05
+            },
+            {
+              "filename": "~",
+              "line": 0,
+              "function": "<method '__exit__' of '_io._IOBase' objects>",
+              "cc": 1,
+              "nc": 1,
+              "tt": 1.2985e-05,
+              "ct": 1.2985e-05
+            },
+            {
+              "filename": "/home/stratocumulus/miniconda3/envs/dlenv/lib/python3.12/pathlib.py",
+              "line": 429,
+              "function": "_format_parsed_parts",
+              "cc": 1,
+              "nc": 1,
+              "tt": 1.979e-06,
+              "ct": 2.565e-06
+            },
+            {
+              "filename": "<frozen posixpath>",
+              "line": 138,
+              "function": "splitroot",
+              "cc": 1,
+              "nc": 1,
+              "tt": 2.171e-06,
+              "ct": 2.504e-06
+            },
+            {
+              "filename": "<frozen codecs>",
+              "line": 309,
+              "function": "__init__",
+              "cc": 1,
+              "nc": 1,
+              "tt": 2.12e-06,
+              "ct": 2.262e-06
+            },
+            {
+              "filename": "~",
+              "line": 0,
+              "function": "<method 'isspace' of 'str' objects>",
+              "cc": 11,
+              "nc": 11,
+              "tt": 1.4030000000000002e-06,
+              "ct": 1.4030000000000002e-06
+            },
+            {
+              "filename": "~",
+              "line": 0,
+              "function": "<method 'split' of 'str' objects>",
+              "cc": 1,
+              "nc": 1,
+              "tt": 1.1410000000000002e-06,
+              "ct": 1.1410000000000002e-06
+            },
+            {
+              "filename": "~",
+              "line": 0,
+              "function": "<method 'values' of 'dict' objects>",
+              "cc": 1,
+              "nc": 1,
+              "tt": 2.1200000000000002e-07,
+              "ct": 2.1200000000000002e-07
+            },
+            {
+              "filename": "<frozen codecs>",
+              "line": 260,
+              "function": "__init__",
+              "cc": 1,
+              "nc": 1,
+              "tt": 1.42e-07,
+              "ct": 1.42e-07
+            },
+            {
+              "filename": "~",
+              "line": 0,
+              "function": "<built-in method posix.fspath>",
+              "cc": 1,
+              "nc": 1,
+              "tt": 1.01e-07,
+              "ct": 1.01e-07
+            },
+            {
+              "filename": "/home/stratocumulus/miniconda3/envs/dlenv/lib/python3.12/pathlib.py",
+              "line": 560,
+              "function": "root",
+              "cc": 1,
+              "nc": 1,
+              "tt": 1.01e-07,
+              "ct": 1.01e-07
+            },
+            {
+              "filename": "/home/stratocumulus/miniconda3/envs/dlenv/lib/python3.12/pathlib.py",
+              "line": 569,
+              "function": "_tail",
+              "cc": 1,
+              "nc": 1,
+              "tt": 7.1e-08,
+              "ct": 7.1e-08
+            }
+          ]
+        },
+        "optimized": {
+          "profile_path": "/home/stratocumulus/documents/github/stanford_cs336/cs336-assignment1-basics/benchmarks/bpe_profile/tinystories_valid_10k_optimized.prof",
+          "text_path": "/home/stratocumulus/documents/github/stanford_cs336/cs336-assignment1-basics/benchmarks/bpe_profile/tinystories_valid_10k_optimized.txt",
+          "wall_seconds": 3.185265486001299,
+          "total_tt": 3.1832383179999995,
+          "total_calls": 14492725,
+          "primitive_calls": 14492719,
+          "functions": [
+            {
+              "filename": "/home/stratocumulus/documents/github/stanford_cs336/cs336-assignment1-basics/cs336_basics/bpe_tokenizer.py",
+              "line": 135,
+              "function": "train_bpe",
+              "cc": 1,
+              "nc": 1,
+              "tt": 0.35304960300000005,
+              "ct": 3.183218977
+            },
+            {
+              "filename": "/home/stratocumulus/miniconda3/envs/dlenv/lib/python3.12/collections/__init__.py",
+              "line": 669,
+              "function": "update",
+              "cc": 165181,
+              "nc": 165181,
+              "tt": 0.041411271,
+              "ct": 2.442325643
+            },
+            {
+              "filename": "/home/stratocumulus/documents/github/stanford_cs336/cs336-assignment1-basics/cs336_basics/bpe_tokenizer.py",
+              "line": 94,
+              "function": "_pretokenize",
+              "cc": 1,
+              "nc": 1,
+              "tt": 0.00027435400000000004,
+              "ct": 2.3935839210000003
+            },
+            {
+              "filename": "/home/stratocumulus/documents/github/stanford_cs336/cs336-assignment1-basics/cs336_basics/bpe_tokenizer.py",
+              "line": 74,
+              "function": "_count_pretokens",
+              "cc": 6,
+              "nc": 6,
+              "tt": 0.025248581000000003,
+              "ct": 2.359544318
+            },
+            {
+              "filename": "~",
+              "line": 0,
+              "function": "<built-in method _collections._count_elements>",
+              "cc": 165168,
+              "nc": 165168,
+              "tt": 0.5525115310000001,
+              "ct": 2.329225734
+            },
+            {
+              "filename": "/home/stratocumulus/documents/github/stanford_cs336/cs336-assignment1-basics/cs336_basics/bpe_tokenizer.py",
+              "line": 88,
+              "function": "<genexpr>",
+              "cc": 5446492,
+              "nc": 5446492,
+              "tt": 1.3966697510000001,
+              "ct": 1.7766670720000002
+            },
+            {
+              "filename": "~",
+              "line": 0,
+              "function": "<method 'group' of '_regex.Match' objects>",
+              "cc": 5419001,
+              "nc": 5419001,
+              "tt": 0.38000713700000005,
+              "ct": 0.38000713700000005
+            },
+            {
+              "filename": "/home/stratocumulus/miniconda3/envs/dlenv/lib/python3.12/collections/__init__.py",
+              "line": 595,
+              "function": "__init__",
+              "cc": 137539,
+              "nc": 137539,
+              "tt": 0.050834854000000006,
+              "ct": 0.173163542
+            },
+            {
+              "filename": "/home/stratocumulus/documents/github/stanford_cs336/cs336-assignment1-basics/cs336_basics/bpe_tokenizer.py",
+              "line": 121,
+              "function": "_merge_word",
+              "cc": 68766,
+              "nc": 68766,
+              "tt": 0.045950038000000006,
+              "ct": 0.07186788300000001
+            },
+            {
+              "filename": "~",
+              "line": 0,
+              "function": "<built-in method builtins.isinstance>",
+              "cc": 165332,
+              "nc": 165332,
+              "tt": 0.027009093,
+              "ct": 0.066978417
+            },
+            {
+              "filename": "~",
+              "line": 0,
+              "function": "<built-in method _heapq.heappop>",
+              "cc": 29542,
+              "nc": 29542,
+              "tt": 0.0284327,
+              "ct": 0.052605175000000004
+            },
+            {
+              "filename": "<frozen abc>",
+              "line": 117,
+              "function": "__instancecheck__",
+              "cc": 165174,
+              "nc": 165174,
+              "tt": 0.020332549000000002,
+              "ct": 0.039969324
+            },
+            {
+              "filename": "~",
+              "line": 0,
+              "function": "<method 'get' of 'dict' objects>",
+              "cc": 359911,
+              "nc": 359911,
+              "tt": 0.039728684,
+              "ct": 0.039728684
+            },
+            {
+              "filename": "~",
+              "line": 0,
+              "function": "<method 'add' of 'set' objects>",
+              "cc": 396591,
+              "nc": 396591,
+              "tt": 0.032888520000000004,
+              "ct": 0.032888520000000004
+            },
+            {
+              "filename": "/home/stratocumulus/documents/github/stanford_cs336/cs336-assignment1-basics/cs336_basics/bpe_tokenizer.py",
+              "line": 24,
+              "function": "__lt__",
+              "cc": 507654,
+              "nc": 507654,
+              "tt": 0.029027559,
+              "ct": 0.029027559
+            },
+            {
+              "filename": "/home/stratocumulus/documents/github/stanford_cs336/cs336-assignment1-basics/cs336_basics/bpe_tokenizer.py",
+              "line": 97,
+              "function": "<genexpr>",
+              "cc": 7,
+              "nc": 7,
+              "tt": 1.2181e-05,
+              "ct": 0.02517561
+            },
+            {
+              "filename": "/home/stratocumulus/documents/github/stanford_cs336/cs336-assignment1-basics/cs336_basics/bpe_tokenizer.py",
+              "line": 30,
+              "function": "_file_ranges",
+              "cc": 7,
+              "nc": 7,
+              "tt": 0.015802102000000002,
+              "ct": 0.025163429
+            },
+            {
+              "filename": "~",
+              "line": 0,
+              "function": "<method 'append' of 'list' objects>",
+              "cc": 323941,
+              "nc": 323941,
+              "tt": 0.023661073,
+              "ct": 0.023661073
+            },
+            {
+              "filename": "~",
+              "line": 0,
+              "function": "<built-in method _abc._abc_instancecheck>",
+              "cc": 165174,
+              "nc": 165174,
+              "tt": 0.019636775000000002,
+              "ct": 0.019636775000000002
+            },
+            {
+              "filename": "~",
+              "line": 0,
+              "function": "<method 'remove' of 'set' objects>",
+              "cc": 151874,
+              "nc": 151874,
+              "tt": 0.015081564,
+              "ct": 0.015081564
+            },
+            {
+              "filename": "~",
+              "line": 0,
+              "function": "<built-in method _heapq.heappush>",
+              "cc": 41452,
+              "nc": 41452,
+              "tt": 0.008352563,
+              "ct": 0.013129368
+            },
+            {
+              "filename": "~",
+              "line": 0,
+              "function": "<method 'keys' of 'dict' objects>",
+              "cc": 137532,
+              "nc": 137532,
+              "tt": 0.012403344,
+              "ct": 0.012403344
+            },
+            {
+              "filename": "/home/stratocumulus/miniconda3/envs/dlenv/lib/python3.12/collections/__init__.py",
+              "line": 609,
+              "function": "__missing__",
+              "cc": 235250,
+              "nc": 235250,
+              "tt": 0.010503755,
+              "ct": 0.010503755
+            },
+            {
+              "filename": "~",
+              "line": 0,
+              "function": "<built-in method builtins.len>",
+              "cc": 111119,
+              "nc": 111119,
+              "tt": 0.008051044,
+              "ct": 0.008051044
+            },
+            {
+              "filename": "~",
+              "line": 0,
+              "function": "<method 'decode' of 'bytes' objects>",
+              "cc": 7,
+              "nc": 7,
+              "tt": 0.006629875,
+              "ct": 0.006629875
+            },
+            {
+              "filename": "/home/stratocumulus/documents/github/stanford_cs336/cs336-assignment1-basics/cs336_basics/bpe_tokenizer.py",
+              "line": 19,
+              "function": "__init__",
+              "cc": 42384,
+              "nc": 42384,
+              "tt": 0.006249496,
+              "ct": 0.006249496
+            },
+            {
+              "filename": "~",
+              "line": 0,
+              "function": "<method 'end' of '_regex.Match' objects>",
+              "cc": 82890,
+              "nc": 82890,
+              "tt": 0.005835065,
+              "ct": 0.005835065
+            },
+            {
+              "filename": "~",
+              "line": 0,
+              "function": "<method 'finditer' of '_regex.Pattern' objects>",
+              "cc": 27649,
+              "nc": 27649,
+              "tt": 0.005358191,
+              "ct": 0.005358191
+            },
+            {
+              "filename": "~",
+              "line": 0,
+              "function": "<method 'start' of '_regex.Match' objects>",
+              "cc": 55260,
+              "nc": 55260,
+              "tt": 0.004237774000000001,
+              "ct": 0.004237774000000001
+            },
+            {
+              "filename": "~",
+              "line": 0,
+              "function": "<method 'replace' of 'str' objects>",
+              "cc": 12,
+              "nc": 12,
+              "tt": 0.0040041550000000006,
+              "ct": 0.0040041550000000006
+            },
+            {
+              "filename": "~",
+              "line": 0,
+              "function": "<built-in method builtins.max>",
+              "cc": 37381,
+              "nc": 37381,
+              "tt": 0.0037137850000000003,
+              "ct": 0.0037137850000000003
+            },
+            {
+              "filename": "~",
+              "line": 0,
+              "function": "<method 'read' of '_io.BufferedReader' objects>",
+              "cc": 13,
+              "nc": 13,
+              "tt": 0.00331172,
+              "ct": 0.00331172
+            },
+            {
+              "filename": "~",
+              "line": 0,
+              "function": "<method 'pop' of 'dict' objects>",
+              "cc": 17894,
+              "nc": 17894,
+              "tt": 0.002222243,
+              "ct": 0.002222243
+            },
+            {
+              "filename": "~",
+              "line": 0,
+              "function": "<method 'setdefault' of 'dict' objects>",
+              "cc": 9743,
+              "nc": 9743,
+              "tt": 0.0015601800000000002,
+              "ct": 0.0015601800000000002
+            },
+            {
+              "filename": "~",
+              "line": 0,
+              "function": "<method 'popitem' of 'dict' objects>",
+              "cc": 13111,
+              "nc": 13111,
+              "tt": 0.0013786570000000001,
+              "ct": 0.0013786570000000001
+            },
+            {
+              "filename": "~",
+              "line": 0,
+              "function": "<method 'encode' of 'str' objects>",
+              "cc": 13114,
+              "nc": 13114,
+              "tt": 0.0011097350000000001,
+              "ct": 0.0011097350000000001
+            },
+            {
+              "filename": "/home/stratocumulus/documents/github/stanford_cs336/cs336-assignment1-basics/.venv/lib/python3.12/site-packages/regex/regex.py",
+              "line": 349,
+              "function": "compile",
+              "cc": 13,
+              "nc": 13,
+              "tt": 1.7375000000000002e-05,
+              "ct": 0.00028186700000000004
+            },
+            {
+              "filename": "/home/stratocumulus/documents/github/stanford_cs336/cs336-assignment1-basics/.venv/lib/python3.12/site-packages/regex/regex.py",
+              "line": 449,
+              "function": "_compile",
+              "cc": 13,
+              "nc": 13,
+              "tt": 9.916800000000001e-05,
+              "ct": 0.000264492
+            },
+            {
+              "filename": "~",
+              "line": 0,
+              "function": "<built-in method _heapq.heapify>",
+              "cc": 1,
+              "nc": 1,
+              "tt": 8.7644e-05,
+              "ct": 0.000165923
+            },
+            {
+              "filename": "~",
+              "line": 0,
+              "function": "<built-in method _io.open>",
+              "cc": 7,
+              "nc": 7,
+              "tt": 0.000150261,
+              "ct": 0.00016264800000000002
+            },
+            {
+              "filename": "/home/stratocumulus/miniconda3/envs/dlenv/lib/python3.12/enum.py",
+              "line": 1561,
+              "function": "__and__",
+              "cc": 26,
+              "nc": 26,
+              "tt": 4.5844000000000004e-05,
+              "ct": 0.00011482
+            },
+            {
+              "filename": "~",
+              "line": 0,
+              "function": "<method 'join' of 'str' objects>",
+              "cc": 8,
+              "nc": 14,
+              "tt": 1.3689e-05,
+              "ct": 6.9384e-05
+            },
+            {
+              "filename": "/home/stratocumulus/documents/github/stanford_cs336/cs336-assignment1-basics/.venv/lib/python3.12/site-packages/regex/regex.py",
+              "line": 377,
+              "function": "escape",
+              "cc": 7,
+              "nc": 7,
+              "tt": 3.8311e-05,
+              "ct": 6.277500000000001e-05
+            },
+            {
+              "filename": "/home/stratocumulus/documents/github/stanford_cs336/cs336-assignment1-basics/cs336_basics/bpe_tokenizer.py",
+              "line": 86,
+              "function": "<genexpr>",
+              "cc": 12,
+              "nc": 12,
+              "tt": 6.428e-06,
+              "ct": 5.8187000000000004e-05
+            },
+            {
+              "filename": "/home/stratocumulus/documents/github/stanford_cs336/cs336-assignment1-basics/cs336_basics/bpe_tokenizer.py",
+              "line": 90,
+              "function": "<genexpr>",
+              "cc": 145,
+              "nc": 145,
+              "tt": 3.7315000000000004e-05,
+              "ct": 4.7131e-05
+            },
+            {
+              "filename": "~",
+              "line": 0,
+              "function": "<method '__exit__' of '_io._IOBase' objects>",
+              "cc": 7,
+              "nc": 7,
+              "tt": 4.1598000000000004e-05,
+              "ct": 4.1598000000000004e-05
+            },
+            {
+              "filename": "/home/stratocumulus/miniconda3/envs/dlenv/lib/python3.12/enum.py",
+              "line": 1543,
+              "function": "_get_value",
+              "cc": 78,
+              "nc": 78,
+              "tt": 2.682e-05,
+              "ct": 4.1291e-05
+            },
+            {
+              "filename": "/home/stratocumulus/miniconda3/envs/dlenv/lib/python3.12/pathlib.py",
+              "line": 447,
+              "function": "__fspath__",
+              "cc": 8,
+              "nc": 8,
+              "tt": 1.1898e-05,
+              "ct": 3.2989e-05
+            },
+            {
+              "filename": "<frozen genericpath>",
+              "line": 60,
+              "function": "getsize",
+              "cc": 1,
+              "nc": 1,
+              "tt": 2.234e-06,
+              "ct": 2.9869e-05
+            },
+            {
+              "filename": "~",
+              "line": 0,
+              "function": "<function Counter.update at 0x7dbabeb80220>",
+              "cc": 1,
+              "nc": 1,
+              "tt": 2.8461e-05,
+              "ct": 2.8461e-05
+            },
+            {
+              "filename": "/home/stratocumulus/miniconda3/envs/dlenv/lib/python3.12/enum.py",
+              "line": 720,
+              "function": "__call__",
+              "cc": 26,
+              "nc": 26,
+              "tt": 1.7723e-05,
+              "ct": 2.7685e-05
+            },
+            {
+              "filename": "~",
+              "line": 0,
+              "function": "<built-in method posix.stat>",
+              "cc": 1,
+              "nc": 1,
+              "tt": 7.033e-06,
+              "ct": 2.7635000000000002e-05
+            },
+            {
+              "filename": "/home/stratocumulus/miniconda3/envs/dlenv/lib/python3.12/pathlib.py",
+              "line": 437,
+              "function": "__str__",
+              "cc": 8,
+              "nc": 8,
+              "tt": 5.754e-06,
+              "ct": 2.1091000000000002e-05
+            },
+            {
+              "filename": "/home/stratocumulus/documents/github/stanford_cs336/cs336-assignment1-basics/.venv/lib/python3.12/site-packages/regex/regex.py",
+              "line": 471,
+              "function": "complain_unused_args",
+              "cc": 13,
+              "nc": 13,
+              "tt": 2.0509e-05,
+              "ct": 2.0509e-05
+            },
+            {
+              "filename": "<frozen importlib._bootstrap>",
+              "line": 1390,
+              "function": "_handle_fromlist",
+              "cc": 13,
+              "nc": 13,
+              "tt": 1.3415000000000001e-05,
+              "ct": 2.0263000000000002e-05
+            },
+            {
+              "filename": "~",
+              "line": 0,
+              "function": "<method 'disable' of '_lsprof.Profiler' objects>",
+              "cc": 1,
+              "nc": 1,
+              "tt": 1.9341e-05,
+              "ct": 1.9341e-05
+            },
+            {
+              "filename": "~",
+              "line": 0,
+              "function": "<method 'join' of 'bytes' objects>",
+              "cc": 1,
+              "nc": 1,
+              "tt": 1.599e-06,
+              "ct": 1.3718000000000001e-05
+            },
+            {
+              "filename": "/home/stratocumulus/miniconda3/envs/dlenv/lib/python3.12/pathlib.py",
+              "line": 551,
+              "function": "drive",
+              "cc": 1,
+              "nc": 1,
+              "tt": 1.37e-06,
+              "ct": 1.3668e-05
+            },
+            {
+              "filename": "/home/stratocumulus/miniconda3/envs/dlenv/lib/python3.12/pathlib.py",
+              "line": 407,
+              "function": "_load_parts",
+              "cc": 1,
+              "nc": 1,
+              "tt": 1.8680000000000002e-06,
+              "ct": 1.2298000000000002e-05
+            },
+            {
+              "filename": "/home/stratocumulus/documents/github/stanford_cs336/cs336-assignment1-basics/cs336_basics/bpe_tokenizer.py",
+              "line": 46,
+              "function": "<genexpr>",
+              "cc": 2,
+              "nc": 2,
+              "tt": 1.103e-06,
+              "ct": 1.2119e-05
+            },
+            {
+              "filename": "/home/stratocumulus/miniconda3/envs/dlenv/lib/python3.12/pathlib.py",
+              "line": 387,
+              "function": "_parse_path",
+              "cc": 1,
+              "nc": 1,
+              "tt": 4.48e-06,
+              "ct": 1.0231e-05
+            },
+            {
+              "filename": "/home/stratocumulus/miniconda3/envs/dlenv/lib/python3.12/enum.py",
+              "line": 1128,
+              "function": "__new__",
+              "cc": 26,
+              "nc": 26,
+              "tt": 9.962e-06,
+              "ct": 9.962e-06
+            },
+            {
+              "filename": "~",
+              "line": 0,
+              "function": "<method 'seek' of '_io.BufferedReader' objects>",
+              "cc": 6,
+              "nc": 6,
+              "tt": 7.873e-06,
+              "ct": 7.873e-06
+            },
+            {
+              "filename": "~",
+              "line": 0,
+              "function": "<method 'isspace' of 'str' objects>",
+              "cc": 77,
+              "nc": 77,
+              "tt": 7.727e-06,
+              "ct": 7.727e-06
+            },
+            {
+              "filename": "~",
+              "line": 0,
+              "function": "<built-in method builtins.hasattr>",
+              "cc": 13,
+              "nc": 13,
+              "tt": 5.163e-06,
+              "ct": 5.163e-06
+            },
+            {
+              "filename": "~",
+              "line": 0,
+              "function": "<built-in method builtins.sorted>",
+              "cc": 1,
+              "nc": 1,
+              "tt": 2.5230000000000002e-06,
+              "ct": 3.288e-06
+            },
+            {
+              "filename": "~",
+              "line": 0,
+              "function": "<built-in method builtins.any>",
+              "cc": 2,
+              "nc": 2,
+              "tt": 2.3440000000000003e-06,
+              "ct": 3.09e-06
+            },
+            {
+              "filename": "<frozen posixpath>",
+              "line": 138,
+              "function": "splitroot",
+              "cc": 1,
+              "nc": 1,
+              "tt": 2.086e-06,
+              "ct": 2.374e-06
+            },
+            {
+              "filename": "~",
+              "line": 0,
+              "function": "<built-in method sys.intern>",
+              "cc": 8,
+              "nc": 8,
+              "tt": 2.3440000000000003e-06,
+              "ct": 2.3440000000000003e-06
+            },
+            {
+              "filename": "~",
+              "line": 0,
+              "function": "<method 'items' of 'dict' objects>",
+              "cc": 7,
+              "nc": 7,
+              "tt": 1.8660000000000002e-06,
+              "ct": 1.8660000000000002e-06
+            },
+            {
+              "filename": "/home/stratocumulus/miniconda3/envs/dlenv/lib/python3.12/pathlib.py",
+              "line": 429,
+              "function": "_format_parsed_parts",
+              "cc": 1,
+              "nc": 1,
+              "tt": 1.083e-06,
+              "ct": 1.54e-06
+            },
+            {
+              "filename": "~",
+              "line": 0,
+              "function": "<method 'split' of 'str' objects>",
+              "cc": 1,
+              "nc": 1,
+              "tt": 1.033e-06,
+              "ct": 1.033e-06
+            },
+            {
+              "filename": "/home/stratocumulus/documents/github/stanford_cs336/cs336-assignment1-basics/cs336_basics/bpe_tokenizer.py",
+              "line": 178,
+              "function": "<lambda>",
+              "cc": 1,
+              "nc": 1,
+              "tt": 5.67e-07,
+              "ct": 7.650000000000001e-07
+            },
+            {
+              "filename": "/home/stratocumulus/documents/github/stanford_cs336/cs336-assignment1-basics/cs336_basics/bpe_tokenizer.py",
+              "line": 163,
+              "function": "<genexpr>",
+              "cc": 2,
+              "nc": 2,
+              "tt": 4.18e-07,
+              "ct": 4.18e-07
+            },
+            {
+              "filename": "/home/stratocumulus/documents/github/stanford_cs336/cs336-assignment1-basics/cs336_basics/bpe_tokenizer.py",
+              "line": 40,
+              "function": "<genexpr>",
+              "cc": 2,
+              "nc": 2,
+              "tt": 3.28e-07,
+              "ct": 3.28e-07
+            },
+            {
+              "filename": "~",
+              "line": 0,
+              "function": "<built-in method posix.fspath>",
+              "cc": 1,
+              "nc": 1,
+              "tt": 1.29e-07,
+              "ct": 1.29e-07
+            },
+            {
+              "filename": "/home/stratocumulus/miniconda3/envs/dlenv/lib/python3.12/pathlib.py",
+              "line": 560,
+              "function": "root",
+              "cc": 1,
+              "nc": 1,
+              "tt": 7e-08,
+              "ct": 7e-08
+            },
+            {
+              "filename": "/home/stratocumulus/miniconda3/envs/dlenv/lib/python3.12/pathlib.py",
+              "line": 569,
+              "function": "_tail",
+              "cc": 1,
+              "nc": 1,
+              "tt": 5.9000000000000006e-08,
+              "ct": 5.9000000000000006e-08
+            }
+          ]
+        }
+      },
+      "checks": {
+        "equal_all_completed_runs": true,
+        "completed_comparisons": 16
+      },
+      "actual_vocab_size": 10000,
+      "merge_count": 9743,
+      "speedup": 54.79955240633031,
+      "complete": true
+    }
+  ],
+  "complete": true
+}

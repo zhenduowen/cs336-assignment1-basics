@@ -1,123 +1,262 @@
+import heapq
 import os
-from collections import Counter
+from collections import Counter, defaultdict, deque
+from collections.abc import Iterator
+from concurrent.futures import ProcessPoolExecutor
 
 import regex as re
 
 PAT = r"""'(?:[sdmt]|ll|ve|re)| ?\p{L}+| ?\p{N}+| ?[^\s\p{L}\p{N}]+|\s+(?!\S)|\s+"""
 
+Pair = tuple[int, int]
+
+
+class _MergeCandidate:
+    """Reverse heap ordering: largest count, then largest pair of byte spellings."""
+
+    __slots__ = ("count", "pair", "spellings")
+
+    def __init__(self, count: int, pair: Pair, vocab: dict[int, bytes]):
+        self.count = count
+        self.pair = pair
+        self.spellings = (vocab[pair[0]], vocab[pair[1]])
+
+    def __lt__(self, other: "_MergeCandidate") -> bool:
+        if self.count != other.count:
+            return self.count > other.count
+        return self.spellings > other.spellings
+
+
+def _file_ranges(input_path: str | os.PathLike, special_tokens: tuple[str, ...], chunk_size: int) -> Iterator[Pair]:
+    """Yield ranges ending after complete special tokens, preserving regex boundaries.
+
+    Read with overlap so a delimiter can straddle a read boundary. Matching all
+    delimiters together also preserves left-to-right, longest-first matching when
+    delimiters overlap. A document longer than chunk_size remains a single range.
+    """
+    file_size = os.path.getsize(input_path)
+    # Text-mode newline normalization can change delimiter positions. Keep such
+    # inputs whole, as well as inputs without a safe document delimiter.
+    if not special_tokens or file_size <= chunk_size or any("\r" in t or "\n" in t for t in special_tokens):
+        if file_size:
+            yield 0, file_size
+        return
+
+    delimiters = [token.encode("utf-8") for token in special_tokens]
+    pattern = re.compile(b"|".join(re.escape(token) for token in delimiters))
+    max_length = max(map(len, delimiters))
+    read_size = max(chunk_size, max_length, 64 * 1024)
+    carry = b""
+    buffer_start = range_start = 0
+    with open(input_path, "rb") as file:
+        while True:
+            block = file.read(read_size)
+            buffer = carry + block
+            # Defer starts lacking enough lookahead to rule out a longer token.
+            safe_end = max(0, len(buffer) - max_length + 1) if block else len(buffer)
+            consumed = safe_end
+            for match in pattern.finditer(buffer):
+                if match.start() >= safe_end:
+                    break
+                consumed = max(consumed, match.end())
+                end = buffer_start + match.end()
+                if end - range_start >= chunk_size:
+                    yield range_start, end
+                    range_start = end
+            carry = buffer[consumed:]
+            buffer_start += consumed
+            if not block:
+                break
+    if range_start < file_size:
+        yield range_start, file_size
+
+
+def _count_pretokens(job: tuple[str | os.PathLike, int, int, tuple[str, ...]]) -> Counter[str]:
+    """Read a document-aligned range and count strings before allocating token lists."""
+    input_path, start, end, special_tokens = job
+    with open(input_path, "rb") as file:
+        file.seek(start)
+        text = file.read(end - start).decode("utf-8")
+    # Match the original trainer's open(..., encoding="utf-8") newline behavior.
+    text = text.replace("\r\n", "\n").replace("\r", "\n")
+    pattern = re.compile(PAT)
+    counts: Counter[str] = Counter()
+    previous = 0
+    if special_tokens:
+        special_pattern = re.compile("|".join(re.escape(token) for token in special_tokens))
+        for match in special_pattern.finditer(text):
+            counts.update(piece.group() for piece in pattern.finditer(text, previous, match.start()))
+            previous = match.end()
+    counts.update(piece.group() for piece in pattern.finditer(text, previous))
+    return counts
+
+
+def _pretokenize(
+    input_path: str | os.PathLike, special_tokens: tuple[str, ...], num_workers: int, chunk_size: int
+) -> Counter[str]:
+    jobs = ((input_path, start, end, special_tokens) for start, end in _file_ranges(input_path, special_tokens, chunk_size))
+    counts: Counter[str] = Counter()
+    if num_workers == 1:
+        for job in jobs:
+            counts.update(_count_pretokens(job))
+        return counts
+
+    # Bound submitted work: completed Counters must not accumulate for the entire
+    # corpus while the parent is still combining earlier results.
+    with ProcessPoolExecutor(max_workers=num_workers) as pool:
+        pending = deque()
+        for _ in range(2 * num_workers):
+            job = next(jobs, None)
+            if job is None:
+                break
+            pending.append(pool.submit(_count_pretokens, job))
+        while pending:
+            counts.update(pending.popleft().result())
+            job = next(jobs, None)
+            if job is not None:
+                pending.append(pool.submit(_count_pretokens, job))
+    return counts
+
+
+def _merge_word(word: list[int], pair: Pair, merged_id: int) -> list[int]:
+    result: list[int] = []
+    first, second = pair
+    i, length = 0, len(word)
+    while i < length:
+        if i + 1 < length and word[i] == first and word[i + 1] == second:
+            result.append(merged_id)
+            i += 2
+        else:
+            result.append(word[i])
+            i += 1
+    return result
+
+
 def train_bpe(
     input_path: str | os.PathLike,
     vocab_size: int,
-    special_tokens: list[str], 
+    special_tokens: list[str],
+    *,
+    num_workers: int = 1,
+    chunk_size: int = 4 * 1024 * 1024,
     **kwargs,
 ) -> tuple[dict[int, bytes], list[tuple[bytes, bytes]]]:
-    """
-    Train a BPE tokenizer on the given input data.
+    """Train byte-level BPE using incremental counts and an affected-word index.
 
     Args:
-        input_path: str | os.PathLike,
-            The path to the input text file.
-        vocab_size: vocab_size: int,
-            The desired size of the vocabulary (including special tokens).
-        special_tokens: list[str],
-            A list of special tokens to include in the vocabulary.
-        **kwargs: Additional keyword arguments for training.
+        input_path: UTF-8 training corpus.
+        vocab_size: Target vocabulary size, including bytes and special tokens.
+        special_tokens: Strings kept out of ordinary pre-tokenization and merges.
+            Overlapping special tokens are matched longest-first.
+        num_workers: Number of preprocessing processes (1 avoids process overhead).
+        chunk_size: Target bytes per preprocessing job. Jobs end at special-token
+            boundaries; an individual document may exceed this size. With no safe
+            delimiters, the entire file is processed together.
+        **kwargs: Reserved for compatibility with the assignment adapter.
 
     Returns:
-        vocab: dict[int, bytes] 
-            The tokenizer vocabulary, 
-            a mapping from int (token ID in the vocabulary) to bytes (token bytes).
-        merges: list[tuple[bytes,bytes]]
-            A list of BPE merges produced from training. 
-            Each list item is a tuple of bytes (<token1>, <token2>), 
-            representing that <token1> was merged with <token2>. 
-            The merges should be ordered by order of creation.
+        An ID-to-bytes vocabulary and byte-pair merges in learning order. Frequency
+        ties choose the lexicographically largest pair of byte spellings.
     """
-    # Initialize vocabulary with all single-byte tokens.
-    vocab: dict[int, bytes] = {i: bytes([i]) for i in range(256)}
+    if num_workers < 1 or chunk_size < 1:
+        raise ValueError("num_workers and chunk_size must be positive")
+    if any(not token for token in special_tokens):
+        raise ValueError("Special tokens must not be empty")
 
-    # Add special tokens to the vocabulary after the 256 byte tokens.
-    next_token_id = 256
+    vocab = {i: bytes([i]) for i in range(256)}
+    token_ids = {token: token_id for token_id, token in vocab.items()}
     for token in special_tokens:
         token_bytes = token.encode("utf-8")
-        if token_bytes not in vocab.values():
-            vocab[next_token_id] = token_bytes
-            next_token_id += 1
+        if token_bytes not in token_ids:
+            token_ids[token_bytes] = len(vocab)
+            vocab[len(vocab)] = token_bytes
 
     num_merges = vocab_size - len(vocab)
     if num_merges <= 0:
         return vocab, []
 
-    with open(input_path, "r", encoding="utf-8") as f:
-        text = f.read()
+    specials = tuple(sorted(set(special_tokens), key=lambda token: (-len(token), token)))
+    pretoken_counts = _pretokenize(input_path, specials, num_workers, chunk_size)
+    words: list[list[int]] = []
+    frequencies: list[int] = []
+    pair_counts: dict[Pair, int] = defaultdict(int)
+    pair_words: dict[Pair, set[int]] = defaultdict(set)
+    # Consume strings as they are converted: each distinct pre-token is encoded
+    # once, and its original frequency remains fixed throughout training.
+    while pretoken_counts:
+        text, frequency = pretoken_counts.popitem()
+        word = list(text.encode("utf-8"))
+        word_id = len(words)
+        words.append(word)
+        frequencies.append(frequency)
+        for pair in zip(word, word[1:]):
+            pair_counts[pair] += frequency
+            pair_words[pair].add(word_id)
+    del pretoken_counts
 
-    # Split on special tokens before pre-tokenization so no merge can cross a
-    # special-token boundary, e.g. across <|endoftext|>.
-    if special_tokens:
-        special_token_pattern = "|".join(re.escape(token) for token in special_tokens)
-        chunks = re.split(special_token_pattern, text)
-    else:
-        chunks = [text]
-
-    # Pre-tokenize the corpus. We store each pre-token as a tuple of bytes.
-    # Counter lets us aggregate repeated pre-tokens efficiently.
-    pretoken_counts: Counter[tuple[bytes, ...]] = Counter()
-    for chunk in chunks:
-        for match in re.finditer(PAT, chunk):
-            pretoken = match.group()
-            byte_tuple = tuple(bytes([b]) for b in pretoken.encode("utf-8"))
-            pretoken_counts[byte_tuple] += 1
-
-    def get_pair_counts(
-        counts: Counter[tuple[bytes, ...]],
-    ) -> Counter[tuple[bytes, bytes]]:
-        pair_counts: Counter[tuple[bytes, bytes]] = Counter()
-        for tokens, frequency in counts.items():
-            for i in range(len(tokens) - 1):
-                pair_counts[(tokens[i], tokens[i + 1])] += frequency
-        return pair_counts
-
-    def merge_pair(
-        tokens: tuple[bytes, ...],
-        pair: tuple[bytes, bytes],
-    ) -> tuple[bytes, ...]:
-        merged_tokens: list[bytes] = []
-        i = 0
-        while i < len(tokens):
-            if i < len(tokens) - 1 and tokens[i] == pair[0] and tokens[i + 1] == pair[1]:
-                merged_tokens.append(tokens[i] + tokens[i + 1])
-                i += 2
-            else:
-                merged_tokens.append(tokens[i])
-                i += 1
-        return tuple(merged_tokens)
-
+    heap = [_MergeCandidate(count, pair, vocab) for pair, count in pair_counts.items()]
+    heapq.heapify(heap)
     merges: list[tuple[bytes, bytes]] = []
-
     for _ in range(num_merges):
-        pair_counts = get_pair_counts(pretoken_counts)
-        if not pair_counts:
+        while heap:
+            candidate = heapq.heappop(heap)
+            if pair_counts.get(candidate.pair, 0) == candidate.count:
+                break
+        else:
             break
 
-        # Tie-break rule: choose the lexicographically largest pair among pairs
-        # with maximum frequency. This is the convention used in many CS336 tests.
-        best_pair = max(pair_counts.items(), key=lambda item: (item[1], item[0]))[0]
-        merges.append(best_pair)
+        best_pair = candidate.pair
+        merges.append(candidate.spellings)
+        merged_bytes = candidate.spellings[0] + candidate.spellings[1]
+        next_token_id = len(vocab)
+        # Identical byte spellings must share an internal identity, even if two
+        # different merge paths produce them. Keep the public vocabulary ordering.
+        merged_id = token_ids.setdefault(merged_bytes, next_token_id)
+        vocab[next_token_id] = merged_bytes
+        changed_pairs: set[Pair] = set()
 
-        vocab[next_token_id] = best_pair[0] + best_pair[1]
-        next_token_id += 1
+        # Snapshot memberships before updating them. Only these words can change.
+        for word_id in tuple(pair_words[best_pair]):
+            word = words[word_id]
+            old_pairs = Counter(zip(word, word[1:]))
+            new_word = _merge_word(word, best_pair, merged_id)
+            new_pairs = Counter(zip(new_word, new_word[1:]))
+            words[word_id] = new_word
+            frequency = frequencies[word_id]
+            for pair in old_pairs.keys() | new_pairs.keys():
+                before, after = old_pairs[pair], new_pairs[pair]
+                delta = (after - before) * frequency
+                if delta:
+                    count = pair_counts.get(pair, 0) + delta
+                    if count:
+                        pair_counts[pair] = count
+                    else:
+                        pair_counts.pop(pair, None)
+                    changed_pairs.add(pair)
+                if before and not after:
+                    locations = pair_words[pair]
+                    locations.remove(word_id)
+                    if not locations:
+                        del pair_words[pair]
+                elif after and not before:
+                    pair_words[pair].add(word_id)
 
-        new_pretoken_counts: Counter[tuple[bytes, ...]] = Counter()
-        for tokens, frequency in pretoken_counts.items():
-            new_pretoken_counts[merge_pair(tokens, best_pair)] += frequency
-        pretoken_counts = new_pretoken_counts
+        # Counts are authoritative. Old entries are discarded lazily when popped;
+        # an old entry with the same count is equivalent to the current candidate.
+        for pair in changed_pairs:
+            count = pair_counts.get(pair, 0)
+            if count:
+                heapq.heappush(heap, _MergeCandidate(count, pair, vocab))
+        if len(heap) > 4 * max(len(pair_counts), 1):
+            heap = [_MergeCandidate(count, pair, vocab) for pair, count in pair_counts.items()]
+            heapq.heapify(heap)
 
     return vocab, merges
 
+
 if __name__ == "__main__":
-    local_test_path = "./data/TinyStoriesV2-GPT4-valid.txt"
     vocab, merges = train_bpe(
-        input_path=local_test_path,
+        input_path="./data/TinyStoriesV2-GPT4-valid.txt",
         vocab_size=10000,
         special_tokens=["<|endoftext|>"],
     )
