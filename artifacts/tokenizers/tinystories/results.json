@@ -1,0 +1,2043 @@
+{
+  "complete": true,
+  "created_utc": "2026-10-30T10:43:03.617358+00:00",
+  "input": {
+    "path": "/home/stratocumulus/documents/github/stanford_cs336/cs336-assignment1-basics/data/TinyStoriesV2-GPT4-train.txt",
+    "bytes": 2227753162,
+    "sha256": "6418d412de72888f52b5142c761ac21a582f7d1166f0bfbdb5f03ccfdec90443"
+  },
+  "trainer_sha256": "2340cf336456c77413ebce4a97dd0e3cdda6ce07926d845070ebf08fc6d605ca",
+  "environment": {
+    "python": "3.12.12 | packaged by Anaconda, Inc. | (main, Oct 21 2025, 20:16:04) [GCC 11.2.0]",
+    "platform": "Linux-6.6.87.2-microsoft-standard-WSL2-x86_64-with-glibc2.39",
+    "logical_cpus": 16,
+    "physical_memory_bytes": 16292966400
+  },
+  "configuration": {
+    "vocab_size": 10000,
+    "special_tokens": [
+      "<|endoftext|>"
+    ],
+    "num_workers": 4,
+    "chunk_size": 4194304
+  },
+  "serialization": {
+    "encoding": "hex",
+    "vocab.json": "JSON object: decimal token ID string -> hexadecimal bytes",
+    "merges.json": "JSON array in learning order: [left bytes as hex, right bytes as hex]"
+  },
+  "method": {
+    "timing": "One unprofiled training call in a fresh subprocess; imports, validation and serialization excluded.",
+    "memory": "Approximate peak sum of trainer and descendant RSS, sampled every 50 ms over subprocess lifetime; supervisor excluded. Shared pages may be counted more than once and brief peaks may be missed.",
+    "profile": "Separate full-input serial cProfile run, so preprocessing CPU work is visible; not used as production timing.",
+    "cache": "Input hashed before timing; no cold-cache claim."
+  },
+  "timing": {
+    "stage": "timing",
+    "workers": 4,
+    "training_seconds": 31.869393048999996,
+    "training_hours": 0.008852609180277776,
+    "vocabulary_size": 10000,
+    "merge_count": 9743,
+    "longest_tokens": [
+      {
+        "id": 7160,
+        "byte_length": 15,
+        "hex": "206163636f6d706c6973686d656e74",
+        "bytes_repr": "b' accomplishment'",
+        "text": " accomplishment"
+      },
+      {
+        "id": 9143,
+        "byte_length": 15,
+        "hex": "206469736170706f696e746d656e74",
+        "bytes_repr": "b' disappointment'",
+        "text": " disappointment"
+      },
+      {
+        "id": 9379,
+        "byte_length": 15,
+        "hex": "20726573706f6e736962696c697479",
+        "bytes_repr": "b' responsibility'",
+        "text": " responsibility"
+      }
+    ],
+    "longest_non_special_tokens": [
+      {
+        "id": 7160,
+        "byte_length": 15,
+        "hex": "206163636f6d706c6973686d656e74",
+        "bytes_repr": "b' accomplishment'",
+        "text": " accomplishment"
+      },
+      {
+        "id": 9143,
+        "byte_length": 15,
+        "hex": "206469736170706f696e746d656e74",
+        "bytes_repr": "b' disappointment'",
+        "text": " disappointment"
+      },
+      {
+        "id": 9379,
+        "byte_length": 15,
+        "hex": "20726573706f6e736962696c697479",
+        "bytes_repr": "b' responsibility'",
+        "text": " responsibility"
+      }
+    ],
+    "serialization_roundtrip_verified": true,
+    "self_peak_rss_bytes": 101732352,
+    "sampled_peak_process_tree_rss_bytes": 236498944,
+    "sampled_peak_process_count": 5,
+    "memory_samples": 635,
+    "process_lifetime_seconds": 31.994170431000043
+  },
+  "serial_profile": {
+    "stage": "profile",
+    "workers": 1,
+    "training_seconds": 230.155516025,
+    "training_hours": 0.06393208778472222,
+    "vocabulary_size": 10000,
+    "merge_count": 9743,
+    "longest_tokens": [
+      {
+        "id": 7160,
+        "byte_length": 15,
+        "hex": "206163636f6d706c6973686d656e74",
+        "bytes_repr": "b' accomplishment'",
+        "text": " accomplishment"
+      },
+      {
+        "id": 9143,
+        "byte_length": 15,
+        "hex": "206469736170706f696e746d656e74",
+        "bytes_repr": "b' disappointment'",
+        "text": " disappointment"
+      },
+      {
+        "id": 9379,
+        "byte_length": 15,
+        "hex": "20726573706f6e736962696c697479",
+        "bytes_repr": "b' responsibility'",
+        "text": " responsibility"
+      }
+    ],
+    "longest_non_special_tokens": [
+      {
+        "id": 7160,
+        "byte_length": 15,
+        "hex": "206163636f6d706c6973686d656e74",
+        "bytes_repr": "b' accomplishment'",
+        "text": " accomplishment"
+      },
+      {
+        "id": 9143,
+        "byte_length": 15,
+        "hex": "206469736170706f696e746d656e74",
+        "bytes_repr": "b' disappointment'",
+        "text": " disappointment"
+      },
+      {
+        "id": 9379,
+        "byte_length": 15,
+        "hex": "20726573706f6e736962696c697479",
+        "bytes_repr": "b' responsibility'",
+        "text": " responsibility"
+      }
+    ],
+    "serialization_roundtrip_verified": true,
+    "self_peak_rss_bytes": 100184064,
+    "profile": {
+      "total_calls": 1124731294,
+      "total_profile_seconds": 230.136521584,
+      "functions": [
+        {
+          "filename": "/home/stratocumulus/documents/github/stanford_cs336/cs336-assignment1-basics/cs336_basics/bpe_tokenizer.py",
+          "line": 135,
+          "function": "train_bpe",
+          "primitive_calls": 1,
+          "calls": 1,
+          "self_seconds": 1.406589123,
+          "cumulative_seconds": 230.136500519
+        },
+        {
+          "filename": "/home/stratocumulus/documents/github/stanford_cs336/cs336-assignment1-basics/cs336_basics/bpe_tokenizer.py",
+          "line": 94,
+          "function": "_pretokenize",
+          "primitive_calls": 1,
+          "calls": 1,
+          "self_seconds": 0.029921946,
+          "cumulative_seconds": 227.04594417200002
+        },
+        {
+          "filename": "/home/stratocumulus/documents/github/stanford_cs336/cs336-assignment1-basics/cs336_basics/bpe_tokenizer.py",
+          "line": 74,
+          "function": "_count_pretokens",
+          "primitive_calls": 532,
+          "calls": 532,
+          "self_seconds": 2.3838441130000003,
+          "cumulative_seconds": 223.78446885600002
+        },
+        {
+          "filename": "/home/stratocumulus/miniconda3/envs/dlenv/lib/python3.12/collections/__init__.py",
+          "line": 669,
+          "function": "update",
+          "primitive_calls": 3274856,
+          "calls": 3274856,
+          "self_seconds": 1.202800294,
+          "cumulative_seconds": 220.932143013
+        },
+        {
+          "filename": "~",
+          "line": 0,
+          "function": "<built-in method _collections._count_elements>",
+          "primitive_calls": 3273791,
+          "calls": 3273791,
+          "self_seconds": 48.653039358,
+          "cumulative_seconds": 217.73282047
+        },
+        {
+          "filename": "/home/stratocumulus/documents/github/stanford_cs336/cs336-assignment1-basics/cs336_basics/bpe_tokenizer.py",
+          "line": 88,
+          "function": "<genexpr>",
+          "primitive_calls": 539309733,
+          "calls": 539309733,
+          "self_seconds": 132.94410569500002,
+          "cumulative_seconds": 169.079646289
+        },
+        {
+          "filename": "~",
+          "line": 0,
+          "function": "<method 'group' of '_regex.Match' objects>",
+          "primitive_calls": 536592168,
+          "calls": 536592168,
+          "self_seconds": 36.135549396,
+          "cumulative_seconds": 36.135549396
+        },
+        {
+          "filename": "/home/stratocumulus/documents/github/stanford_cs336/cs336-assignment1-basics/cs336_basics/bpe_tokenizer.py",
+          "line": 97,
+          "function": "<genexpr>",
+          "primitive_calls": 533,
+          "calls": 533,
+          "self_seconds": 0.001344027,
+          "cumulative_seconds": 2.196035862
+        },
+        {
+          "filename": "/home/stratocumulus/documents/github/stanford_cs336/cs336-assignment1-basics/cs336_basics/bpe_tokenizer.py",
+          "line": 30,
+          "function": "_file_ranges",
+          "primitive_calls": 533,
+          "calls": 533,
+          "self_seconds": 1.4320992830000001,
+          "cumulative_seconds": 2.194691835
+        },
+        {
+          "filename": "~",
+          "line": 0,
+          "function": "<built-in method builtins.isinstance>",
+          "primitive_calls": 3288234,
+          "calls": 3288234,
+          "self_seconds": 0.56751912,
+          "cumulative_seconds": 1.353127135
+        },
+        {
+          "filename": "<frozen abc>",
+          "line": 117,
+          "function": "__instancecheck__",
+          "primitive_calls": 3274323,
+          "calls": 3274323,
+          "self_seconds": 0.35543694400000003,
+          "cumulative_seconds": 0.7856080150000001
+        },
+        {
+          "filename": "~",
+          "line": 0,
+          "function": "<method 'get' of 'dict' objects>",
+          "primitive_calls": 5237259,
+          "calls": 5237259,
+          "self_seconds": 0.7767390200000001,
+          "cumulative_seconds": 0.7767390200000001
+        },
+        {
+          "filename": "/home/stratocumulus/miniconda3/envs/dlenv/lib/python3.12/collections/__init__.py",
+          "line": 595,
+          "function": "__init__",
+          "primitive_calls": 556093,
+          "calls": 556093,
+          "self_seconds": 0.22691619600000001,
+          "cumulative_seconds": 0.749077051
+        },
+        {
+          "filename": "~",
+          "line": 0,
+          "function": "<method 'end' of '_regex.Match' objects>",
+          "primitive_calls": 8153097,
+          "calls": 8153097,
+          "self_seconds": 0.545967581,
+          "cumulative_seconds": 0.545967581
+        },
+        {
+          "filename": "~",
+          "line": 0,
+          "function": "<method 'finditer' of '_regex.Pattern' objects>",
+          "primitive_calls": 2719296,
+          "calls": 2719296,
+          "self_seconds": 0.509653087,
+          "cumulative_seconds": 0.509653087
+        },
+        {
+          "filename": "~",
+          "line": 0,
+          "function": "<method 'decode' of 'bytes' objects>",
+          "primitive_calls": 534,
+          "calls": 534,
+          "self_seconds": 0.48925314200000003,
+          "cumulative_seconds": 0.48925314200000003
+        },
+        {
+          "filename": "~",
+          "line": 0,
+          "function": "<built-in method _abc._abc_instancecheck>",
+          "primitive_calls": 3274323,
+          "calls": 3274323,
+          "self_seconds": 0.430121142,
+          "cumulative_seconds": 0.430171071
+        },
+        {
+          "filename": "~",
+          "line": 0,
+          "function": "<method 'start' of '_regex.Match' objects>",
+          "primitive_calls": 5435398,
+          "calls": 5435398,
+          "self_seconds": 0.392016746,
+          "cumulative_seconds": 0.392016746
+        },
+        {
+          "filename": "~",
+          "line": 0,
+          "function": "<method 'replace' of 'str' objects>",
+          "primitive_calls": 1064,
+          "calls": 1064,
+          "self_seconds": 0.389612968,
+          "cumulative_seconds": 0.389612968
+        },
+        {
+          "filename": "/home/stratocumulus/documents/github/stanford_cs336/cs336-assignment1-basics/cs336_basics/bpe_tokenizer.py",
+          "line": 121,
+          "function": "_merge_word",
+          "primitive_calls": 277780,
+          "calls": 277780,
+          "self_seconds": 0.190984274,
+          "cumulative_seconds": 0.302639107
+        },
+        {
+          "filename": "~",
+          "line": 0,
+          "function": "<method 'read' of '_io.BufferedReader' objects>",
+          "primitive_calls": 1065,
+          "calls": 1065,
+          "self_seconds": 0.214696991,
+          "cumulative_seconds": 0.214696991
+        },
+        {
+          "filename": "~",
+          "line": 0,
+          "function": "<built-in method builtins.max>",
+          "primitive_calls": 2727977,
+          "calls": 2727978,
+          "self_seconds": 0.20250946700000003,
+          "cumulative_seconds": 0.20253046800000002
+        },
+        {
+          "filename": "~",
+          "line": 0,
+          "function": "<method 'add' of 'set' objects>",
+          "primitive_calls": 1794530,
+          "calls": 1794530,
+          "self_seconds": 0.146069932,
+          "cumulative_seconds": 0.14607440200000002
+        },
+        {
+          "filename": "~",
+          "line": 0,
+          "function": "<method 'append' of 'list' objects>",
+          "primitive_calls": 1497464,
+          "calls": 1497464,
+          "self_seconds": 0.10312196300000001,
+          "cumulative_seconds": 0.10312196300000001
+        },
+        {
+          "filename": "~",
+          "line": 0,
+          "function": "<built-in method _heapq.heappop>",
+          "primitive_calls": 42747,
+          "calls": 42747,
+          "self_seconds": 0.056211022000000006,
+          "cumulative_seconds": 0.09490055600000001
+        },
+        {
+          "filename": "~",
+          "line": 0,
+          "function": "<method 'remove' of 'set' objects>",
+          "primitive_calls": 655941,
+          "calls": 655941,
+          "self_seconds": 0.07408416500000001,
+          "cumulative_seconds": 0.07408416500000001
+        },
+        {
+          "filename": "/home/stratocumulus/documents/github/stanford_cs336/cs336-assignment1-basics/cs336_basics/bpe_tokenizer.py",
+          "line": 24,
+          "function": "__lt__",
+          "primitive_calls": 950725,
+          "calls": 950725,
+          "self_seconds": 0.052998987000000004,
+          "cumulative_seconds": 0.052998987000000004
+        },
+        {
+          "filename": "~",
+          "line": 0,
+          "function": "<method 'keys' of 'dict' objects>",
+          "primitive_calls": 555560,
+          "calls": 555560,
+          "self_seconds": 0.047986418,
+          "cumulative_seconds": 0.047986418
+        },
+        {
+          "filename": "/home/stratocumulus/miniconda3/envs/dlenv/lib/python3.12/collections/__init__.py",
+          "line": 609,
+          "function": "__missing__",
+          "primitive_calls": 1036707,
+          "calls": 1036707,
+          "self_seconds": 0.04229929,
+          "cumulative_seconds": 0.04229929
+        },
+        {
+          "filename": "~",
+          "line": 0,
+          "function": "<built-in method _heapq.heappush>",
+          "primitive_calls": 122104,
+          "calls": 122104,
+          "self_seconds": 0.0256509,
+          "cumulative_seconds": 0.039736774
+        },
+        {
+          "filename": "~",
+          "line": 0,
+          "function": "<built-in method builtins.len>",
+          "primitive_calls": 367595,
+          "calls": 367595,
+          "self_seconds": 0.024352346,
+          "cumulative_seconds": 0.024352346
+        },
+        {
+          "filename": "/home/stratocumulus/documents/github/stanford_cs336/cs336-assignment1-basics/cs336_basics/bpe_tokenizer.py",
+          "line": 19,
+          "function": "__init__",
+          "primitive_calls": 124212,
+          "calls": 124212,
+          "self_seconds": 0.024336149,
+          "cumulative_seconds": 0.024336149
+        },
+        {
+          "filename": "/home/stratocumulus/documents/github/stanford_cs336/cs336-assignment1-basics/.venv/lib/python3.12/site-packages/regex/regex.py",
+          "line": 349,
+          "function": "compile",
+          "primitive_calls": 1065,
+          "calls": 1065,
+          "self_seconds": 0.001371603,
+          "cumulative_seconds": 0.022973742000000002
+        },
+        {
+          "filename": "/home/stratocumulus/documents/github/stanford_cs336/cs336-assignment1-basics/.venv/lib/python3.12/site-packages/regex/regex.py",
+          "line": 449,
+          "function": "_compile",
+          "primitive_calls": 1065,
+          "calls": 1065,
+          "self_seconds": 0.007550425,
+          "cumulative_seconds": 0.021601949000000002
+        },
+        {
+          "filename": "~",
+          "line": 0,
+          "function": "<built-in method _io.open>",
+          "primitive_calls": 533,
+          "calls": 533,
+          "self_seconds": 0.010783938,
+          "cumulative_seconds": 0.011743851000000001
+        },
+        {
+          "filename": "/home/stratocumulus/miniconda3/envs/dlenv/lib/python3.12/enum.py",
+          "line": 1561,
+          "function": "__and__",
+          "primitive_calls": 2322,
+          "calls": 2322,
+          "self_seconds": 0.0036765060000000004,
+          "cumulative_seconds": 0.009497986
+        },
+        {
+          "filename": "~",
+          "line": 0,
+          "function": "<method 'popitem' of 'dict' objects>",
+          "primitive_calls": 59933,
+          "calls": 59933,
+          "self_seconds": 0.006915242,
+          "cumulative_seconds": 0.006915242
+        },
+        {
+          "filename": "~",
+          "line": 0,
+          "function": "<method 'join' of 'str' objects>",
+          "primitive_calls": 545,
+          "calls": 1077,
+          "self_seconds": 0.000978417,
+          "cumulative_seconds": 0.005700097
+        },
+        {
+          "filename": "~",
+          "line": 0,
+          "function": "<method 'encode' of 'str' objects>",
+          "primitive_calls": 59936,
+          "calls": 59936,
+          "self_seconds": 0.00519409,
+          "cumulative_seconds": 0.00519409
+        },
+        {
+          "filename": "/home/stratocumulus/documents/github/stanford_cs336/cs336-assignment1-basics/cs336_basics/bpe_tokenizer.py",
+          "line": 86,
+          "function": "<genexpr>",
+          "primitive_calls": 1064,
+          "calls": 1064,
+          "self_seconds": 0.000489546,
+          "cumulative_seconds": 0.004931451
+        },
+        {
+          "filename": "/home/stratocumulus/documents/github/stanford_cs336/cs336-assignment1-basics/.venv/lib/python3.12/site-packages/regex/regex.py",
+          "line": 377,
+          "function": "escape",
+          "primitive_calls": 533,
+          "calls": 533,
+          "self_seconds": 0.002694447,
+          "cumulative_seconds": 0.0044520950000000005
+        },
+        {
+          "filename": "/home/stratocumulus/miniconda3/envs/dlenv/lib/python3.12/enum.py",
+          "line": 1543,
+          "function": "_get_value",
+          "primitive_calls": 6999,
+          "calls": 6999,
+          "self_seconds": 0.002210552,
+          "cumulative_seconds": 0.003613891
+        },
+        {
+          "filename": "~",
+          "line": 0,
+          "function": "<method '__exit__' of '_io._IOBase' objects>",
+          "primitive_calls": 533,
+          "calls": 533,
+          "self_seconds": 0.0031465,
+          "cumulative_seconds": 0.0031465
+        },
+        {
+          "filename": "~",
+          "line": 0,
+          "function": "<method 'pop' of 'dict' objects>",
+          "primitive_calls": 22149,
+          "calls": 22149,
+          "self_seconds": 0.002917928,
+          "cumulative_seconds": 0.002917928
+        },
+        {
+          "filename": "/home/stratocumulus/miniconda3/envs/dlenv/lib/python3.12/enum.py",
+          "line": 720,
+          "function": "__call__",
+          "primitive_calls": 2335,
+          "calls": 2335,
+          "self_seconds": 0.001421413,
+          "cumulative_seconds": 0.002313973
+        },
+        {
+          "filename": "~",
+          "line": 0,
+          "function": "<method 'setdefault' of 'dict' objects>",
+          "primitive_calls": 9747,
+          "calls": 9747,
+          "self_seconds": 0.0019201930000000002,
+          "cumulative_seconds": 0.0019201930000000002
+        },
+        {
+          "filename": "/home/stratocumulus/documents/github/stanford_cs336/cs336-assignment1-basics/.venv/lib/python3.12/site-packages/regex/regex.py",
+          "line": 471,
+          "function": "complain_unused_args",
+          "primitive_calls": 1065,
+          "calls": 1065,
+          "self_seconds": 0.001734323,
+          "cumulative_seconds": 0.001734323
+        },
+        {
+          "filename": "<frozen importlib._bootstrap>",
+          "line": 1390,
+          "function": "_handle_fromlist",
+          "primitive_calls": 1065,
+          "calls": 1065,
+          "self_seconds": 0.0008172310000000001,
+          "cumulative_seconds": 0.00125775
+        },
+        {
+          "filename": "/home/stratocumulus/miniconda3/envs/dlenv/lib/python3.12/pathlib.py",
+          "line": 447,
+          "function": "__fspath__",
+          "primitive_calls": 534,
+          "calls": 534,
+          "self_seconds": 0.000835448,
+          "cumulative_seconds": 0.0009608930000000001
+        },
+        {
+          "filename": "/home/stratocumulus/miniconda3/envs/dlenv/lib/python3.12/enum.py",
+          "line": 1128,
+          "function": "__new__",
+          "primitive_calls": 2335,
+          "calls": 2335,
+          "self_seconds": 0.0008146770000000001,
+          "cumulative_seconds": 0.00089256
+        },
+        {
+          "filename": "~",
+          "line": 0,
+          "function": "<method 'seek' of '_io.BufferedReader' objects>",
+          "primitive_calls": 532,
+          "calls": 532,
+          "self_seconds": 0.0007946250000000001,
+          "cumulative_seconds": 0.0007946250000000001
+        },
+        {
+          "filename": "~",
+          "line": 0,
+          "function": "<method 'isspace' of 'str' objects>",
+          "primitive_calls": 5863,
+          "calls": 5863,
+          "self_seconds": 0.0006223240000000001,
+          "cumulative_seconds": 0.0006223240000000001
+        },
+        {
+          "filename": "/home/stratocumulus/documents/github/stanford_cs336/cs336-assignment1-basics/.venv/lib/python3.12/site-packages/regex/_regex_core.py",
+          "line": 417,
+          "function": "_parse_pattern",
+          "primitive_calls": 3,
+          "calls": 5,
+          "self_seconds": 1.2640000000000001e-05,
+          "cumulative_seconds": 0.000596443
+        },
+        {
+          "filename": "/home/stratocumulus/documents/github/stanford_cs336/cs336-assignment1-basics/.venv/lib/python3.12/site-packages/regex/_regex_core.py",
+          "line": 427,
+          "function": "parse_sequence",
+          "primitive_calls": 8,
+          "calls": 13,
+          "self_seconds": 6.9082e-05,
+          "cumulative_seconds": 0.0005826630000000001
+        },
+        {
+          "filename": "~",
+          "line": 0,
+          "function": "<built-in method _heapq.heapify>",
+          "primitive_calls": 1,
+          "calls": 1,
+          "self_seconds": 0.00019806200000000002,
+          "cumulative_seconds": 0.00042164100000000005
+        },
+        {
+          "filename": "~",
+          "line": 0,
+          "function": "<built-in method builtins.hasattr>",
+          "primitive_calls": 1069,
+          "calls": 1069,
+          "self_seconds": 0.00029923,
+          "cumulative_seconds": 0.00029923
+        },
+        {
+          "filename": "/home/stratocumulus/documents/github/stanford_cs336/cs336-assignment1-basics/.venv/lib/python3.12/site-packages/regex/_regex_core.py",
+          "line": 803,
+          "function": "parse_paren",
+          "primitive_calls": 2,
+          "calls": 2,
+          "self_seconds": 4.41e-06,
+          "cumulative_seconds": 0.000199285
+        },
+        {
+          "filename": "/home/stratocumulus/documents/github/stanford_cs336/cs336-assignment1-basics/.venv/lib/python3.12/site-packages/regex/_regex_core.py",
+          "line": 1121,
+          "function": "parse_flags_subpattern",
+          "primitive_calls": 1,
+          "calls": 1,
+          "self_seconds": 8.750000000000001e-06,
+          "cumulative_seconds": 0.000172174
+        },
+        {
+          "filename": "~",
+          "line": 0,
+          "function": "<method 'items' of 'dict' objects>",
+          "primitive_calls": 543,
+          "calls": 543,
+          "self_seconds": 0.00015396800000000001,
+          "cumulative_seconds": 0.00015396800000000001
+        },
+        {
+          "filename": "/home/stratocumulus/documents/github/stanford_cs336/cs336-assignment1-basics/.venv/lib/python3.12/site-packages/regex/_regex_core.py",
+          "line": 1192,
+          "function": "parse_escape",
+          "primitive_calls": 12,
+          "calls": 12,
+          "self_seconds": 1.43e-05,
+          "cumulative_seconds": 0.00014959400000000002
+        },
+        {
+          "filename": "/home/stratocumulus/documents/github/stanford_cs336/cs336-assignment1-basics/cs336_basics/bpe_tokenizer.py",
+          "line": 90,
+          "function": "<genexpr>",
+          "primitive_calls": 666,
+          "calls": 666,
+          "self_seconds": 0.000126021,
+          "cumulative_seconds": 0.000134823
+        },
+        {
+          "filename": "/home/stratocumulus/documents/github/stanford_cs336/cs336-assignment1-basics/.venv/lib/python3.12/site-packages/regex/_regex_core.py",
+          "line": 1447,
+          "function": "parse_set",
+          "primitive_calls": 2,
+          "calls": 2,
+          "self_seconds": 7.48e-06,
+          "cumulative_seconds": 0.000127844
+        },
+        {
+          "filename": "/home/stratocumulus/miniconda3/envs/dlenv/lib/python3.12/pathlib.py",
+          "line": 437,
+          "function": "__str__",
+          "primitive_calls": 534,
+          "calls": 534,
+          "self_seconds": 0.00012544500000000002,
+          "cumulative_seconds": 0.00012544500000000002
+        },
+        {
+          "filename": "/home/stratocumulus/documents/github/stanford_cs336/cs336-assignment1-basics/.venv/lib/python3.12/site-packages/regex/_regex_core.py",
+          "line": 1102,
+          "function": "parse_subpattern",
+          "primitive_calls": 1,
+          "calls": 1,
+          "self_seconds": 4.001e-06,
+          "cumulative_seconds": 0.00011982300000000001
+        },
+        {
+          "filename": "/home/stratocumulus/documents/github/stanford_cs336/cs336-assignment1-basics/.venv/lib/python3.12/site-packages/regex/_regex_core.py",
+          "line": 2072,
+          "function": "optimise",
+          "primitive_calls": 1,
+          "calls": 2,
+          "self_seconds": 1.08e-05,
+          "cumulative_seconds": 0.000109252
+        },
+        {
+          "filename": "/home/stratocumulus/documents/github/stanford_cs336/cs336-assignment1-basics/.venv/lib/python3.12/site-packages/regex/_regex_core.py",
+          "line": 2517,
+          "function": "__init__",
+          "primitive_calls": 41,
+          "calls": 41,
+          "self_seconds": 2.9e-05,
+          "cumulative_seconds": 0.00010664000000000001
+        },
+        {
+          "filename": "/home/stratocumulus/documents/github/stanford_cs336/cs336-assignment1-basics/.venv/lib/python3.12/site-packages/regex/_regex_core.py",
+          "line": 3443,
+          "function": "optimise",
+          "primitive_calls": 8,
+          "calls": 13,
+          "self_seconds": 2.02e-05,
+          "cumulative_seconds": 0.000101502
+        },
+        {
+          "filename": "/home/stratocumulus/documents/github/stanford_cs336/cs336-assignment1-basics/.venv/lib/python3.12/site-packages/regex/_regex_core.py",
+          "line": 2166,
+          "function": "_flatten_branches",
+          "primitive_calls": 1,
+          "calls": 2,
+          "self_seconds": 4.21e-06,
+          "cumulative_seconds": 8.937200000000001e-05
+        },
+        {
+          "filename": "/home/stratocumulus/documents/github/stanford_cs336/cs336-assignment1-basics/.venv/lib/python3.12/site-packages/regex/_regex_core.py",
+          "line": 1513,
+          "function": "parse_set_imp_union",
+          "primitive_calls": 2,
+          "calls": 2,
+          "self_seconds": 9.081e-06,
+          "cumulative_seconds": 8.814200000000001e-05
+        },
+        {
+          "filename": "/home/stratocumulus/miniconda3/envs/dlenv/lib/python3.12/enum.py",
+          "line": 1583,
+          "function": "__invert__",
+          "primitive_calls": 3,
+          "calls": 3,
+          "self_seconds": 4.710000000000001e-06,
+          "cumulative_seconds": 8.4453e-05
+        },
+        {
+          "filename": "/home/stratocumulus/documents/github/stanford_cs336/cs336-assignment1-basics/.venv/lib/python3.12/site-packages/regex/_regex_core.py",
+          "line": 335,
+          "function": "_compile_firstset",
+          "primitive_calls": 1,
+          "calls": 1,
+          "self_seconds": 2.29e-06,
+          "cumulative_seconds": 8.006200000000001e-05
+        },
+        {
+          "filename": "/home/stratocumulus/documents/github/stanford_cs336/cs336-assignment1-basics/.venv/lib/python3.12/site-packages/regex/_regex_core.py",
+          "line": 3455,
+          "function": "pack_characters",
+          "primitive_calls": 7,
+          "calls": 10,
+          "self_seconds": 1.985e-05,
+          "cumulative_seconds": 7.9171e-05
+        },
+        {
+          "filename": "/home/stratocumulus/documents/github/stanford_cs336/cs336-assignment1-basics/.venv/lib/python3.12/site-packages/regex/_regex_core.py",
+          "line": 1389,
+          "function": "parse_property",
+          "primitive_calls": 4,
+          "calls": 4,
+          "self_seconds": 1.024e-05,
+          "cumulative_seconds": 7.9003e-05
+        },
+        {
+          "filename": "/home/stratocumulus/miniconda3/envs/dlenv/lib/python3.12/enum.py",
+          "line": 1413,
+          "function": "_missing_",
+          "primitive_calls": 4,
+          "calls": 4,
+          "self_seconds": 2.6232000000000002e-05,
+          "cumulative_seconds": 7.7533e-05
+        },
+        {
+          "filename": "/home/stratocumulus/documents/github/stanford_cs336/cs336-assignment1-basics/.venv/lib/python3.12/site-packages/regex/_regex_core.py",
+          "line": 384,
+          "function": "make_case_flags",
+          "primitive_calls": 21,
+          "calls": 21,
+          "self_seconds": 7.061000000000001e-06,
+          "cumulative_seconds": 7.5591e-05
+        },
+        {
+          "filename": "/home/stratocumulus/documents/github/stanford_cs336/cs336-assignment1-basics/.venv/lib/python3.12/site-packages/regex/_regex_core.py",
+          "line": 4365,
+          "function": "_get_required_string",
+          "primitive_calls": 3,
+          "calls": 3,
+          "self_seconds": 5.690000000000001e-06,
+          "cumulative_seconds": 7.3032e-05
+        },
+        {
+          "filename": "/home/stratocumulus/documents/github/stanford_cs336/cs336-assignment1-basics/.venv/lib/python3.12/site-packages/regex/_regex_core.py",
+          "line": 1928,
+          "function": "compile",
+          "primitive_calls": 4,
+          "calls": 47,
+          "self_seconds": 1.7100000000000002e-05,
+          "cumulative_seconds": 7.168200000000001e-05
+        },
+        {
+          "filename": "/home/stratocumulus/documents/github/stanford_cs336/cs336-assignment1-basics/.venv/lib/python3.12/site-packages/regex/_regex_core.py",
+          "line": 1536,
+          "function": "parse_set_member",
+          "primitive_calls": 7,
+          "calls": 7,
+          "self_seconds": 4.42e-06,
+          "cumulative_seconds": 6.8631e-05
+        },
+        {
+          "filename": "/home/stratocumulus/documents/github/stanford_cs336/cs336-assignment1-basics/.venv/lib/python3.12/site-packages/regex/_regex_core.py",
+          "line": 345,
+          "function": "_check_firstset",
+          "primitive_calls": 1,
+          "calls": 1,
+          "self_seconds": 6.34e-06,
+          "cumulative_seconds": 6.4121e-05
+        },
+        {
+          "filename": "/home/stratocumulus/documents/github/stanford_cs336/cs336-assignment1-basics/.venv/lib/python3.12/site-packages/regex/_regex_core.py",
+          "line": 1577,
+          "function": "parse_set_item",
+          "primitive_calls": 7,
+          "calls": 7,
+          "self_seconds": 7.610000000000001e-06,
+          "cumulative_seconds": 6.2591e-05
+        },
+        {
+          "filename": "/home/stratocumulus/documents/github/stanford_cs336/cs336-assignment1-basics/.venv/lib/python3.12/site-packages/regex/_regex_core.py",
+          "line": 2146,
+          "function": "_compile",
+          "primitive_calls": 1,
+          "calls": 2,
+          "self_seconds": 5.330000000000001e-06,
+          "cumulative_seconds": 5.5991000000000007e-05
+        },
+        {
+          "filename": "/home/stratocumulus/documents/github/stanford_cs336/cs336-assignment1-basics/.venv/lib/python3.12/site-packages/regex/_regex_core.py",
+          "line": 2122,
+          "function": "pack_characters",
+          "primitive_calls": 1,
+          "calls": 2,
+          "self_seconds": 4.15e-06,
+          "cumulative_seconds": 5.5601000000000005e-05
+        },
+        {
+          "filename": "~",
+          "line": 0,
+          "function": "<function Counter.update at 0x78ac84abc0e0>",
+          "primitive_calls": 1,
+          "calls": 1,
+          "self_seconds": 5.1221e-05,
+          "cumulative_seconds": 5.1221e-05
+        },
+        {
+          "filename": "<frozen abc>",
+          "line": 121,
+          "function": "__subclasscheck__",
+          "primitive_calls": 3,
+          "calls": 18,
+          "self_seconds": 3.2130000000000004e-06,
+          "cumulative_seconds": 4.9929e-05
+        },
+        {
+          "filename": "/home/stratocumulus/documents/github/stanford_cs336/cs336-assignment1-basics/.venv/lib/python3.12/site-packages/regex/_regex_core.py",
+          "line": 3522,
+          "function": "_compile",
+          "primitive_calls": 5,
+          "calls": 5,
+          "self_seconds": 3.48e-06,
+          "cumulative_seconds": 4.9431e-05
+        },
+        {
+          "filename": "~",
+          "line": 0,
+          "function": "<built-in method _abc._abc_subclasscheck>",
+          "primitive_calls": 3,
+          "calls": 18,
+          "self_seconds": 4.2999e-05,
+          "cumulative_seconds": 4.8999e-05
+        },
+        {
+          "filename": "/home/stratocumulus/documents/github/stanford_cs336/cs336-assignment1-basics/.venv/lib/python3.12/site-packages/regex/_regex_core.py",
+          "line": 3537,
+          "function": "_flush_characters",
+          "primitive_calls": 19,
+          "calls": 19,
+          "self_seconds": 9.950000000000001e-06,
+          "cumulative_seconds": 4.6211e-05
+        },
+        {
+          "filename": "/home/stratocumulus/miniconda3/envs/dlenv/lib/python3.12/enum.py",
+          "line": 1403,
+          "function": "_iter_member_by_def_",
+          "primitive_calls": 48,
+          "calls": 48,
+          "self_seconds": 5.75e-06,
+          "cumulative_seconds": 4.3741e-05
+        },
+        {
+          "filename": "/home/stratocumulus/documents/github/stanford_cs336/cs336-assignment1-basics/.venv/lib/python3.12/site-packages/regex/_regex_core.py",
+          "line": 1881,
+          "function": "with_flags",
+          "primitive_calls": 13,
+          "calls": 13,
+          "self_seconds": 7.001e-06,
+          "cumulative_seconds": 4.0172e-05
+        },
+        {
+          "filename": "~",
+          "line": 0,
+          "function": "<built-in method builtins.sorted>",
+          "primitive_calls": 5,
+          "calls": 5,
+          "self_seconds": 1.2610000000000001e-05,
+          "cumulative_seconds": 3.9961000000000006e-05
+        },
+        {
+          "filename": "/home/stratocumulus/documents/github/stanford_cs336/cs336-assignment1-basics/.venv/lib/python3.12/site-packages/regex/_regex_core.py",
+          "line": 3846,
+          "function": "optimise",
+          "primitive_calls": 4,
+          "calls": 5,
+          "self_seconds": 2.372e-05,
+          "cumulative_seconds": 3.6020000000000004e-05
+        },
+        {
+          "filename": "/home/stratocumulus/miniconda3/envs/dlenv/lib/python3.12/enum.py",
+          "line": 1550,
+          "function": "__or__",
+          "primitive_calls": 10,
+          "calls": 10,
+          "self_seconds": 9.260000000000001e-06,
+          "cumulative_seconds": 3.5901e-05
+        },
+        {
+          "filename": "/home/stratocumulus/documents/github/stanford_cs336/cs336-assignment1-basics/.venv/lib/python3.12/site-packages/regex/_regex_core.py",
+          "line": 1667,
+          "function": "lookup_property",
+          "primitive_calls": 4,
+          "calls": 4,
+          "self_seconds": 7.830000000000001e-06,
+          "cumulative_seconds": 3.3032000000000005e-05
+        },
+        {
+          "filename": "/home/stratocumulus/documents/github/stanford_cs336/cs336-assignment1-basics/.venv/lib/python3.12/site-packages/regex/_regex_core.py",
+          "line": 394,
+          "function": "make_character",
+          "primitive_calls": 4,
+          "calls": 4,
+          "self_seconds": 2.29e-06,
+          "cumulative_seconds": 2.7640000000000003e-05
+        },
+        {
+          "filename": "/home/stratocumulus/documents/github/stanford_cs336/cs336-assignment1-basics/.venv/lib/python3.12/site-packages/regex/_regex_core.py",
+          "line": 2179,
+          "function": "_split_common_prefix",
+          "primitive_calls": 2,
+          "calls": 2,
+          "self_seconds": 1.144e-05,
+          "cumulative_seconds": 2.6471e-05
+        },
+        {
+          "filename": "/home/stratocumulus/miniconda3/envs/dlenv/lib/python3.12/locale.py",
+          "line": 667,
+          "function": "getpreferredencoding",
+          "primitive_calls": 3,
+          "calls": 3,
+          "self_seconds": 5.7800000000000006e-06,
+          "cumulative_seconds": 2.612e-05
+        },
+        {
+          "filename": "/home/stratocumulus/documents/github/stanford_cs336/cs336-assignment1-basics/.venv/lib/python3.12/site-packages/regex/_regex_core.py",
+          "line": 511,
+          "function": "apply_quantifier",
+          "primitive_calls": 8,
+          "calls": 8,
+          "self_seconds": 1.668e-05,
+          "cumulative_seconds": 2.5090000000000002e-05
+        },
+        {
+          "filename": "/home/stratocumulus/documents/github/stanford_cs336/cs336-assignment1-basics/.venv/lib/python3.12/site-packages/regex/_regex_core.py",
+          "line": 1943,
+          "function": "get_required_string",
+          "primitive_calls": 1,
+          "calls": 1,
+          "self_seconds": 1.14e-06,
+          "cumulative_seconds": 2.4611000000000002e-05
+        },
+        {
+          "filename": "/home/stratocumulus/documents/github/stanford_cs336/cs336-assignment1-basics/.venv/lib/python3.12/site-packages/regex/_regex_core.py",
+          "line": 3878,
+          "function": "_compile",
+          "primitive_calls": 3,
+          "calls": 4,
+          "self_seconds": 1.592e-05,
+          "cumulative_seconds": 2.4051e-05
+        },
+        {
+          "filename": "/home/stratocumulus/miniconda3/envs/dlenv/lib/python3.12/enum.py",
+          "line": 1393,
+          "function": "_iter_member_by_value_",
+          "primitive_calls": 48,
+          "calls": 48,
+          "self_seconds": 1.186e-05,
+          "cumulative_seconds": 2.3741000000000002e-05
+        },
+        {
+          "filename": "/home/stratocumulus/documents/github/stanford_cs336/cs336-assignment1-basics/.venv/lib/python3.12/site-packages/regex/_regex_core.py",
+          "line": 2452,
+          "function": "max_width",
+          "primitive_calls": 1,
+          "calls": 2,
+          "self_seconds": 9.100000000000001e-07,
+          "cumulative_seconds": 2.3471000000000003e-05
+        },
+        {
+          "filename": "/home/stratocumulus/documents/github/stanford_cs336/cs336-assignment1-basics/.venv/lib/python3.12/site-packages/regex/_regex_core.py",
+          "line": 4196,
+          "function": "match",
+          "primitive_calls": 51,
+          "calls": 51,
+          "self_seconds": 1.361e-05,
+          "cumulative_seconds": 2.245e-05
+        },
+        {
+          "filename": "/home/stratocumulus/documents/github/stanford_cs336/cs336-assignment1-basics/.venv/lib/python3.12/site-packages/regex/_regex_core.py",
+          "line": 946,
+          "function": "parse_lookaround",
+          "primitive_calls": 1,
+          "calls": 1,
+          "self_seconds": 2.37e-06,
+          "cumulative_seconds": 2.2361e-05
+        },
+        {
+          "filename": "/home/stratocumulus/documents/github/stanford_cs336/cs336-assignment1-basics/.venv/lib/python3.12/site-packages/regex/_regex_core.py",
+          "line": 2453,
+          "function": "<genexpr>",
+          "primitive_calls": 7,
+          "calls": 12,
+          "self_seconds": 4.05e-06,
+          "cumulative_seconds": 2.1601000000000002e-05
+        },
+        {
+          "filename": "/home/stratocumulus/documents/github/stanford_cs336/cs336-assignment1-basics/.venv/lib/python3.12/site-packages/regex/_regex_core.py",
+          "line": 1656,
+          "function": "standardise_name",
+          "primitive_calls": 4,
+          "calls": 4,
+          "self_seconds": 6.1110000000000004e-06,
+          "cumulative_seconds": 2.1262e-05
+        },
+        {
+          "filename": "/home/stratocumulus/documents/github/stanford_cs336/cs336-assignment1-basics/.venv/lib/python3.12/site-packages/regex/_regex_core.py",
+          "line": 2346,
+          "function": "_reduce_to_set",
+          "primitive_calls": 2,
+          "calls": 2,
+          "self_seconds": 7.660000000000001e-06,
+          "cumulative_seconds": 2.091e-05
+        },
+        {
+          "filename": "/home/stratocumulus/documents/github/stanford_cs336/cs336-assignment1-basics/.venv/lib/python3.12/site-packages/regex/_regex_core.py",
+          "line": 2909,
+          "function": "_compile",
+          "primitive_calls": 8,
+          "calls": 8,
+          "self_seconds": 5.500000000000001e-06,
+          "cumulative_seconds": 2.008e-05
+        },
+        {
+          "filename": "/home/stratocumulus/documents/github/stanford_cs336/cs336-assignment1-basics/.venv/lib/python3.12/site-packages/regex/_regex_core.py",
+          "line": 3626,
+          "function": "max_width",
+          "primitive_calls": 5,
+          "calls": 5,
+          "self_seconds": 2.0900000000000003e-06,
+          "cumulative_seconds": 1.9851e-05
+        },
+        {
+          "filename": "~",
+          "line": 0,
+          "function": "<method 'disable' of '_lsprof.Profiler' objects>",
+          "primitive_calls": 1,
+          "calls": 1,
+          "self_seconds": 1.9054e-05,
+          "cumulative_seconds": 1.9054e-05
+        },
+        {
+          "filename": "~",
+          "line": 0,
+          "function": "<built-in method regex._regex.compile>",
+          "primitive_calls": 3,
+          "calls": 3,
+          "self_seconds": 1.8861e-05,
+          "cumulative_seconds": 1.8861e-05
+        },
+        {
+          "filename": "/home/stratocumulus/miniconda3/envs/dlenv/lib/python3.12/locale.py",
+          "line": 600,
+          "function": "setlocale",
+          "primitive_calls": 9,
+          "calls": 9,
+          "self_seconds": 3.27e-06,
+          "cumulative_seconds": 1.8560000000000002e-05
+        },
+        {
+          "filename": "/home/stratocumulus/documents/github/stanford_cs336/cs336-assignment1-basics/.venv/lib/python3.12/site-packages/regex/_regex_core.py",
+          "line": 2139,
+          "function": "get_firstset",
+          "primitive_calls": 1,
+          "calls": 1,
+          "self_seconds": 3.2010000000000004e-06,
+          "cumulative_seconds": 1.8081000000000002e-05
+        },
+        {
+          "filename": "~",
+          "line": 0,
+          "function": "<built-in method builtins.sum>",
+          "primitive_calls": 5,
+          "calls": 5,
+          "self_seconds": 2.96e-06,
+          "cumulative_seconds": 1.7761e-05
+        },
+        {
+          "filename": "~",
+          "line": 0,
+          "function": "<built-in method _locale.setlocale>",
+          "primitive_calls": 9,
+          "calls": 9,
+          "self_seconds": 1.5070000000000001e-05,
+          "cumulative_seconds": 1.5070000000000001e-05
+        },
+        {
+          "filename": "/home/stratocumulus/documents/github/stanford_cs336/cs336-assignment1-basics/.venv/lib/python3.12/site-packages/regex/_regex_core.py",
+          "line": 3627,
+          "function": "<genexpr>",
+          "primitive_calls": 15,
+          "calls": 15,
+          "self_seconds": 4.701e-06,
+          "cumulative_seconds": 1.4801000000000001e-05
+        },
+        {
+          "filename": "/home/stratocumulus/documents/github/stanford_cs336/cs336-assignment1-basics/.venv/lib/python3.12/site-packages/regex/_regex_core.py",
+          "line": 3659,
+          "function": "rebuild",
+          "primitive_calls": 1,
+          "calls": 1,
+          "self_seconds": 2.8400000000000003e-06,
+          "cumulative_seconds": 1.4050000000000001e-05
+        },
+        {
+          "filename": "/home/stratocumulus/documents/github/stanford_cs336/cs336-assignment1-basics/.venv/lib/python3.12/site-packages/regex/_regex_core.py",
+          "line": 3506,
+          "function": "get_firstset",
+          "primitive_calls": 5,
+          "calls": 5,
+          "self_seconds": 4.970000000000001e-06,
+          "cumulative_seconds": 1.393e-05
+        },
+        {
+          "filename": "/home/stratocumulus/documents/github/stanford_cs336/cs336-assignment1-basics/.venv/lib/python3.12/site-packages/regex/_regex_core.py",
+          "line": 1871,
+          "function": "make_sequence",
+          "primitive_calls": 25,
+          "calls": 25,
+          "self_seconds": 7.15e-06,
+          "cumulative_seconds": 1.3361000000000001e-05
+        },
+        {
+          "filename": "/home/stratocumulus/documents/github/stanford_cs336/cs336-assignment1-basics/.venv/lib/python3.12/site-packages/regex/_regex_core.py",
+          "line": 410,
+          "function": "make_property",
+          "primitive_calls": 4,
+          "calls": 4,
+          "self_seconds": 1.24e-06,
+          "cumulative_seconds": 1.2990000000000001e-05
+        },
+        {
+          "filename": "~",
+          "line": 0,
+          "function": "<method 'join' of 'bytes' objects>",
+          "primitive_calls": 1,
+          "calls": 1,
+          "self_seconds": 1.17e-06,
+          "cumulative_seconds": 1.288e-05
+        },
+        {
+          "filename": "/home/stratocumulus/documents/github/stanford_cs336/cs336-assignment1-basics/.venv/lib/python3.12/site-packages/regex/_regex_core.py",
+          "line": 2880,
+          "function": "optimise",
+          "primitive_calls": 8,
+          "calls": 8,
+          "self_seconds": 4.890000000000001e-06,
+          "cumulative_seconds": 1.269e-05
+        },
+        {
+          "filename": "/home/stratocumulus/documents/github/stanford_cs336/cs336-assignment1-basics/.venv/lib/python3.12/site-packages/regex/_regex_core.py",
+          "line": 3943,
+          "function": "__init__",
+          "primitive_calls": 5,
+          "calls": 5,
+          "self_seconds": 4.48e-06,
+          "cumulative_seconds": 1.235e-05
+        },
+        {
+          "filename": "/home/stratocumulus/documents/github/stanford_cs336/cs336-assignment1-basics/.venv/lib/python3.12/site-packages/regex/_regex_core.py",
+          "line": 4053,
+          "function": "get",
+          "primitive_calls": 103,
+          "calls": 103,
+          "self_seconds": 1.2231e-05,
+          "cumulative_seconds": 1.2231e-05
+        },
+        {
+          "filename": "/home/stratocumulus/documents/github/stanford_cs336/cs336-assignment1-basics/.venv/lib/python3.12/site-packages/regex/_regex_core.py",
+          "line": 3439,
+          "function": "fix_groups",
+          "primitive_calls": 8,
+          "calls": 13,
+          "self_seconds": 7.751e-06,
+          "cumulative_seconds": 1.2111000000000001e-05
+        },
+        {
+          "filename": "/home/stratocumulus/documents/github/stanford_cs336/cs336-assignment1-basics/.venv/lib/python3.12/site-packages/regex/_regex_core.py",
+          "line": 1878,
+          "function": "__init__",
+          "primitive_calls": 99,
+          "calls": 99,
+          "self_seconds": 1.201e-05,
+          "cumulative_seconds": 1.201e-05
+        },
+        {
+          "filename": "/home/stratocumulus/documents/github/stanford_cs336/cs336-assignment1-basics/cs336_basics/bpe_tokenizer.py",
+          "line": 46,
+          "function": "<genexpr>",
+          "primitive_calls": 2,
+          "calls": 2,
+          "self_seconds": 1.52e-06,
+          "cumulative_seconds": 1.1710000000000001e-05
+        },
+        {
+          "filename": "/home/stratocumulus/documents/github/stanford_cs336/cs336-assignment1-basics/.venv/lib/python3.12/site-packages/regex/_regex_core.py",
+          "line": 376,
+          "function": "_flatten_code",
+          "primitive_calls": 4,
+          "calls": 4,
+          "self_seconds": 5.2500000000000006e-06,
+          "cumulative_seconds": 1.115e-05
+        },
+        {
+          "filename": "/home/stratocumulus/documents/github/stanford_cs336/cs336-assignment1-basics/.venv/lib/python3.12/site-packages/regex/_regex_core.py",
+          "line": 4264,
+          "function": "__init__",
+          "primitive_calls": 3,
+          "calls": 3,
+          "self_seconds": 2.47e-06,
+          "cumulative_seconds": 1.071e-05
+        },
+        {
+          "filename": "~",
+          "line": 0,
+          "function": "<method 'extend' of 'list' objects>",
+          "primitive_calls": 96,
+          "calls": 96,
+          "self_seconds": 9.36e-06,
+          "cumulative_seconds": 9.36e-06
+        },
+        {
+          "filename": "/home/stratocumulus/documents/github/stanford_cs336/cs336-assignment1-basics/.venv/lib/python3.12/site-packages/regex/_regex_core.py",
+          "line": 3432,
+          "function": "__init__",
+          "primitive_calls": 28,
+          "calls": 28,
+          "self_seconds": 5.961e-06,
+          "cumulative_seconds": 9.141000000000001e-06
+        },
+        {
+          "filename": "/home/stratocumulus/documents/github/stanford_cs336/cs336-assignment1-basics/.venv/lib/python3.12/site-packages/regex/_regex_core.py",
+          "line": 1635,
+          "function": "numeric_to_rational",
+          "primitive_calls": 4,
+          "calls": 4,
+          "self_seconds": 7.031e-06,
+          "cumulative_seconds": 8.511e-06
+        },
+        {
+          "filename": "/home/stratocumulus/documents/github/stanford_cs336/cs336-assignment1-basics/.venv/lib/python3.12/site-packages/regex/_regex_core.py",
+          "line": 2546,
+          "function": "_compile",
+          "primitive_calls": 4,
+          "calls": 4,
+          "self_seconds": 5.39e-06,
+          "cumulative_seconds": 8.47e-06
+        },
+        {
+          "filename": "/home/stratocumulus/documents/github/stanford_cs336/cs336-assignment1-basics/.venv/lib/python3.12/site-packages/regex/_regex_core.py",
+          "line": 2068,
+          "function": "fix_groups",
+          "primitive_calls": 1,
+          "calls": 2,
+          "self_seconds": 1.5500000000000002e-06,
+          "cumulative_seconds": 8.341e-06
+        },
+        {
+          "filename": "/home/stratocumulus/documents/github/stanford_cs336/cs336-assignment1-basics/.venv/lib/python3.12/site-packages/regex/_regex_core.py",
+          "line": 1085,
+          "function": "parse_flags",
+          "primitive_calls": 1,
+          "calls": 1,
+          "self_seconds": 2.9800000000000003e-06,
+          "cumulative_seconds": 8.15e-06
+        },
+        {
+          "filename": "/home/stratocumulus/documents/github/stanford_cs336/cs336-assignment1-basics/.venv/lib/python3.12/site-packages/regex/_regex_core.py",
+          "line": 2902,
+          "function": "get_firstset",
+          "primitive_calls": 8,
+          "calls": 8,
+          "self_seconds": 3.31e-06,
+          "cumulative_seconds": 8.030000000000001e-06
+        },
+        {
+          "filename": "<frozen genericpath>",
+          "line": 60,
+          "function": "getsize",
+          "primitive_calls": 1,
+          "calls": 1,
+          "self_seconds": 9.800000000000001e-07,
+          "cumulative_seconds": 7.74e-06
+        },
+        {
+          "filename": "/home/stratocumulus/miniconda3/envs/dlenv/lib/python3.12/enum.py",
+          "line": 117,
+          "function": "_iter_bits_lsb",
+          "primitive_calls": 48,
+          "calls": 48,
+          "self_seconds": 7.101e-06,
+          "cumulative_seconds": 7.581000000000001e-06
+        },
+        {
+          "filename": "~",
+          "line": 0,
+          "function": "<method 'startswith' of 'str' objects>",
+          "primitive_calls": 51,
+          "calls": 51,
+          "self_seconds": 7.190000000000001e-06,
+          "cumulative_seconds": 7.190000000000001e-06
+        },
+        {
+          "filename": "/home/stratocumulus/documents/github/stanford_cs336/cs336-assignment1-basics/.venv/lib/python3.12/site-packages/regex/_regex_core.py",
+          "line": 1934,
+          "function": "__hash__",
+          "primitive_calls": 16,
+          "calls": 26,
+          "self_seconds": 3.91e-06,
+          "cumulative_seconds": 7.16e-06
+        },
+        {
+          "filename": "~",
+          "line": 0,
+          "function": "<built-in method posix.stat>",
+          "primitive_calls": 1,
+          "calls": 1,
+          "self_seconds": 5.7800000000000006e-06,
+          "cumulative_seconds": 6.7600000000000005e-06
+        },
+        {
+          "filename": "/home/stratocumulus/documents/github/stanford_cs336/cs336-assignment1-basics/.venv/lib/python3.12/site-packages/regex/_regex_core.py",
+          "line": 1425,
+          "function": "parse_property_name",
+          "primitive_calls": 4,
+          "calls": 4,
+          "self_seconds": 3.801e-06,
+          "cumulative_seconds": 6.241e-06
+        },
+        {
+          "filename": "/home/stratocumulus/documents/github/stanford_cs336/cs336-assignment1-basics/.venv/lib/python3.12/site-packages/regex/_regex_core.py",
+          "line": 3645,
+          "function": "__init__",
+          "primitive_calls": 4,
+          "calls": 4,
+          "self_seconds": 4.77e-06,
+          "cumulative_seconds": 5.72e-06
+        },
+        {
+          "filename": "/home/stratocumulus/documents/github/stanford_cs336/cs336-assignment1-basics/.venv/lib/python3.12/site-packages/regex/_regex_core.py",
+          "line": 2871,
+          "function": "__init__",
+          "primitive_calls": 16,
+          "calls": 16,
+          "self_seconds": 4.12e-06,
+          "cumulative_seconds": 5.670000000000001e-06
+        },
+        {
+          "filename": "~",
+          "line": 0,
+          "function": "<built-in method builtins.all>",
+          "primitive_calls": 2,
+          "calls": 2,
+          "self_seconds": 1.3100000000000002e-06,
+          "cumulative_seconds": 5.28e-06
+        },
+        {
+          "filename": "/home/stratocumulus/documents/github/stanford_cs336/cs336-assignment1-basics/.venv/lib/python3.12/site-packages/regex/_regex_core.py",
+          "line": 2400,
+          "function": "_flush_set_members",
+          "primitive_calls": 11,
+          "calls": 11,
+          "self_seconds": 2.65e-06,
+          "cumulative_seconds": 5.240000000000001e-06
+        },
+        {
+          "filename": "/home/stratocumulus/documents/github/stanford_cs336/cs336-assignment1-basics/.venv/lib/python3.12/site-packages/regex/_regex_core.py",
+          "line": 3691,
+          "function": "_handle_case_folding",
+          "primitive_calls": 5,
+          "calls": 5,
+          "self_seconds": 1.0000000000000002e-06,
+          "cumulative_seconds": 4.76e-06
+        },
+        {
+          "filename": "/home/stratocumulus/documents/github/stanford_cs336/cs336-assignment1-basics/.venv/lib/python3.12/site-packages/regex/_regex_core.py",
+          "line": 2197,
+          "function": "<genexpr>",
+          "primitive_calls": 6,
+          "calls": 6,
+          "self_seconds": 3.1710000000000002e-06,
+          "cumulative_seconds": 4.581000000000001e-06
+        },
+        {
+          "filename": "~",
+          "line": 0,
+          "function": "<built-in method builtins.hash>",
+          "primitive_calls": 16,
+          "calls": 26,
+          "self_seconds": 3.2500000000000002e-06,
+          "cumulative_seconds": 4.48e-06
+        },
+        {
+          "filename": "~",
+          "line": 0,
+          "function": "<built-in method builtins.min>",
+          "primitive_calls": 2,
+          "calls": 2,
+          "self_seconds": 2.2200000000000003e-06,
+          "cumulative_seconds": 4.48e-06
+        },
+        {
+          "filename": "/home/stratocumulus/documents/github/stanford_cs336/cs336-assignment1-basics/.venv/lib/python3.12/site-packages/regex/_regex_core.py",
+          "line": 3971,
+          "function": "_compile",
+          "primitive_calls": 5,
+          "calls": 5,
+          "self_seconds": 3.2910000000000003e-06,
+          "cumulative_seconds": 3.7410000000000003e-06
+        },
+        {
+          "filename": "/home/stratocumulus/documents/github/stanford_cs336/cs336-assignment1-basics/.venv/lib/python3.12/site-packages/regex/_regex_core.py",
+          "line": 3271,
+          "function": "_compile",
+          "primitive_calls": 14,
+          "calls": 14,
+          "self_seconds": 3.7300000000000003e-06,
+          "cumulative_seconds": 3.7300000000000003e-06
+        },
+        {
+          "filename": "<frozen _collections_abc>",
+          "line": 435,
+          "function": "__subclasshook__",
+          "primitive_calls": 18,
+          "calls": 18,
+          "self_seconds": 3.717e-06,
+          "cumulative_seconds": 3.717e-06
+        },
+        {
+          "filename": "~",
+          "line": 0,
+          "function": "<built-in method builtins.ord>",
+          "primitive_calls": 40,
+          "calls": 40,
+          "self_seconds": 3.58e-06,
+          "cumulative_seconds": 3.58e-06
+        },
+        {
+          "filename": "~",
+          "line": 0,
+          "function": "<built-in method builtins.chr>",
+          "primitive_calls": 41,
+          "calls": 41,
+          "self_seconds": 3.31e-06,
+          "cumulative_seconds": 3.31e-06
+        },
+        {
+          "filename": "/home/stratocumulus/documents/github/stanford_cs336/cs336-assignment1-basics/.venv/lib/python3.12/site-packages/regex/_regex_core.py",
+          "line": 2940,
+          "function": "max_width",
+          "primitive_calls": 8,
+          "calls": 8,
+          "self_seconds": 2.4900000000000003e-06,
+          "cumulative_seconds": 3.13e-06
+        },
+        {
+          "filename": "/home/stratocumulus/documents/github/stanford_cs336/cs336-assignment1-basics/.venv/lib/python3.12/site-packages/regex/_regex_core.py",
+          "line": 4041,
+          "function": "__init__",
+          "primitive_calls": 3,
+          "calls": 3,
+          "self_seconds": 2.6700000000000003e-06,
+          "cumulative_seconds": 3.1100000000000003e-06
+        },
+        {
+          "filename": "/home/stratocumulus/miniconda3/envs/dlenv/lib/python3.12/enum.py",
+          "line": 1410,
+          "function": "<lambda>",
+          "primitive_calls": 44,
+          "calls": 44,
+          "self_seconds": 3.04e-06,
+          "cumulative_seconds": 3.04e-06
+        },
+        {
+          "filename": "/home/stratocumulus/documents/github/stanford_cs336/cs336-assignment1-basics/.venv/lib/python3.12/site-packages/regex/_regex_core.py",
+          "line": 559,
+          "function": "parse_quantifier",
+          "primitive_calls": 8,
+          "calls": 8,
+          "self_seconds": 1.97e-06,
+          "cumulative_seconds": 2.99e-06
+        },
+        {
+          "filename": "/home/stratocumulus/documents/github/stanford_cs336/cs336-assignment1-basics/.venv/lib/python3.12/site-packages/regex/_regex_core.py",
+          "line": 2885,
+          "function": "pack_characters",
+          "primitive_calls": 8,
+          "calls": 8,
+          "self_seconds": 2.43e-06,
+          "cumulative_seconds": 2.9400000000000002e-06
+        },
+        {
+          "filename": "~",
+          "line": 0,
+          "function": "<built-in method builtins.any>",
+          "primitive_calls": 2,
+          "calls": 2,
+          "self_seconds": 1.93e-06,
+          "cumulative_seconds": 2.81e-06
+        },
+        {
+          "filename": "/home/stratocumulus/documents/github/stanford_cs336/cs336-assignment1-basics/.venv/lib/python3.12/site-packages/regex/_regex_core.py",
+          "line": 3246,
+          "function": "__init__",
+          "primitive_calls": 4,
+          "calls": 4,
+          "self_seconds": 2.15e-06,
+          "cumulative_seconds": 2.65e-06
+        },
+        {
+          "filename": "/home/stratocumulus/documents/github/stanford_cs336/cs336-assignment1-basics/.venv/lib/python3.12/site-packages/regex/_regex_core.py",
+          "line": 3721,
+          "function": "max_width",
+          "primitive_calls": 1,
+          "calls": 1,
+          "self_seconds": 5.900000000000001e-07,
+          "cumulative_seconds": 2.56e-06
+        },
+        {
+          "filename": "/home/stratocumulus/documents/github/stanford_cs336/cs336-assignment1-basics/.venv/lib/python3.12/site-packages/regex/_regex_core.py",
+          "line": 3091,
+          "function": "optimise",
+          "primitive_calls": 1,
+          "calls": 1,
+          "self_seconds": 8.200000000000001e-07,
+          "cumulative_seconds": 2.35e-06
+        },
+        {
+          "filename": "/home/stratocumulus/documents/github/stanford_cs336/cs336-assignment1-basics/.venv/lib/python3.12/site-packages/regex/_regex_core.py",
+          "line": 2540,
+          "function": "get_firstset",
+          "primitive_calls": 4,
+          "calls": 4,
+          "self_seconds": 1.41e-06,
+          "cumulative_seconds": 2.29e-06
+        },
+        {
+          "filename": "/home/stratocumulus/documents/github/stanford_cs336/cs336-assignment1-basics/.venv/lib/python3.12/site-packages/regex/_regex_core.py",
+          "line": 2191,
+          "function": "<genexpr>",
+          "primitive_calls": 12,
+          "calls": 12,
+          "self_seconds": 1.74e-06,
+          "cumulative_seconds": 2.26e-06
+        },
+        {
+          "filename": "/home/stratocumulus/documents/github/stanford_cs336/cs336-assignment1-basics/.venv/lib/python3.12/site-packages/regex/_regex_core.py",
+          "line": 2537,
+          "function": "optimise",
+          "primitive_calls": 42,
+          "calls": 42,
+          "self_seconds": 2.24e-06,
+          "cumulative_seconds": 2.24e-06
+        },
+        {
+          "filename": "/home/stratocumulus/documents/github/stanford_cs336/cs336-assignment1-basics/.venv/lib/python3.12/site-packages/regex/_regex_core.py",
+          "line": 4119,
+          "function": "get_while",
+          "primitive_calls": 4,
+          "calls": 4,
+          "self_seconds": 2.13e-06,
+          "cumulative_seconds": 2.13e-06
+        },
+        {
+          "filename": "~",
+          "line": 0,
+          "function": "<built-in method time.perf_counter>",
+          "primitive_calls": 2,
+          "calls": 2,
+          "self_seconds": 2.0110000000000003e-06,
+          "cumulative_seconds": 2.0110000000000003e-06
+        },
+        {
+          "filename": "/home/stratocumulus/documents/github/stanford_cs336/cs336-assignment1-basics/.venv/lib/python3.12/site-packages/regex/_regex_core.py",
+          "line": 1901,
+          "function": "fix_groups",
+          "primitive_calls": 43,
+          "calls": 43,
+          "self_seconds": 2.0000000000000003e-06,
+          "cumulative_seconds": 2.0000000000000003e-06
+        },
+        {
+          "filename": "/home/stratocumulus/documents/github/stanford_cs336/cs336-assignment1-basics/.venv/lib/python3.12/site-packages/regex/_regex_core.py",
+          "line": 3082,
+          "function": "__init__",
+          "primitive_calls": 2,
+          "calls": 2,
+          "self_seconds": 1.54e-06,
+          "cumulative_seconds": 1.93e-06
+        },
+        {
+          "filename": "/home/stratocumulus/documents/github/stanford_cs336/cs336-assignment1-basics/.venv/lib/python3.12/site-packages/regex/_regex_core.py",
+          "line": 3120,
+          "function": "_compile",
+          "primitive_calls": 1,
+          "calls": 1,
+          "self_seconds": 1.3800000000000001e-06,
+          "cumulative_seconds": 1.87e-06
+        },
+        {
+          "filename": "/home/stratocumulus/documents/github/stanford_cs336/cs336-assignment1-basics/.venv/lib/python3.12/site-packages/regex/_regex_core.py",
+          "line": 2064,
+          "function": "__init__",
+          "primitive_calls": 4,
+          "calls": 4,
+          "self_seconds": 1.1600000000000001e-06,
+          "cumulative_seconds": 1.8400000000000002e-06
+        },
+        {
+          "filename": "~",
+          "line": 0,
+          "function": "<built-in method _locale.getencoding>",
+          "primitive_calls": 3,
+          "calls": 3,
+          "self_seconds": 1.7800000000000001e-06,
+          "cumulative_seconds": 1.7800000000000001e-06
+        },
+        {
+          "filename": "/home/stratocumulus/documents/github/stanford_cs336/cs336-assignment1-basics/.venv/lib/python3.12/site-packages/regex/_regex_core.py",
+          "line": 3265,
+          "function": "get_firstset",
+          "primitive_calls": 4,
+          "calls": 4,
+          "self_seconds": 1.04e-06,
+          "cumulative_seconds": 1.7500000000000002e-06
+        },
+        {
+          "filename": "/home/stratocumulus/documents/github/stanford_cs336/cs336-assignment1-basics/.venv/lib/python3.12/site-packages/regex/_regex_core.py",
+          "line": 2877,
+          "function": "fix_groups",
+          "primitive_calls": 8,
+          "calls": 8,
+          "self_seconds": 1.3800000000000001e-06,
+          "cumulative_seconds": 1.7500000000000002e-06
+        },
+        {
+          "filename": "/home/stratocumulus/documents/github/stanford_cs336/cs336-assignment1-basics/.venv/lib/python3.12/site-packages/regex/_regex_core.py",
+          "line": 4235,
+          "function": "expect",
+          "primitive_calls": 2,
+          "calls": 2,
+          "self_seconds": 6.100000000000001e-07,
+          "cumulative_seconds": 1.6900000000000001e-06
+        },
+        {
+          "filename": "/home/stratocumulus/documents/github/stanford_cs336/cs336-assignment1-basics/.venv/lib/python3.12/site-packages/regex/_regex_core.py",
+          "line": 1937,
+          "function": "__eq__",
+          "primitive_calls": 5,
+          "calls": 5,
+          "self_seconds": 1.6400000000000002e-06,
+          "cumulative_seconds": 1.6400000000000002e-06
+        },
+        {
+          "filename": "~",
+          "line": 0,
+          "function": "<built-in method __new__ of type object at 0x935960>",
+          "primitive_calls": 4,
+          "calls": 4,
+          "self_seconds": 1.4200000000000002e-06,
+          "cumulative_seconds": 1.4200000000000002e-06
+        },
+        {
+          "filename": "/home/stratocumulus/documents/github/stanford_cs336/cs336-assignment1-basics/.venv/lib/python3.12/site-packages/regex/_regex_core.py",
+          "line": 2107,
+          "function": "_add_precheck",
+          "primitive_calls": 2,
+          "calls": 2,
+          "self_seconds": 1.3800000000000001e-06,
+          "cumulative_seconds": 1.3800000000000001e-06
+        },
+        {
+          "filename": "/home/stratocumulus/documents/github/stanford_cs336/cs336-assignment1-basics/.venv/lib/python3.12/site-packages/regex/_regex_core.py",
+          "line": 3663,
+          "function": "get_firstset",
+          "primitive_calls": 1,
+          "calls": 1,
+          "self_seconds": 2.7e-07,
+          "cumulative_seconds": 1.37e-06
+        },
+        {
+          "filename": "/home/stratocumulus/documents/github/stanford_cs336/cs336-assignment1-basics/.venv/lib/python3.12/site-packages/regex/_regex_core.py",
+          "line": 1069,
+          "function": "parse_flag_set",
+          "primitive_calls": 1,
+          "calls": 1,
+          "self_seconds": 1.0700000000000001e-06,
+          "cumulative_seconds": 1.1800000000000001e-06
+        },
+        {
+          "filename": "/home/stratocumulus/documents/github/stanford_cs336/cs336-assignment1-basics/.venv/lib/python3.12/site-packages/regex/_regex_core.py",
+          "line": 1661,
+          "function": "<genexpr>",
+          "primitive_calls": 8,
+          "calls": 8,
+          "self_seconds": 1.1e-06,
+          "cumulative_seconds": 1.1e-06
+        },
+        {
+          "filename": "/home/stratocumulus/documents/github/stanford_cs336/cs336-assignment1-basics/.venv/lib/python3.12/site-packages/regex/_regex_core.py",
+          "line": 3236,
+          "function": "_compile",
+          "primitive_calls": 4,
+          "calls": 4,
+          "self_seconds": 1.0900000000000002e-06,
+          "cumulative_seconds": 1.0900000000000002e-06
+        },
+        {
+          "filename": "~",
+          "line": 0,
+          "function": "<method 'pop' of 'list' objects>",
+          "primitive_calls": 8,
+          "calls": 8,
+          "self_seconds": 1.0500000000000001e-06,
+          "cumulative_seconds": 1.0500000000000001e-06
+        },
+        {
+          "filename": "/home/stratocumulus/documents/github/stanford_cs336/cs336-assignment1-basics/.venv/lib/python3.12/site-packages/regex/_regex_core.py",
+          "line": 4239,
+          "function": "at_end",
+          "primitive_calls": 3,
+          "calls": 3,
+          "self_seconds": 8.300000000000001e-07,
+          "cumulative_seconds": 1.0500000000000001e-06
+        },
+        {
+          "filename": "/home/stratocumulus/documents/github/stanford_cs336/cs336-assignment1-basics/.venv/lib/python3.12/site-packages/regex/_regex_core.py",
+          "line": 3262,
+          "function": "optimise",
+          "primitive_calls": 17,
+          "calls": 17,
+          "self_seconds": 1.01e-06,
+          "cumulative_seconds": 1.01e-06
+        },
+        {
+          "filename": "/home/stratocumulus/documents/github/stanford_cs336/cs336-assignment1-basics/.venv/lib/python3.12/site-packages/regex/_regex_core.py",
+          "line": 2573,
+          "function": "max_width",
+          "primitive_calls": 4,
+          "calls": 4,
+          "self_seconds": 7.6e-07,
+          "cumulative_seconds": 9.7e-07
+        },
+        {
+          "filename": "~",
+          "line": 0,
+          "function": "<method 'split' of 'str' objects>",
+          "primitive_calls": 4,
+          "calls": 4,
+          "self_seconds": 9.400000000000001e-07,
+          "cumulative_seconds": 9.400000000000001e-07
+        },
+        {
+          "filename": "/home/stratocumulus/documents/github/stanford_cs336/cs336-assignment1-basics/.venv/lib/python3.12/site-packages/regex/_regex_core.py",
+          "line": 4326,
+          "function": "_check_group_features",
+          "primitive_calls": 3,
+          "calls": 3,
+          "self_seconds": 8.4e-07,
+          "cumulative_seconds": 8.4e-07
+        },
+        {
+          "filename": "/home/stratocumulus/documents/github/stanford_cs336/cs336-assignment1-basics/.venv/lib/python3.12/site-packages/regex/_regex_core.py",
+          "line": 3985,
+          "function": "max_width",
+          "primitive_calls": 3,
+          "calls": 3,
+          "self_seconds": 5.4e-07,
+          "cumulative_seconds": 7.3e-07
+        },
+        {
+          "filename": "~",
+          "line": 0,
+          "function": "<method 'upper' of 'str' objects>",
+          "primitive_calls": 4,
+          "calls": 4,
+          "self_seconds": 6.7e-07,
+          "cumulative_seconds": 6.7e-07
+        },
+        {
+          "filename": "/home/stratocumulus/documents/github/stanford_cs336/cs336-assignment1-basics/.venv/lib/python3.12/site-packages/regex/_regex_core.py",
+          "line": 1931,
+          "function": "is_empty",
+          "primitive_calls": 8,
+          "calls": 8,
+          "self_seconds": 6.5e-07,
+          "cumulative_seconds": 6.5e-07
+        },
+        {
+          "filename": "/home/stratocumulus/documents/github/stanford_cs336/cs336-assignment1-basics/.venv/lib/python3.12/site-packages/regex/_regex_core.py",
+          "line": 1907,
+          "function": "pack_characters",
+          "primitive_calls": 10,
+          "calls": 10,
+          "self_seconds": 6.3e-07,
+          "cumulative_seconds": 6.3e-07
+        },
+        {
+          "filename": "/home/stratocumulus/documents/github/stanford_cs336/cs336-assignment1-basics/.venv/lib/python3.12/site-packages/regex/_regex_core.py",
+          "line": 3088,
+          "function": "fix_groups",
+          "primitive_calls": 1,
+          "calls": 1,
+          "self_seconds": 3.2e-07,
+          "cumulative_seconds": 6.100000000000001e-07
+        },
+        {
+          "filename": "/home/stratocumulus/documents/github/stanford_cs336/cs336-assignment1-basics/cs336_basics/bpe_tokenizer.py",
+          "line": 178,
+          "function": "<lambda>",
+          "primitive_calls": 1,
+          "calls": 1,
+          "self_seconds": 4.5000000000000003e-07,
+          "cumulative_seconds": 5.7e-07
+        },
+        {
+          "filename": "/home/stratocumulus/documents/github/stanford_cs336/cs336-assignment1-basics/.venv/lib/python3.12/site-packages/regex/_regex_core.py",
+          "line": 3746,
+          "function": "__del__",
+          "primitive_calls": 4,
+          "calls": 4,
+          "self_seconds": 5.3e-07,
+          "cumulative_seconds": 5.3e-07
+        },
+        {
+          "filename": "/home/stratocumulus/documents/github/stanford_cs336/cs336-assignment1-basics/cs336_basics/bpe_tokenizer.py",
+          "line": 163,
+          "function": "<genexpr>",
+          "primitive_calls": 2,
+          "calls": 2,
+          "self_seconds": 5.3e-07,
+          "cumulative_seconds": 5.3e-07
+        },
+        {
+          "filename": "/home/stratocumulus/documents/github/stanford_cs336/cs336-assignment1-basics/.venv/lib/python3.12/site-packages/regex/_regex_core.py",
+          "line": 3233,
+          "function": "__init__",
+          "primitive_calls": 4,
+          "calls": 4,
+          "self_seconds": 5.000000000000001e-07,
+          "cumulative_seconds": 5.000000000000001e-07
+        },
+        {
+          "filename": "~",
+          "line": 0,
+          "function": "<method 'discard' of 'set' objects>",
+          "primitive_calls": 3,
+          "calls": 3,
+          "self_seconds": 4.900000000000001e-07,
+          "cumulative_seconds": 4.900000000000001e-07
+        },
+        {
+          "filename": "/home/stratocumulus/documents/github/stanford_cs336/cs336-assignment1-basics/.venv/lib/python3.12/site-packages/regex/regex.py",
+          "line": 642,
+          "function": "<genexpr>",
+          "primitive_calls": 3,
+          "calls": 3,
+          "self_seconds": 4.2e-07,
+          "cumulative_seconds": 4.2e-07
+        },
+        {
+          "filename": "/home/stratocumulus/documents/github/stanford_cs336/cs336-assignment1-basics/cs336_basics/bpe_tokenizer.py",
+          "line": 40,
+          "function": "<genexpr>",
+          "primitive_calls": 2,
+          "calls": 2,
+          "self_seconds": 3.5000000000000004e-07,
+          "cumulative_seconds": 3.5000000000000004e-07
+        },
+        {
+          "filename": "/home/stratocumulus/documents/github/stanford_cs336/cs336-assignment1-basics/.venv/lib/python3.12/site-packages/regex/_regex_core.py",
+          "line": 3098,
+          "function": "pack_characters",
+          "primitive_calls": 1,
+          "calls": 1,
+          "self_seconds": 2.5000000000000004e-07,
+          "cumulative_seconds": 3.0000000000000004e-07
+        },
+        {
+          "filename": "~",
+          "line": 0,
+          "function": "<method 'clear' of 'set' objects>",
+          "primitive_calls": 1,
+          "calls": 1,
+          "self_seconds": 2.5000000000000004e-07,
+          "cumulative_seconds": 2.5000000000000004e-07
+        },
+        {
+          "filename": "/home/stratocumulus/documents/github/stanford_cs336/cs336-assignment1-basics/.venv/lib/python3.12/site-packages/regex/_regex_core.py",
+          "line": 2935,
+          "function": "__eq__",
+          "primitive_calls": 1,
+          "calls": 1,
+          "self_seconds": 2.4000000000000003e-07,
+          "cumulative_seconds": 2.4000000000000003e-07
+        },
+        {
+          "filename": "/home/stratocumulus/documents/github/stanford_cs336/cs336-assignment1-basics/.venv/lib/python3.12/site-packages/regex/_regex_core.py",
+          "line": 3988,
+          "function": "get_required_string",
+          "primitive_calls": 2,
+          "calls": 2,
+          "self_seconds": 2.4000000000000003e-07,
+          "cumulative_seconds": 2.4000000000000003e-07
+        },
+        {
+          "filename": "/home/stratocumulus/documents/github/stanford_cs336/cs336-assignment1-basics/.venv/lib/python3.12/site-packages/regex/_regex_core.py",
+          "line": 1916,
+          "function": "can_be_affix",
+          "primitive_calls": 2,
+          "calls": 2,
+          "self_seconds": 1.1e-07,
+          "cumulative_seconds": 1.1e-07
+        },
+        {
+          "filename": "/home/stratocumulus/documents/github/stanford_cs336/cs336-assignment1-basics/.venv/lib/python3.12/site-packages/regex/_regex_core.py",
+          "line": 3968,
+          "function": "has_simple_start",
+          "primitive_calls": 2,
+          "calls": 2,
+          "self_seconds": 1.1e-07,
+          "cumulative_seconds": 1.1e-07
+        },
+        {
+          "filename": "/home/stratocumulus/documents/github/stanford_cs336/cs336-assignment1-basics/.venv/lib/python3.12/site-packages/regex/_regex_core.py",
+          "line": 1925,
+          "function": "has_simple_start",
+          "primitive_calls": 1,
+          "calls": 1,
+          "self_seconds": 9.000000000000001e-08,
+          "cumulative_seconds": 9.000000000000001e-08
+        },
+        {
+          "filename": "/home/stratocumulus/documents/github/stanford_cs336/cs336-assignment1-basics/.venv/lib/python3.12/site-packages/regex/_regex_core.py",
+          "line": 3144,
+          "function": "max_width",
+          "primitive_calls": 1,
+          "calls": 1,
+          "self_seconds": 9.000000000000001e-08,
+          "cumulative_seconds": 9.000000000000001e-08
+        }
+      ]
+    },
+    "sampled_peak_process_tree_rss_bytes": 100052992,
+    "sampled_peak_process_count": 1,
+    "memory_samples": 4584,
+    "process_lifetime_seconds": 230.276858596
+  },
+  "parallel_serial_outputs_identical": true
+}

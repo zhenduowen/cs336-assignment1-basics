@@ -1,0 +1,257 @@
+{
+  "method": {
+    "population": "Learned vocabulary entries at IDs >=257; exclude 256 byte tokens and <|endoftext|>.",
+    "length_statistics": "Unweighted over learned vocabulary entries; not corpus bytes per encoded token.",
+    "overlap": "Set intersection of distinct learned byte spellings; fractions use each set's size.",
+    "interpretation": "Both corpus and vocabulary budget differ; this is not a corpus-only comparison."
+  },
+  "tinystories": {
+    "source_path": "/home/stratocumulus/documents/github/stanford_cs336/cs336-assignment1-basics/artifacts/tokenizers/tinystories/model/vocab.json",
+    "source_sha256": "f51315e2f1b6fd2148a02d8237e8865c4e40d70a23d655710f98133bd3bfae79",
+    "vocabulary_entries": 10000,
+    "learned_entries": 9743,
+    "unique_learned_byte_spellings": 9743,
+    "learned_token_byte_lengths": {
+      "mean": 5.916452837934927,
+      "median": 6,
+      "maximum": 15
+    },
+    "longest_learned_tokens": [
+      {
+        "id": 7160,
+        "byte_length": 15,
+        "hex": "206163636f6d706c6973686d656e74",
+        "bytes_repr": "b' accomplishment'",
+        "text": " accomplishment"
+      },
+      {
+        "id": 9143,
+        "byte_length": 15,
+        "hex": "206469736170706f696e746d656e74",
+        "bytes_repr": "b' disappointment'",
+        "text": " disappointment"
+      },
+      {
+        "id": 9379,
+        "byte_length": 15,
+        "hex": "20726573706f6e736962696c697479",
+        "bytes_repr": "b' responsibility'",
+        "text": " responsibility"
+      }
+    ]
+  },
+  "openwebtext": {
+    "source_path": "/home/stratocumulus/documents/github/stanford_cs336/cs336-assignment1-basics/artifacts/tokenizers/openwebtext/model/vocab.json",
+    "source_sha256": "d579c23aac60baa0167c53bed5ee4fda2137390d788559b11b8fb41a1a8496cf",
+    "vocabulary_entries": 32000,
+    "learned_entries": 31743,
+    "unique_learned_byte_spellings": 31743,
+    "learned_token_byte_lengths": {
+      "mean": 6.379926282960023,
+      "median": 6,
+      "maximum": 64
+    },
+    "longest_learned_tokens": [
+      {
+        "id": 25822,
+        "byte_length": 64,
+        "hex": "c383c382c383c382c383c382c383c382c383c382c383c382c383c382c383c382c383c382c383c382c383c382c383c382c383c382c383c382c383c382c383c382",
+        "bytes_repr": "b'\\xc3\\x83\\xc3\\x82\\xc3\\x83\\xc3\\x82\\xc3\\x83\\xc3\\x82\\xc3\\x83\\xc3\\x82\\xc3\\x83\\xc3\\x82\\xc3\\x83\\xc3\\x82\\xc3\\x83\\xc3\\x82\\xc3\\x83\\xc3\\x82\\xc3\\x83\\xc3\\x82\\xc3\\x83\\xc3\\x82\\xc3\\x83\\xc3\\x82\\xc3\\x83\\xc3\\x82\\xc3\\x83\\xc3\\x82\\xc3\\x83\\xc3\\x82\\xc3\\x83\\xc3\\x82\\xc3\\x83\\xc3\\x82'",
+        "text": "ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ"
+      },
+      {
+        "id": 25836,
+        "byte_length": 64,
+        "hex": "2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d",
+        "bytes_repr": "b'----------------------------------------------------------------'",
+        "text": "----------------------------------------------------------------"
+      }
+    ]
+  },
+  "overlap": {
+    "shared_unique_learned_tokens": 7062,
+    "fraction_of_tinystories_unique_learned_tokens": 0.7248280816996818,
+    "fraction_of_openwebtext_unique_learned_tokens": 0.22247424629052073,
+    "jaccard": 0.20514757146177084
+  },
+  "representative_candidates": [
+    {
+      "hex": "207072696e63657373",
+      "bytes_repr": "b' princess'",
+      "text": " princess",
+      "tinystories_ids": [
+        2139
+      ],
+      "openwebtext_ids": [
+        23577
+      ]
+    },
+    {
+      "hex": "20647261676f6e",
+      "bytes_repr": "b' dragon'",
+      "text": " dragon",
+      "tinystories_ids": [
+        1875
+      ],
+      "openwebtext_ids": [
+        16515
+      ]
+    },
+    {
+      "hex": "206661697279",
+      "bytes_repr": "b' fairy'",
+      "text": " fairy",
+      "tinystories_ids": [
+        1781
+      ],
+      "openwebtext_ids": [
+        21748
+      ]
+    },
+    {
+      "hex": "20666f72657374",
+      "bytes_repr": "b' forest'",
+      "text": " forest",
+      "tinystories_ids": [
+        970
+      ],
+      "openwebtext_ids": [
+        8616
+      ]
+    },
+    {
+      "hex": "206b697474656e",
+      "bytes_repr": "b' kitten'",
+      "text": " kitten",
+      "tinystories_ids": [
+        2084
+      ],
+      "openwebtext_ids": []
+    },
+    {
+      "hex": "2068617070696c79",
+      "bytes_repr": "b' happily'",
+      "text": " happily",
+      "tinystories_ids": [
+        988
+      ],
+      "openwebtext_ids": [
+        17874
+      ]
+    },
+    {
+      "hex": "206163636f6d706c6973686d656e74",
+      "bytes_repr": "b' accomplishment'",
+      "text": " accomplishment",
+      "tinystories_ids": [
+        7160
+      ],
+      "openwebtext_ids": [
+        25455
+      ]
+    },
+    {
+      "hex": "206469736170706f696e746d656e74",
+      "bytes_repr": "b' disappointment'",
+      "text": " disappointment",
+      "tinystories_ids": [
+        9143
+      ],
+      "openwebtext_ids": [
+        15652
+      ]
+    },
+    {
+      "hex": "20726573706f6e736962696c697479",
+      "bytes_repr": "b' responsibility'",
+      "text": " responsibility",
+      "tinystories_ids": [
+        9379
+      ],
+      "openwebtext_ids": [
+        5268
+      ]
+    },
+    {
+      "hex": "20676f7665726e6d656e74",
+      "bytes_repr": "b' government'",
+      "text": " government",
+      "tinystories_ids": [],
+      "openwebtext_ids": [
+        1001
+      ]
+    },
+    {
+      "hex": "20706f6c69746963616c",
+      "bytes_repr": "b' political'",
+      "text": " political",
+      "tinystories_ids": [],
+      "openwebtext_ids": [
+        1551
+      ]
+    },
+    {
+      "hex": "20736f667477617265",
+      "bytes_repr": "b' software'",
+      "text": " software",
+      "tinystories_ids": [],
+      "openwebtext_ids": [
+        3490
+      ]
+    },
+    {
+      "hex": "20696e7465726e6574",
+      "bytes_repr": "b' internet'",
+      "text": " internet",
+      "tinystories_ids": [],
+      "openwebtext_ids": [
+        4473
+      ]
+    },
+    {
+      "hex": "20746563686e6f6c6f6779",
+      "bytes_repr": "b' technology'",
+      "text": " technology",
+      "tinystories_ids": [],
+      "openwebtext_ids": [
+        2575
+      ]
+    },
+    {
+      "hex": "20736369656e7469666963",
+      "bytes_repr": "b' scientific'",
+      "text": " scientific",
+      "tinystories_ids": [],
+      "openwebtext_ids": [
+        5088
+      ]
+    },
+    {
+      "hex": "206c656769736c6174696f6e",
+      "bytes_repr": "b' legislation'",
+      "text": " legislation",
+      "tinystories_ids": [],
+      "openwebtext_ids": [
+        4388
+      ]
+    },
+    {
+      "hex": "20616c676f726974686d",
+      "bytes_repr": "b' algorithm'",
+      "text": " algorithm",
+      "tinystories_ids": [],
+      "openwebtext_ids": [
+        11061
+      ]
+    },
+    {
+      "hex": "20507974686f6e",
+      "bytes_repr": "b' Python'",
+      "text": " Python",
+      "tinystories_ids": [],
+      "openwebtext_ids": [
+        11477
+      ]
+    }
+  ]
+}

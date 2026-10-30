@@ -1,0 +1,60 @@
+{
+  "stage": "timing",
+  "workers": 4,
+  "training_seconds": 31.869393048999996,
+  "training_hours": 0.008852609180277776,
+  "vocabulary_size": 10000,
+  "merge_count": 9743,
+  "longest_tokens": [
+    {
+      "id": 7160,
+      "byte_length": 15,
+      "hex": "206163636f6d706c6973686d656e74",
+      "bytes_repr": "b' accomplishment'",
+      "text": " accomplishment"
+    },
+    {
+      "id": 9143,
+      "byte_length": 15,
+      "hex": "206469736170706f696e746d656e74",
+      "bytes_repr": "b' disappointment'",
+      "text": " disappointment"
+    },
+    {
+      "id": 9379,
+      "byte_length": 15,
+      "hex": "20726573706f6e736962696c697479",
+      "bytes_repr": "b' responsibility'",
+      "text": " responsibility"
+    }
+  ],
+  "longest_non_special_tokens": [
+    {
+      "id": 7160,
+      "byte_length": 15,
+      "hex": "206163636f6d706c6973686d656e74",
+      "bytes_repr": "b' accomplishment'",
+      "text": " accomplishment"
+    },
+    {
+      "id": 9143,
+      "byte_length": 15,
+      "hex": "206469736170706f696e746d656e74",
+      "bytes_repr": "b' disappointment'",
+      "text": " disappointment"
+    },
+    {
+      "id": 9379,
+      "byte_length": 15,
+      "hex": "20726573706f6e736962696c697479",
+      "bytes_repr": "b' responsibility'",
+      "text": " responsibility"
+    }
+  ],
+  "serialization_roundtrip_verified": true,
+  "self_peak_rss_bytes": 101732352,
+  "sampled_peak_process_tree_rss_bytes": 236498944,
+  "sampled_peak_process_count": 5,
+  "memory_samples": 635,
+  "process_lifetime_seconds": 31.994170431000043
+}

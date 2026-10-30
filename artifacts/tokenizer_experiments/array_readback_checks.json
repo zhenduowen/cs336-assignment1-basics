@@ -1,0 +1,42 @@
+{
+  "tinystories_valid": {
+    "dtype": "uint16",
+    "tokens": 5465883,
+    "maximum_id": 9999,
+    "saved_payload_chunks_verified": [
+      0,
+      3,
+      5
+    ]
+  },
+  "owt_valid": {
+    "dtype": "uint16",
+    "tokens": 66401098,
+    "maximum_id": 31999,
+    "saved_payload_chunks_verified": [
+      0,
+      35,
+      69
+    ]
+  },
+  "tinystories_train": {
+    "dtype": "uint16",
+    "tokens": 541229347,
+    "maximum_id": 9999,
+    "saved_payload_chunks_verified": [
+      0,
+      266,
+      531
+    ]
+  },
+  "owt_train": {
+    "dtype": "uint16",
+    "tokens": 2727120452,
+    "maximum_id": 31999,
+    "saved_payload_chunks_verified": [
+      0,
+      1419,
+      2837
+    ]
+  }
+}

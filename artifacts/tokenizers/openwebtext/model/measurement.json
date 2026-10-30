@@ -1,0 +1,46 @@
+{
+  "stage": "timing",
+  "workers": 4,
+  "training_seconds": 475.2426577419999,
+  "training_hours": 0.13201184937277774,
+  "vocabulary_size": 32000,
+  "merge_count": 31743,
+  "longest_tokens": [
+    {
+      "id": 25822,
+      "byte_length": 64,
+      "hex": "c383c382c383c382c383c382c383c382c383c382c383c382c383c382c383c382c383c382c383c382c383c382c383c382c383c382c383c382c383c382c383c382",
+      "bytes_repr": "b'\\xc3\\x83\\xc3\\x82\\xc3\\x83\\xc3\\x82\\xc3\\x83\\xc3\\x82\\xc3\\x83\\xc3\\x82\\xc3\\x83\\xc3\\x82\\xc3\\x83\\xc3\\x82\\xc3\\x83\\xc3\\x82\\xc3\\x83\\xc3\\x82\\xc3\\x83\\xc3\\x82\\xc3\\x83\\xc3\\x82\\xc3\\x83\\xc3\\x82\\xc3\\x83\\xc3\\x82\\xc3\\x83\\xc3\\x82\\xc3\\x83\\xc3\\x82\\xc3\\x83\\xc3\\x82\\xc3\\x83\\xc3\\x82'",
+      "text": "ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ"
+    },
+    {
+      "id": 25836,
+      "byte_length": 64,
+      "hex": "2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d",
+      "bytes_repr": "b'----------------------------------------------------------------'",
+      "text": "----------------------------------------------------------------"
+    }
+  ],
+  "longest_non_special_tokens": [
+    {
+      "id": 25822,
+      "byte_length": 64,
+      "hex": "c383c382c383c382c383c382c383c382c383c382c383c382c383c382c383c382c383c382c383c382c383c382c383c382c383c382c383c382c383c382c383c382",
+      "bytes_repr": "b'\\xc3\\x83\\xc3\\x82\\xc3\\x83\\xc3\\x82\\xc3\\x83\\xc3\\x82\\xc3\\x83\\xc3\\x82\\xc3\\x83\\xc3\\x82\\xc3\\x83\\xc3\\x82\\xc3\\x83\\xc3\\x82\\xc3\\x83\\xc3\\x82\\xc3\\x83\\xc3\\x82\\xc3\\x83\\xc3\\x82\\xc3\\x83\\xc3\\x82\\xc3\\x83\\xc3\\x82\\xc3\\x83\\xc3\\x82\\xc3\\x83\\xc3\\x82\\xc3\\x83\\xc3\\x82\\xc3\\x83\\xc3\\x82'",
+      "text": "ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ"
+    },
+    {
+      "id": 25836,
+      "byte_length": 64,
+      "hex": "2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d",
+      "bytes_repr": "b'----------------------------------------------------------------'",
+      "text": "----------------------------------------------------------------"
+    }
+  ],
+  "serialization_roundtrip_verified": true,
+  "self_peak_rss_bytes": 7276126208,
+  "sampled_peak_process_tree_rss_bytes": 7276126208,
+  "sampled_peak_process_count": 5,
+  "memory_samples": 9452,
+  "process_lifetime_seconds": 475.58277842000007
+}

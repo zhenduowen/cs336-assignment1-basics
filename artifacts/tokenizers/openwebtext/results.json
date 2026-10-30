@@ -1,0 +1,81 @@
+{
+  "complete": true,
+  "created_utc": "2026-10-30T10:53:42.561108+00:00",
+  "input": {
+    "path": "/home/stratocumulus/documents/github/stanford_cs336/cs336-assignment1-basics/data/owt_train.txt",
+    "bytes": 11920511059,
+    "sha256": "bbeb7f291a981ecfd5cf44b84d0f654b9e96c53dff99f2556b7d2cccaf8c1918"
+  },
+  "trainer_sha256": "2340cf336456c77413ebce4a97dd0e3cdda6ce07926d845070ebf08fc6d605ca",
+  "environment": {
+    "python": "3.12.12 | packaged by Anaconda, Inc. | (main, Oct 21 2025, 20:16:04) [GCC 11.2.0]",
+    "platform": "Linux-6.6.87.2-microsoft-standard-WSL2-x86_64-with-glibc2.39",
+    "logical_cpus": 16,
+    "physical_memory_bytes": 16292966400
+  },
+  "configuration": {
+    "vocab_size": 32000,
+    "special_tokens": [
+      "<|endoftext|>"
+    ],
+    "num_workers": 4,
+    "chunk_size": 4194304
+  },
+  "serialization": {
+    "encoding": "hex",
+    "vocab.json": "JSON object: decimal token ID string -> hexadecimal bytes",
+    "merges.json": "JSON array in learning order: [left bytes as hex, right bytes as hex]"
+  },
+  "method": {
+    "timing": "One unprofiled training call in a fresh subprocess; imports, validation and serialization excluded.",
+    "memory": "Approximate peak sum of trainer and descendant RSS, sampled every 50 ms over subprocess lifetime; supervisor excluded. Shared pages may be counted more than once and brief peaks may be missed.",
+    "profile": "Not run (--skip-profile).",
+    "cache": "Input hashed before timing; no cold-cache claim."
+  },
+  "timing": {
+    "stage": "timing",
+    "workers": 4,
+    "training_seconds": 475.2426577419999,
+    "training_hours": 0.13201184937277774,
+    "vocabulary_size": 32000,
+    "merge_count": 31743,
+    "longest_tokens": [
+      {
+        "id": 25822,
+        "byte_length": 64,
+        "hex": "c383c382c383c382c383c382c383c382c383c382c383c382c383c382c383c382c383c382c383c382c383c382c383c382c383c382c383c382c383c382c383c382",
+        "bytes_repr": "b'\\xc3\\x83\\xc3\\x82\\xc3\\x83\\xc3\\x82\\xc3\\x83\\xc3\\x82\\xc3\\x83\\xc3\\x82\\xc3\\x83\\xc3\\x82\\xc3\\x83\\xc3\\x82\\xc3\\x83\\xc3\\x82\\xc3\\x83\\xc3\\x82\\xc3\\x83\\xc3\\x82\\xc3\\x83\\xc3\\x82\\xc3\\x83\\xc3\\x82\\xc3\\x83\\xc3\\x82\\xc3\\x83\\xc3\\x82\\xc3\\x83\\xc3\\x82\\xc3\\x83\\xc3\\x82\\xc3\\x83\\xc3\\x82'",
+        "text": "ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ"
+      },
+      {
+        "id": 25836,
+        "byte_length": 64,
+        "hex": "2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d",
+        "bytes_repr": "b'----------------------------------------------------------------'",
+        "text": "----------------------------------------------------------------"
+      }
+    ],
+    "longest_non_special_tokens": [
+      {
+        "id": 25822,
+        "byte_length": 64,
+        "hex": "c383c382c383c382c383c382c383c382c383c382c383c382c383c382c383c382c383c382c383c382c383c382c383c382c383c382c383c382c383c382c383c382",
+        "bytes_repr": "b'\\xc3\\x83\\xc3\\x82\\xc3\\x83\\xc3\\x82\\xc3\\x83\\xc3\\x82\\xc3\\x83\\xc3\\x82\\xc3\\x83\\xc3\\x82\\xc3\\x83\\xc3\\x82\\xc3\\x83\\xc3\\x82\\xc3\\x83\\xc3\\x82\\xc3\\x83\\xc3\\x82\\xc3\\x83\\xc3\\x82\\xc3\\x83\\xc3\\x82\\xc3\\x83\\xc3\\x82\\xc3\\x83\\xc3\\x82\\xc3\\x83\\xc3\\x82\\xc3\\x83\\xc3\\x82\\xc3\\x83\\xc3\\x82'",
+        "text": "ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ"
+      },
+      {
+        "id": 25836,
+        "byte_length": 64,
+        "hex": "2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d",
+        "bytes_repr": "b'----------------------------------------------------------------'",
+        "text": "----------------------------------------------------------------"
+      }
+    ],
+    "serialization_roundtrip_verified": true,
+    "self_peak_rss_bytes": 7276126208,
+    "sampled_peak_process_tree_rss_bytes": 7276126208,
+    "sampled_peak_process_count": 5,
+    "memory_samples": 9452,
+    "process_lifetime_seconds": 475.58277842000007
+  }
+}
