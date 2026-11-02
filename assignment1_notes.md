@@ -192,7 +192,7 @@ Before jumping into implementation, a few things to keep in mind:
 - **Adaptive merging** A naive implementation of BPE training iterates over all byte pairs to identify the most frequent pair. Note that the only pair counts changes after each merge are those that overlap with the merged pair. This is also why this merging step cannot be easily parallelized: Thread 2's work is depended on the result of Thread 1's work.
   > A remark here is that in CPython, the standard Python implementation, there is **Global Interpreter Lock(GIL)**. It means that, within one Python process, only one thread at a time is allowed to execute Python bytecode. Conceptually, even if we create four threads, the GIL means that they take turns to executing Python bytecode.
 
-#### Python implementation details
+#### AI: Python implementation details
 
 
 **Main implementation scheme**
@@ -226,23 +226,7 @@ Separate controlled runs on that workload measured a **6.84×** gain from heap s
 
 Full measurements and raw profiles are available in the [profiling report](benchmarks/bpe_profile/comparison.html) and [results.json](benchmarks/bpe_profile/results.json).
 
-**BPE training pipeline**
-
-```mermaid
-flowchart TD
-    A["Corpus, target vocabulary size, special tokens"] --> B["train_bpe(): initialize vocabulary<br/>256 bytes + special tokens"]
-    B --> C["_pretokenize(): count pre-token strings<br/>_file_ranges(): safe chunks<br/>_count_pretokens(): optional parallel workers"]
-    C --> D["Encode each unique pre-token once<br/>Integer token IDs + fixed frequencies"]
-    D --> E["Build weighted pair_counts,<br/>pair_words index, and heap"]
-    E --> F{"Target size reached<br/>or no pairs remain?"}
-    F -- Yes --> K["Return vocabulary<br/>and ordered merge list"]
-    F -- No --> G["Pop most frequent valid pair<br/>Discard stale heap entries"]
-    G --> H["Record new token and merge<br/>_merge_word(): update only affected pre-tokens"]
-    H --> I["Update weighted pair counts,<br/>pair membership, and heap"]
-    I --> F
-```
-
-#### BPE training on TinyStories
+#### AI: BPE training on TinyStories
 
 **Problem (`train_bpe_tinystories`, 2 points; handout §2.5, page 10).**
 
@@ -265,7 +249,7 @@ uv run python scripts/train_bpe_tinystories.py \
     --output-dir artifacts/tokenizers/tinystories_rerun
 ```
 
-#### BPE training on OpenWebText
+#### AI: BPE training on OpenWebText
 
 **Problem (`train_bpe_expts_owt`, 2 points; handout §2.5, page 10).**
 
@@ -295,7 +279,7 @@ To regenerate the comparison from the saved TinyStories and OpenWebText vocabula
 uv run python scripts/compare_bpe_vocabularies.py
 ```
 
-#### BPE Tokenizer: Encoding and Decoding
+#### AI: BPE Tokenizer: Encoding and Decoding
 
 Training produces a vocabulary and an ordered list of merges. **Encoding applies these fixed rules to new text**: it uses the learned merge order, rather than recounting pair frequencies or learning new tokens.
 
@@ -399,7 +383,76 @@ uv run python scripts/tokenizer_experiments.py --phase encode --workers 4 --resu
 
 The large arrays remain under the Git-ignored `data/` directory; the runner and measurement records are kept in the project.
 
+### BPE Tokenizer take aways
 
+The following training example uses `"hi hi hi"`, no special tokens, and a target vocabulary size of **258**: the initial 256 byte tokens plus two learned tokens. Here, `␠` represents a literal space; the pieces in the chart represent byte strings, not word-level tokens.
+
+```mermaid
+flowchart TD
+    A["Training text: hi hi hi<br/>Initialize the vocabulary with all 256 byte values"]
+    B["Regex pre-tokenization<br/>'hi' occurs once; '␠hi' occurs twice"]
+    C["Represent each pre-token as UTF-8 bytes<br/>[h, i] × 1; [␠, h, i] × 2"]
+    D["Count adjacent pairs within pre-tokens<br/>(h, i): 3; (␠, h): 2"]
+    E["Merge the most frequent pair: (h, i) → hi<br/>Add token 256; record the merge<br/>[hi] × 1; [␠, hi] × 2"]
+    F["Update pair counts, then repeat<br/>(␠, hi) occurs twice: merge it into ␠hi<br/>Add token 257; record the merge"]
+    G["Stop: vocabulary size reaches 258<br/>Save the ID-to-bytes vocabulary and ordered merges"]
+    A --> B --> C --> D --> E --> F --> G
+```
+
+In general, continue selecting and merging the most frequent adjacent pair until the target vocabulary size is reached or no pairs remain. Never merge across pre-token or special-token boundaries. With this toy vocabulary, encoding the original text gives `[256, 257, 257]`, whose byte spellings are `[b'hi', b' hi', b' hi']`.
+
+1. **Use UTF-8 bytes as the foundation.** Our byte-level BPE starts with all 256 possible byte values and learns longer byte sequences. This lets the tokenizer represent unfamiliar text using smaller pieces, down to individual bytes; a Unicode character can span multiple bytes or tokens.
+2. **Encoding adaptively applies learned merges.** After pre-tokenization and UTF-8 conversion, repeatedly apply the available pair with the earliest learned merge rank. The current pieces determine which merge can happen next, but the vocabulary and merge rules stay fixed: encoding does not learn from the new text.
+3. **Decoding is dictionary lookup followed by UTF-8 decoding.** Look up each token ID's byte string, concatenate the bytes in order, and decode the combined bytes as UTF-8. There is no need to reverse the merge history.
+4. **Pre-tokenization is the main measured training bottleneck.** In our optimized implementation, it accounted for **98.7%** of the full TinyStories single-worker profile, mainly from regex matching and counting pre-tokens. This motivates parallelizing preprocessing after making merge updates efficient.
+
+
+ 
 ## Transformer Language Model Architecture
 
+With Byte-Pair Encoding tokenizer, the model can then take as input a batched sequence of integer token IDs.
 
+### Preliminary: Batching, Einsum and Efficient Computation
+
+#### Why Batching?
+
+In this assignment, the input shape is `(batch_size, sequence_length)`.
+
+- `sequence_length`: how many consecutive tokens each training example contains.
+- `batch_size`: how many such examples we process together.
+
+
+For example:
+
+```Python
+# B = 2 sequences, T = 3 tokens per sequence
+
+inputs = [
+    [4, 7,  9],    # "I like tea"
+    [5, 8, 10],    # "You drink coffee"
+]
+
+targets = [
+    [7,  9, 2],    # "like tea <eos>"
+    [8, 10, 2],    # "drink coffee <eos>"
+]
+```
+
+Each target is shifted one token ahead of its input. The first row in `targets` supplies three prediction tasks:
+
+```plain
+"I"          → predict "like"
+"I like"     → predict "tea"
+"I like tea" → predict "<eos>"
+```
+
+The second row supplies another three prediction tasks for the second row in `inputs`. Here, taking the sequence length to be three and batch size to be two together gives six next-token prediction losses. 
+
+There are two main reasons to organize the input sequences this way:
+- **Better hardware utilization.** GPUs perform large matrix operations efficiently. Processing several sequences together often provides enough work to keep the GPU busy and spreads execution overhead across more tokens. Consequently, a batch of 16 sequences can take substantially less time than 16 separate forward and backward passes. All sequences use the same model parameters.
+- **A less noisy gradient estimate.** Different text samples can suggest different parameter changes. We average their losses before backpropagation.
+    The gradient of this average is then the average of the individual gradients. It usually estimates the direction that improves performance across the dataset more reliably than one sampled sequence does. Computing the full dataset’s gradient before every update would be expensive, so a mini-batch provides a practical compromise.
+
+Note that batch rows do not become context for one another. The model processing "I like tea" cannot attend to "You drink coffee" in the other row. They interact through their contributions to the shared parameter update.
+
+#### Efficient Computation?
