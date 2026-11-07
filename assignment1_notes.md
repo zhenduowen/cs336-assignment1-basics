@@ -1,4 +1,4 @@
----
+<!-- ---
 title: Stanford CS336 Assignment 1 - Basics
 description: Student version of Assignment 1 for Stanford CS336 - Language Modeling From Scratch
 date: 2025-11-14
@@ -6,7 +6,7 @@ author: Zhenduo
 categories: [Deep Learning, Language Models from Scratch]
 tags: [Deep Learning, CUDA, PyTorch, Language Models]
 published: true
----
+--- -->
 ## Preliminaries
 
 - My repository forked from the course: [https://github.com/zhenduowen/cs336-assignment1-basics](https://github.com/zhenduowen/cs336-assignment1-basics)
@@ -35,6 +35,12 @@ An additional file, `uv.lock`, records the exact dependency versions that should
 For further reading about the features of `uv`, see [https://docs.astral.sh/uv/getting-started/features/#projects](https://docs.astral.sh/uv/getting-started/features/#projects).
 
 **Local hardware.** This project runs on an AMD Ryzen 7 9700X CPU (8 cores, 16 threads) and an NVIDIA GeForce RTX 5070 Ti GPU (approximately 16 GiB of VRAM), using Ubuntu 24.04 LTS under WSL2. The WSL environment exposes approximately 15.2 GiB of RAM and 4 GiB of swap. Our BPE training experiments run on the CPU, using four worker processes for pre-tokenization.
+
+**Mathematical notation**
+
+Throughout these notes, **vectors in mathematical equations are column vectors**. A linear transformation is written as $y=Wx$, where $W\in\mathbb{R}^{d_{\mathrm{out}}\times d_{\mathrm{in}}}$, $x\in\mathbb{R}^{d_{\mathrm{in}}}$, and $y\in\mathbb{R}^{d_{\mathrm{out}}}$.
+
+NumPy and PyTorch use row-major storage by default, and implementations commonly place each feature vector along the final tensor axis. In that layout, the same transformation is `Y = X @ W.T`, corresponding to the row-vector form $y^\top=x^\top W^\top$. Storage order is separate from the mathematical vector convention; `einsum` makes the contracted axes explicit.
 
 ## Overview of the Assignment
 
@@ -455,4 +461,251 @@ There are two main reasons to organize the input sequences this way:
 
 Note that batch rows do not become context for one another. The model processing "I like tea" cannot attend to "You drink coffee" in the other row. They interact through their contributions to the shared parameter update.
 
-#### Efficient Computation?
+> Predict-next-token, together with batched input token sequences, mimic the process of how humans write documents, which are used as training datasets: mutiple authors are writing different lines of documents. 
+
+#### Einops: `rearrange()`
+
+`einops` is a Python package for expressing tensor operations using named axes. The statement
+
+```python
+from einops import rearrange, einsum
+```
+
+imports two functions from that same package:
+
+- **`rearrange`** changes how tensor entries are arranged: it can reorder, merge, or split axes and insert or remove axes of length one.
+- **`einsum`** computes products and sums specified by index labels, such as matrix multiplication.
+
+The name *einsum* also refers to the general Einstein summation operation; other libraries provide their own functions, such as `torch.einsum`. Here, `einsum` refers to `einops.einsum`. See the [Einops rearrange reference](https://einops.rocks/api/rearrange/) and [einsum reference](https://einops.rocks/api/einsum/).
+
+**Reading a `rearrange` pattern.** The labels before `->` describe the input axes; those after it describe the desired output layout. Parentheses merge axes on the output side or split an axis on the input side. A literal `1` denotes an axis of length one.
+
+```python
+import torch
+
+images = torch.randn(2, 3, 4, 5)  # (batch, height, width, channel)
+
+# Reorder axes: (2, 3, 4, 5) -> (2, 5, 3, 4)
+channels_first = rearrange(images, "b h w c -> b c h w")
+
+# Merge height and width into one pixel axis: (2, 5, 12)
+flat = rearrange(images, "b h w c -> b c (h w)")
+
+# Split the pixel axis and restore the original layout: (2, 3, 4, 5)
+restored = rearrange(flat, "b c (h w) -> b h w c", h=3, w=4)
+
+# Insert a singleton axis for later broadcasting: (2, 1, 3, 4, 5)
+expanded = rearrange(images, "b h w c -> b 1 h w c")
+```
+
+For `(h w)`, the flattened coordinate is `h_index * width + w_index`. The split specifies the factor sizes `h=3` and `w=4`; the merged axis has length `3 * 4 = 12`.
+
+`rearrange` preserves the entries and their total count. It performs no summation: every original axis of length greater than one must be accounted for in the output. The rule “input labels missing after the arrow are summed” belongs to `einsum`, introduced next.
+
+#### Einops: Einsum
+
+Einsum is a compact language for writing **coordinate formulas for tensor operations**. The linear algebra is familiar; the new part is how a string specifies the indices.
+
+**1. Start with ordinary matrix multiplication.**
+
+For $A\in\mathbb{R}^{m\times n}$ and $B\in\mathbb{R}^{n\times p}$, we already know
+
+$$
+C_{ij}=\sum_{k=1}^{n}A_{ik}B_{kj}.
+$$
+
+Using the `einops` syntax recommended in the assignment:
+
+```python
+import torch
+from einops import einsum, rearrange
+
+C = einsum(A, B, "i k, k j -> i j")  # shape: (m, p)
+```
+
+Read the string from left to right:
+
+- `i k`: the first input has axes indexed by $i$ and $k$, in that order.
+- The comma starts the description of the next input.
+- `k j`: the second input has axes indexed by $k$ and $j$.
+- `-> i j`: the output has axes indexed by $i$ and $j$, in that order.
+- `k` occurs among the inputs and is absent from the output, so we sum over $k$.
+
+Conceptually, this specifies the following loops. The library executes a tensor operation rather than these Python loops:
+
+```python
+for i in range(m):
+    for j in range(p):
+        C[i, j] = sum(A[i, k] * B[k, j] for k in range(n))
+```
+
+The labels are local index names. They are neither numerical axis lengths nor metadata attached to the arrays. Renaming `i k, k j -> i j` to `row inner, inner col -> row col` gives the same operation. Different labels represent independent indices even when their axis lengths happen to be equal.
+
+The name comes from **Einstein summation convention**, which suppresses summation signs for contracted indices. In software, an explicit output pattern gives a useful generalization: **multiply the input entries at matching indices, then sum over every input label absent from the output**. Labels in the output are free indices. See the [Einops einsum reference](https://einops.rocks/api/einsum/).
+
+For someone used to abstract tensors, these APIs operate on coordinate arrays: they do not track upper/lower index variance or insert a metric. For real vectors, `i, i ->` gives the usual Euclidean dot product; a complex Hermitian inner product requires explicitly conjugating one operand.
+
+**2. Separate matching indices from summation.**
+
+Sharing a label means using the same index in the corresponding positions. The output determines whether that index is retained or summed:
+
+| Operation | `einops` pattern | Coordinate formula |
+|---|---|---|
+| Dot product | `i, i ->` | $s=\sum_i x_i y_i$ |
+| Outer product | `i, j -> i j` | $M_{ij}=x_i y_j$ |
+| Elementwise product | `i j, i j -> i j` | $C_{ij}=A_{ij}B_{ij}$ |
+| Frobenius inner product | `i j, i j ->` | $s=\sum_{i,j}A_{ij}B_{ij}$ |
+| Matrix multiplication | `i k, k j -> i j` | $C_{ij}=\sum_k A_{ik}B_{kj}$ |
+| Transpose | `i j -> j i` | $T_{ji}=A_{ij}$ |
+| Sum each row | `i j -> i` | $r_i=\sum_j A_{ij}$ |
+| Extract a diagonal | `i i -> i` | $d_i=A_{ii}$ |
+| Trace | `i i ->` | $s=\sum_i A_{ii}$ |
+
+- An empty right-hand side means a scalar output.
+- A comma `,` separates inputs.
+- A label can be summed even when it occurs only once on the input side, as in the row sum.
+- Repeating a label **within one input** selects its diagonal; those axes must have equal lengths.
+- Every output label must come from an input.
+
+**Read the output labels.**
+
+> **Labels after the arrow are kept; input labels missing there are summed.** The order after `->` gives the output axis order.
+
+For each output entry, hold the kept coordinates fixed, multiply the input entries at the indicated coordinates, and sum over the missing labels. “Summed out” means adding over a coordinate so that its axis disappears from the result.
+
+For example, `i j, j k -> i k` keeps `i` and `k` and sums over `j`. Thus, each output entry is $C_{ik}=\sum_j A_{ij}B_{jk}$: ordinary matrix multiplication.
+
+To see how changing the output changes the operation, use the same two matrices in the following examples:
+
+```python
+A = torch.tensor([[1, 2], [3, 4]])
+B = torch.tensor([[10, 20], [30, 40]])
+```
+
+Each table entry describes `einsum(A, B, pattern)`. First multiply entries with matching coordinates, giving $A_{ij}B_{ij}$; then follow the output labels:
+
+| Pattern | Coordinates kept | Coordinates summed out | Formula | Result |
+|---|---|---|---|---|
+| `i j, i j -> i j` | `i`, `j` | None | $C_{ij}=A_{ij}B_{ij}$ | `[[10, 40], [90, 160]]` |
+| `i j, i j -> i` | `i` | `j` | $r_i=\sum_j A_{ij}B_{ij}$ | `[50, 250]` |
+| `i j, i j -> j` | `j` | `i` | $c_j=\sum_i A_{ij}B_{ij}$ | `[100, 200]` |
+| `i j, i j ->` | None | `i`, `j` | $s=\sum_{i,j}A_{ij}B_{ij}$ | `300` |
+
+For example, `-> i` keeps one result per row: $10+40=50$ for the first row and $90+160=250$ for the second. `-> j` keeps one result per column instead. An empty output sums over both coordinates and produces a scalar.
+
+The rule also applies to a single input with several coordinates. In `i j k -> i k`, the output keeps `i` and `k`, while the missing label `j` is summed:
+
+$$
+Y_{ik}=\sum_j X_{ijk}.
+$$
+
+If `X` has shape `(2, 3, 4)`, the output has shape `(2, 4)`. For each fixed pair `(i, k)`, add the three entries obtained by varying `j`.
+
+The same output rule handles batched matrix multiplication:
+
+```python
+# A: (B, m, n), B_mats: (B, n, p)
+C = einsum(A, B_mats, "batch i k, batch k j -> batch i j")
+```
+
+$$
+C_{bij}=\sum_k A_{bik}(B_{\mathrm{mats}})_{bkj}.
+$$
+
+Read `-> batch i j` first: keep `batch`, `i`, and `j`. The input label `k` is missing from the output, so sum over `k`. Using the same `batch` label in both inputs pairs matrices from the same batch element; each batch element has its own independent matrix product. Using distinct labels, `b i k, c k j -> b c i j`, keeps both `b` and `c` and computes a product for every pair of batch elements.
+
+#### Einsum notation examples
+
+**Batched matrix multiplication with `einops.einsum`.**
+
+Let `D` have shape `(batch_size, sequence_length, d_in)` and `A` have shape `(d_out, d_in)`.
+
+```python
+import torch
+from einops import rearrange, einsum
+
+## Basic implementation
+Y = D @ A.T
+# Hard to tell the input and output shapes and what they mean.
+# What shapes can D and A have, and do any of these have unexpected behavior?
+
+## Einsum is self-documenting and robust
+#             D                A       ->             Y
+Y = einsum(D, A, "batch sequence d_in, d_out d_in -> batch sequence d_out")
+
+## Or, a batched version where D can have any leading dimensions but A is constrained.
+Y = einsum(D, A, "... d_in, d_out d_in -> ... d_out")
+```
+
+**Broadcasted operations with `einops.rearrange`.**
+
+We have a batch of images, and for each image we want to generate 10 dimmed versions based on some scaling factor:
+
+```python
+images = torch.randn(64, 128, 128, 3)  # (batch, height, width, channel)
+dim_by = torch.linspace(start=0.0, end=1.0, steps=10)
+
+## Reshape and multiply
+dim_value = rearrange(dim_by, "dim_value -> 1 dim_value 1 1 1")
+images_rearr = rearrange(images, "b height width channel -> b 1 height width channel")
+dimmed_images = images_rearr * dim_value
+
+## Or in one go:
+dimmed_images = einsum(
+    images, dim_by,
+    "batch height width channel, dim_value -> batch dim_value height width channel",
+)
+```
+
+**Pixel mixing with `einops.rearrange`.**
+
+Suppose we have a batch of images represented as a tensor of shape `(batch, height, width, channel)`, and we want to perform a linear transformation across all pixels of the image, but this transformation should happen independently for each channel. Our linear transformation is represented as a matrix `B` of shape `(height * width, height * width)`.
+
+```python
+channels_last = torch.randn(64, 32, 32, 3)  # (batch, height, width, channel)
+B = torch.randn(32 * 32, 32 * 32)
+
+## Rearrange an image tensor for mixing across all pixels
+channels_last_flat = channels_last.view(
+    -1, channels_last.size(1) * channels_last.size(2), channels_last.size(3)
+)
+channels_first_flat = channels_last_flat.transpose(1, 2)
+channels_first_flat_transformed = channels_first_flat @ B.T
+channels_last_flat_transformed = channels_first_flat_transformed.transpose(1, 2)
+channels_last_transformed = channels_last_flat_transformed.view(*channels_last.shape)
+```
+
+Instead, using `einops`:
+
+```python
+height = width = 32
+
+## Rearrange replaces clunky torch view + transpose
+channels_first = rearrange(
+    channels_last,
+    "batch height width channel -> batch channel (height width)",
+)
+channels_first_transformed = einsum(
+    channels_first, B,
+    "batch channel pixel_in, pixel_out pixel_in -> batch channel pixel_out",
+)
+channels_last_transformed = rearrange(
+    channels_first_transformed,
+    "batch channel (height width) -> batch height width channel",
+    height=height, width=width,
+)
+```
+
+Or, all in one go using `einx.dot` (the `einx` equivalent of `einops.einsum`):
+
+```python
+import einx
+
+height = width = 32
+channels_last_transformed = einx.dot(
+    "batch row_in col_in channel, (row_out col_out) (row_in col_in)"
+    "-> batch row_out col_out channel",
+    channels_last, B,
+    col_in=width, col_out=width,
+)
+```
