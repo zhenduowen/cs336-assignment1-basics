@@ -709,3 +709,209 @@ channels_last_transformed = einx.dot(
     col_in=width, col_out=width,
 )
 ```
+
+### Overview of Transfomer model Architecture
+
+```mermaid
+flowchart LR
+    subgraph model["Figure 1 — Transformer language model"]
+        direction BT
+        tokens["Input token IDs<br/>(batch_size, seq_len)"]
+        embedding["Token Embedding<br/>(batch_size, seq_len, d_model)"]
+
+        subgraph stack["num_layers Transformer blocks"]
+            direction BT
+            first["Transformer Block 1"]
+            middle["⋮"]
+            last["Transformer Block num_layers"]
+            first --> middle --> last
+        end
+
+        norm["Norm"]
+        head["Linear — Output Embedding / LM Head<br/>Logits: (batch_size, seq_len, vocab_size)"]
+        softmax["Softmax over vocabulary"]
+        probabilities["Next-token probabilities<br/>(batch_size, seq_len, vocab_size)"]
+
+        tokens --> embedding --> first
+        last --> norm --> head --> softmax --> probabilities
+    end
+
+    subgraph detail["Figure 2 — Pre-norm Transformer block"]
+        direction BT
+        input["Input x<br/>(batch_size, seq_len, d_model)"]
+
+        subgraph block["Pre-norm Transformer block"]
+            direction BT
+            norm1["Norm"]
+            attention["Causal Multi-Head Self-Attention<br/>with RoPE"]
+            add1["Add"]
+            norm2["Norm"]
+            feedforward["Position-Wise Feed-Forward"]
+            add2["Add"]
+
+            norm1 --> attention --> add1
+            add1 --> norm2 --> feedforward --> add2
+            add1 -->|Residual connection| add2
+        end
+
+        output["Output<br/>(batch_size, seq_len, d_model)"]
+        input --> norm1
+        input -->|Residual connection| add1
+        add2 --> output
+    end
+
+    %% An invisible link fixes panel order without implying data flow.
+    model ~~~ detail
+
+    classDef embeddingLayer fill:#f4cccc,stroke:#333,color:#111;
+    classDef transformerLayer fill:#eeeeee,stroke:#333,color:#111;
+    classDef normLayer fill:#fff2cc,stroke:#333,color:#111;
+    classDef linearLayer fill:#d9d2e9,stroke:#333,color:#111;
+    classDef attentionLayer fill:#fce5cd,stroke:#333,color:#111;
+    classDef feedforwardLayer fill:#cfe2f3,stroke:#333,color:#111;
+    classDef greenLayer fill:#d9ead3,stroke:#333,color:#111;
+    class embedding embeddingLayer;
+    class first,middle,last transformerLayer;
+    class norm,norm1,norm2 normLayer;
+    class head linearLayer;
+    class attention attentionLayer;
+    class feedforward feedforwardLayer;
+    class softmax,add1,add2 greenLayer;
+    style model fill:transparent,stroke:transparent;
+    style detail fill:transparent,stroke:transparent;
+    style block fill:#eeeeee,stroke:#333,color:#111;
+```
+
+**Figure 1.** The embedding maps each token ID to a `d_model`-dimensional vector, also known as *embeddings vectors*. A standard decoder-only Transformer language model consits of `num_layers` identical layers, commonly called *Transformer blocks*. These stacked blocks contextualize the embedding vectors. Each Transformer block takes in an input of shape `batch_size, sequence_length, d_model` and returns an output of the same shape. Each block aggregate information across the sequence (via self-attention) andd non-linearly transform it (via the feed-forward layers). A final normalization and linear projection produce vocabulary logits. Softmax turns each position's logits into a distribution for predicting the next token.
+
+**Figure 2.** **Pre-norm** means normalization happens before each attention or feed-forward sublayer. Causal attention uses the current and earlier positions, with RoPE providing positional information; the feed-forward network acts independently at each position. Each residual connection bypasses both normalization and its sublayer, adding the sublayer's output back to its input. Both additions preserve `(batch_size, seq_len, d_model)`.
+
+
+### Basic building blocks
+
+#### A kickstart parameter initialization
+
+We leave the detailed parameter initialization for assignment 3. For now, we use the recommended approximate initializations from [subsection 3.4.1, page 18](cs336_spring2025_assignment1_basics.pdf#page=18), which should work well for most cases:
+
+- **Linear weights:** sample from a zero-mean normal distribution with variance $\sigma^2 = \frac{2}{d_{\mathrm{in}} + d_{\mathrm{out}}}$, truncated to $[-3\sigma, 3\sigma]$. Here, $d_{\mathrm{in}}$ and $d_{\mathrm{out}}$ are the input and output feature dimensions, and $\sigma = \sqrt{\frac{2}{d_{\mathrm{in}} + d_{\mathrm{out}}}}$ is the standard deviation of the underlying normal distribution.
+- **Embedding weights:** sample from a normal distribution with mean $\mu = 0$ and variance $\sigma^2 = 1$, truncated to $[-3, 3]$.
+- **RMSNorm weights:** initialize every element of the learned scaling vector to $1$.
+
+Use `torch.nn.init.trunc_normal_` to initialize the linear and embedding weights. For linear weights, pass `mean=0.0`, `std=sigma`, `a=-3 * sigma`, and `b=3 * sigma`; for embedding weights, pass `mean=0.0`, `std=1.0`, `a=-3.0`, and `b=3.0`. The `std` argument takes the standard deviation.
+
+#### Linear and Embedding Modules
+
+**Linear Modules**
+
+```python
+import math
+
+import torch
+from torch import nn
+
+
+class Linear(nn.Module):
+    """Bias-free linear transformation: (..., in_features) -> (..., out_features)."""
+
+    def __init__(
+        self,
+        in_features: int,
+        out_features: int,
+        device: torch.device | None = None,
+        dtype: torch.dtype | None = None,
+    ) -> None:
+        super().__init__()
+        self.in_features = in_features
+        self.out_features = out_features
+
+        # Store W, not W.T; nn.Parameter registers it for training and saving.
+        self.weight = nn.Parameter(
+            torch.empty(out_features, in_features, device=device, dtype=dtype)
+        )
+        sigma = math.sqrt(2.0 / (in_features + out_features))
+        nn.init.trunc_normal_(
+            self.weight, mean=0.0, std=sigma, a=-3.0 * sigma, b=3.0 * sigma
+        )
+
+    def forward(self, x: torch.Tensor) -> torch.Tensor:
+        # @ uses optimized matrix multiplication across all leading dimensions.
+        # Transposing this 2D weight tensor creates a view, not a copy.
+        return x @ self.weight.T
+```
+
+**Embedding Modules**
+
+An embedding layer maps each token ID to a learned vector. Store the embedding matrix as `(num_embeddings, embedding_dim)`, where `num_embeddings` is the vocabulary size and `embedding_dim` is `d_model`.
+
+```python
+import torch
+from torch import nn
+
+
+class Embedding(nn.Module):
+    """Look up token vectors: token_ids.shape -> (*token_ids.shape, embedding_dim)."""
+
+    def __init__(
+        self,
+        num_embeddings: int,
+        embedding_dim: int,
+        device: torch.device | None = None,
+        dtype: torch.dtype | None = None,
+    ) -> None:
+        super().__init__()
+        self.num_embeddings = num_embeddings
+        self.embedding_dim = embedding_dim
+
+        # Each row holds one token's vector; the feature dimension stays last.
+        self.weight = nn.Parameter(
+            torch.empty(num_embeddings, embedding_dim, device=device, dtype=dtype)
+        )
+        nn.init.trunc_normal_(
+            self.weight, mean=0.0, std=1.0, a=-3.0, b=3.0
+        )
+
+    def forward(self, token_ids: torch.Tensor) -> torch.Tensor:
+        # Gather all requested rows in one vectorized indexing operation.
+        return self.weight[token_ids]
+```
+
+For `torch.long` token IDs of shape `(batch_size, sequence_length)`, the output has shape `(batch_size, sequence_length, d_model)`. IDs must be in `[0, num_embeddings)`. Direct indexing gathers the requested vectors without Python loops or a one-hot tensor spanning the entire vocabulary. Autograd accumulates gradients into the corresponding weight rows, including when the same token appears multiple times.
+
+#### Pre-Norm Transformer Block
+
+> Each Transformer block has two sub-layers: a multi-head self-attention mechanism and a position-wise feed-worward network. (Vaswani et al., 2017, section 3.1).
+
+In the original Transformer paper, the model uses a residual connection around each of the two sub-layers, followed by layer normalization. This architecture is commonly known as the “post-norm” Transformer, since layer normalization is applied to the sublayer output. However, a variety of work has found that moving layer normalization from the output of each sub-layer to the input of each sub-layer (with an additional layer normalization after the final Transformer block) improves Transformer training stability [Nguyen and Salazar, 2019, Xiong et al., 2020]—see Figure 2 for a visual representation of this “pre-norm” Transformer block. The output of each Transformer block sub-layer is then added to the sub-layer input via the residual connection (Vaswani et al., 2017, section 5.4).
+
+```mermaid
+%%{init: {"themeVariables": {"fontSize": "12px"}, "flowchart": {"nodeSpacing": 12, "rankSpacing": 14, "padding": 6, "diagramPadding": 4, "useMaxWidth": false}}}%%
+flowchart LR
+    subgraph post["Post-norm"]
+        direction TB
+        px["x"] --> pf["Sublayer F"] --> pa(("+")) --> pn["Norm"] --> py["y"]
+        px --> pa
+    end
+
+    subgraph pre["Pre-norm"]
+        direction TB
+        qx["x"] --> qn["Norm"] --> qf["Sublayer F"] --> qa(("+")) --> qy["y"]
+        qx --> qa
+    end
+
+    %% Keep the two columns in left-to-right order without a visible connection.
+    post ~~~ pre
+
+    classDef norm fill:#fff2cc,stroke:#333,color:#111;
+    classDef sublayer fill:#cfe2f3,stroke:#333,color:#111;
+    classDef add fill:#d9ead3,stroke:#333,color:#111;
+    class pn,qn norm;
+    class pf,qf sublayer;
+    class pa,qa add;
+    style post fill:transparent,stroke:#999;
+    style pre fill:transparent,stroke:#999;
+```
+
+Each column shows one residual sublayer $F$ (attention or feed-forward), with arrows flowing downward. **Post-norm:** $y = \mathrm{Norm}(x + F(x))$. **Pre-norm:** $y = x + F(\mathrm{Norm}(x))$; the shortcut bypasses normalization as well as the sublayer.
+
+An intuition for pre-norm is that there is a clean “residual stream” without any normalization going from the input embeddings to the final output of the Transformer, which is purported to improve gradient flow. This pre-norm Transformer is now the standard used in language models today (e.g., GPT-3, LLaMA, PaLM, etc.), so we will implement this variant. We will walk through each of the components of a pre-norm Transformer block, implementing them in sequence.
+
